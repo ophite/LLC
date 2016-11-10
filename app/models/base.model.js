@@ -10,7 +10,7 @@ class model {
     constructor() {
     };
 
-    static create() {
+    static defaultState() {
         return {
             isLoading: false
         };
@@ -19,11 +19,6 @@ class model {
     //endregion
 
     //region api
-
-    static handleServerResponse(dispatch, params, model, serverResponse) {
-        const modelClient = model.toClient(serverResponse);
-        dispatch(model.dispatchModel({ modelClient, model }));
-    }
 
     static apiCall(requestMethod,
                    model,
@@ -39,10 +34,15 @@ class model {
             dispatch(model.dispatchRequest({ model }));
             return modelApiMethod(requestMethod, params)
                 .then((serverResponse) => {
-                    model.handleServerResponse(dispatch, params, model, serverResponse);
+                    model.processServerResponse(dispatch, params, model, serverResponse);
                 })
                 .catch(fail);
         };
+    }
+
+    static processServerResponse(dispatch, params, model, serverResponse) {
+        const modelClient = model.mapToClient(serverResponse);
+        dispatch(model.dispatchModel({ modelClient, model }));
     }
 
     static apiGet() {
@@ -57,11 +57,11 @@ class model {
 
     //region convert
 
-    static toClient() {
+    static mapToClient() {
         return {};
     }
 
-    static toServer() {
+    static mapToServer() {
         return {};
     }
 
@@ -177,7 +177,7 @@ class model {
         const { model } = action.payload;
         return {
             [model.MODEL_NAME]: {
-                ...model.create()
+                ...model.defaultState()
             }
         };
     };

@@ -15,7 +15,7 @@ class pokemonsModel extends model {
     };
 
     static apiGet(requestMethod, params = {}) {
-        const { limit, offset } = this.toServer(params);
+        const { limit, offset } = this.mapToServer(params);
         const url = urls.pokeball.getPokemons();
         const queryParams = (offset !== undefined)
             ? { limit, offset: (offset + limit) }
@@ -24,8 +24,8 @@ class pokemonsModel extends model {
         return requestMethod(url, {}, queryParams);
     };
 
-    static create() {
-        const props = super.create();
+    static defaultState() {
+        const props = super.defaultState();
         return {
             ...props,
             items: [],
@@ -35,9 +35,9 @@ class pokemonsModel extends model {
         };
     };
 
-    static toClient(serverModel) {
+    static mapToClient(serverModel) {
         if (!serverModel) {
-            return this.create();
+            return this.defaultState();
         }
 
         const { meta, objects } = serverModel;
@@ -69,7 +69,7 @@ class pokemonsModel extends model {
         return paginator;
     };
 
-    static toServer(params) {
+    static mapToServer(params) {
         if (isEmpty(params)) {
             return {};
         }
