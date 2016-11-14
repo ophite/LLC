@@ -1,6 +1,5 @@
 import 'react-datagrid/index.css';
 import DataGrid from 'react-datagrid/lib';
-// import { data } from './data';
 var faker = window.faker = require('faker');
 
 var gen = (function () {
