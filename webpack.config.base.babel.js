@@ -4,6 +4,8 @@ const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 
+
+
 module.exports = {
     entry: {
         'main': './app/entry/app.js'
@@ -33,18 +35,16 @@ module.exports = {
             { test: /\.png$/, loader: 'url?limit=16000&mimetype=image/png' },
             { test: /\.svg/, loader: 'url?limit=50000&mimetype=image/svg+xml' },
             { test: /\.(woff|woff2|ttf|eot)/, loader: 'url?limit=1' },
-
             { test: /\.jsx$/, loader: 'react-hot!babel', exclude: [/node_modules/, /public/] },
             {
                 test: /\.js$/,
                 loader: 'babel',
                 include: [
                     path.resolve(__dirname, "app"),
-                    path.resolve(__dirname, "/node_modules/redux-models/lib"),
+                    path.resolve(__dirname, "node_modules/react-datagrid/lib"),
                 ],
-                query:
-                {
-                    presets:['react']
+                query: {
+                    presets: ['react', 'es2015', 'stage-0']
                 }
             },
 

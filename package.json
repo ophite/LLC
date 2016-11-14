@@ -33,19 +33,19 @@
     "homepage": "",
     "dependencies": {
         "axios": "^0.11.1",
-        "classnames": "^2.2.1",
-        "rc-tooltip": "^3.3.2",
         "babel-polyfill": "^6.9.1",
+        "classnames": "^2.2.1",
+        "faker": "^3.1.0",
+        "history": "^2.0.0",
+        "ismobilejs": "^0.4.0",
         "query-string": "^3.0.0",
-        "react": "^15.1.0",
+        "react-datagrid": "^2.1.1",
         "react-dom": "^15.1.0",
-        "react-router": "^2.5.1",
         "react-redux": "^4.4.5",
+        "react-router": "^2.5.1",
         "react-router-redux": "^4.0.2",
         "redux": "^3.5.2",
-        "redux-thunk": "^2.1.0",
-        "history": "^2.0.0",
-        "ismobilejs": "^0.4.0"
+        "redux-thunk": "^2.1.0"
     },
     "devDependencies": {
         "babel-cli": "^6.18.0",
