@@ -17,20 +17,30 @@ class App extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
-            groupingColumns: {
-                'country': true,
-                'grade': true
-            }
+            groupingColumns: [
+                {
+                    name: 'country',
+                    activate: true,
+                    date: new Date()
+                },
+                {
+                    name: 'grade',
+                    activate: true,
+                    date: new Date()
+                }
+            ]
         };
     }
 
     _getGroupingColumns() {
         const columns = [];
-        for (const key in this.state.groupingColumns) {
-            if (this.state.groupingColumns[key]) {
-                columns.push(key);
-            }
-        }
+        this.state.groupingColumns
+            .sort(item => item.date)
+            .forEach((item, index) => {
+                if (item.activate) {
+                    columns.push(item.name);
+                }
+            });
 
         return columns;
     };
@@ -41,12 +51,34 @@ class App extends React.Component {
     };
 
     handleMenuColumnsGrouping = (menuItem) => {
+        let index = -1;
+        this.state.groupingColumns.forEach((item, indexLocal) => {
+            if (item.name === menuItem) {
+                index = indexLocal;
+            }
+        });
+
+        let item = {
+            name: menuItem,
+            activate: true,
+            date: new Date()
+        };
+        if (index >= 0) {
+            item = this.state.groupingColumns[index];
+            item.activate = !item.activate;
+
+            this.state.groupingColumns = [
+                ...this.state.groupingColumns.slice(0, index),
+                ...this.state.groupingColumns.slice(index + 1, this.state.groupingColumns.length)
+            ];
+        }
+
         this.setState({
             ...this.state,
-            groupingColumns: {
+            groupingColumns: [
                 ...this.state.groupingColumns,
-                [menuItem]: !this.state.groupingColumns[menuItem]
-            }
+                item
+            ]
         });
     };
 
@@ -114,7 +146,7 @@ class App extends React.Component {
                     onColumnResize={this.handleOnColumnResize}
                     onColumnOrderChange={this.handleColumnOrderChange}
                 />
-            )
+            );
         }
 
         return (
