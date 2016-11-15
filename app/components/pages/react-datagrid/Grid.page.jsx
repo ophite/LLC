@@ -50,6 +50,13 @@ class App extends React.Component {
         });
     };
 
+    handleColumnOrderChange = (index, dropIndex) => {
+        var col = columns[index]
+        columns.splice(index, 1) //delete from index, 1 item
+        columns.splice(dropIndex, 0, col)
+        this.forceUpdate();
+    };
+
     renderMenuColumnsGrouping() {
         const menusView = columns
             .filter(c => c.name !== 'index')
@@ -83,6 +90,18 @@ class App extends React.Component {
         );
     };
 
+    renderDragAreaForGroupingColumns = () => {
+        const divStyle = {
+            height: '100px',
+        };
+
+        return (
+            <div style={divStyle}>
+                Drag here
+            </div>
+        );
+    };
+
     renderGrid() {
         const groupedColumns = this._getGroupingColumns();
         if (!groupedColumns.length) {
@@ -93,6 +112,7 @@ class App extends React.Component {
                     columns={columns}
                     style={{height: 400}}
                     onColumnResize={this.handleOnColumnResize}
+                    onColumnOrderChange={this.handleColumnOrderChange}
                 />
             )
         }
@@ -105,6 +125,7 @@ class App extends React.Component {
                 style={{height: 400}}
                 groupBy={groupedColumns}
                 onColumnResize={this.handleOnColumnResize}
+                onColumnOrderChange={this.handleColumnOrderChange}
             />
         );
     }
@@ -114,6 +135,7 @@ class App extends React.Component {
             <div>
                 {this.renderMenuColumnsGrouping()}
                 {this.renderGroupingColumns()}
+                {this.renderDragAreaForGroupingColumns()}
                 {this.renderGrid()}
             </div>
         );
