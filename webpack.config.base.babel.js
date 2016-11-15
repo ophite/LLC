@@ -1,9 +1,8 @@
-// 'use strict';
-
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const autoprefixer = require('autoprefixer');
 
 
 module.exports = {
@@ -59,6 +58,11 @@ module.exports = {
 
             { test: /\.json$/, loader: 'json' }
         ]
+    },
+    postcss: [autoprefixer],
+    sassLoader: {
+        data: '@import "assets/theme/_config.scss";',
+        includePaths: [path.resolve(__dirname, 'app')]
     },
     plugins: [
         new ExtractTextPlugin('bundle.css', { allChunks: true }),
