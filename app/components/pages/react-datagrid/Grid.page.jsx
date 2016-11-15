@@ -71,6 +71,18 @@ class App extends React.Component {
         );
     }
 
+    renderGroupingColumns = () => {
+        if (!this._getGroupingColumns().length) {
+            return null;
+        }
+
+        return (
+            <div>
+                Grouped columns: {this._getGroupingColumns().join(', ')}
+            </div>
+        );
+    };
+
     renderGrid() {
         const groupedColumns = this._getGroupingColumns();
         if (!groupedColumns.length) {
@@ -101,6 +113,7 @@ class App extends React.Component {
         return (
             <div>
                 {this.renderMenuColumnsGrouping()}
+                {this.renderGroupingColumns()}
                 {this.renderGrid()}
             </div>
         );
