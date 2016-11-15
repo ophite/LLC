@@ -6,6 +6,7 @@ import NotFoundPage from '../components/pages/notFound/NotFound.page.jsx'
 import Pokemon from '../containers/pokemons/Pokemon.container.jsx';
 import Pokemons from '../containers/pokemons/Pokemons.container.jsx';
 import Grid from '../containers/react-datagrid/Grid.container.jsx';
+import PhysicalPersonEditing from '../components/pages/physical-person/PhysicalPerson.page.jsx';
 
 
 export default (
@@ -13,6 +14,7 @@ export default (
         <Route component={Layout}>
             <IndexRedirect to="pokemons"/>
             <Route path="grid" component={Grid}/>
+            <Route path="person" component={PhysicalPersonEditing}/>
             <Route path="pokemons">
                 <IndexRoute component={Pokemons}/>
                 <Route path=":pokemonId" component={Pokemon}/>

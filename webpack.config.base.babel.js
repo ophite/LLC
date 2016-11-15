@@ -34,8 +34,7 @@ module.exports = {
             { test: /\.(sass)/, loader: 'style!css!resolve-url!sass?sourceMap' },
             {
                 test: /\.scss$/,
-                loader: ExtractTextPlugin.extract('style', `css?sourceMap&modules&importLoaders=1
-              &localIdentName=[name]__[local]___[hash:base64:5]!sass`)
+                loader: 'style!css?modules&sourceMap&localIdentName=[local]___[hash:base64:5]!resolve-url!sass?outputStyle=expanded&sourceMap'
             },
             { test: /\.gif$/, loader: 'url?limit=16000&mimetype=image/gif' },
             { test: /\.jpg$/, loader: 'url?limit=16000&mimetype=image/jpg' },
@@ -60,10 +59,10 @@ module.exports = {
         ]
     },
     postcss: [autoprefixer],
-    sassLoader: {
-        data: '@import "assets/theme/_config.scss";',
-        includePaths: [path.resolve(__dirname, 'app')]
-    },
+    // sassLoader: {
+    //     data: '@import "assets/theme/_config.scss";',
+    //     includePaths: [path.resolve(__dirname, 'app'), path.resolve(__dirname, 'app/assets/styles')]
+    // },
     plugins: [
         new ExtractTextPlugin('bundle.css', { allChunks: true }),
         new HtmlWebpackPlugin({

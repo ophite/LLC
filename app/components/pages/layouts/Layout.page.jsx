@@ -1,5 +1,6 @@
 import ModalContainer from '../../../containers/modal/Modal.container.jsx';
 
+// import "../../../assets/styles/main.scss"
 
 export default class LayoutPage extends React.Component {
 
