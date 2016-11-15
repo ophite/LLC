@@ -83,13 +83,13 @@ class App extends React.Component {
     };
 
     handleColumnOrderChange = (index, dropIndex) => {
-        var col = columns[index]
-        columns.splice(index, 1) //delete from index, 1 item
-        columns.splice(dropIndex, 0, col)
+        const col = columns[index];
+        columns.splice(index, 1); //delete from index, 1 item
+        columns.splice(dropIndex, 0, col);
         this.forceUpdate();
     };
 
-    renderMenuColumnsGrouping() {
+    renderMenuGroupingColumns() {
         const menusView = columns
             .filter(c => c.name !== 'index')
             .map((c, index) => {
@@ -165,7 +165,7 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                {this.renderMenuColumnsGrouping()}
+                {this.renderMenuGroupingColumns()}
                 {this.renderGroupingColumns()}
                 {this.renderDragAreaForGroupingColumns()}
                 {this.renderGrid()}
