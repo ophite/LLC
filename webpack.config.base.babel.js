@@ -3,7 +3,7 @@
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 var path = require('path');
-
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
 
 
 module.exports = {
@@ -28,8 +28,16 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.css$/, loader: 'style!css' },
-            { test: /\.(sass|scss)/, loader: 'style!css!resolve-url!sass?sourceMap' },
-
+            // {
+            //     test: /\.scss$/,
+            //     loaders: ["style", "css", "sass"]
+            // },
+            { test: /\.(sass)/, loader: 'style!css!resolve-url!sass?sourceMap' },
+            {
+                test: /\.scss$/,
+                loader: ExtractTextPlugin.extract('style', `css?sourceMap&modules&importLoaders=1
+              &localIdentName=[name]__[local]___[hash:base64:5]!sass`)
+            },
             { test: /\.gif$/, loader: 'url?limit=16000&mimetype=image/gif' },
             { test: /\.jpg$/, loader: 'url?limit=16000&mimetype=image/jpg' },
             { test: /\.png$/, loader: 'url?limit=16000&mimetype=image/png' },
@@ -42,6 +50,7 @@ module.exports = {
                 include: [
                     path.resolve(__dirname, "app"),
                     path.resolve(__dirname, "node_modules/react-datagrid/lib"),
+                    path.resolve(__dirname, "node_modules/react-toolbox/lib"),
                 ],
                 query: {
                     presets: ['react', 'es2015', 'stage-0']
@@ -52,6 +61,7 @@ module.exports = {
         ]
     },
     plugins: [
+        new ExtractTextPlugin('bundle.css', { allChunks: true }),
         new HtmlWebpackPlugin({
             filename: '../../index.html',
             template: 'app/index.html'
@@ -62,6 +72,11 @@ module.exports = {
         new webpack.DefinePlugin({
             'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV || 'development')
         }),
+        // new webpack.optimize.CommonsChunkPlugin({
+        //     name: 'vendor',
+        //     filename: 'vendor.bundle.js',
+        //     minChunks: Infinity
+        // }),
         // https://webpack.github.io/docs/list-of-plugins.html#2-explicit-vendor-chunk
         // new webpack.optimize.CommonsChunkPlugin({
         //

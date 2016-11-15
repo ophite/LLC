@@ -1,6 +1,10 @@
-import 'react-datagrid/index.css';
-import DataGrid from 'react-datagrid/lib';
+import theme from './SuccessButton.scss';
+
+// import 'react-datagrid/index.css';
+// import DataGrid from 'react-datagrid/lib';
 var faker = window.faker = require('faker');
+// import { IconMenu, MenuItem, MenuDivider } from 'react-toolbox/lib/menu';
+import { Button } from 'react-toolbox/lib/button';
 
 var gen = (function () {
 
@@ -53,17 +57,39 @@ class App extends React.Component {
         this.setState({})
     }
 
+
+    button () {
+        return (
+            <Button label='Primary Button' theme={theme} primary />
+        );
+    }
+
+    // menuTest() {
+    //     return (
+    //         <IconMenu icon='more_vert' position='topLeft' menuRipple>
+    //             <MenuItem value='download' icon='get_app' caption='Download'/>
+    //             <MenuItem value='help' icon='favorite' caption='Favorite'/>
+    //             <MenuItem value='settings' icon='open_in_browser' caption='Open in app'/>
+    //             <MenuDivider />
+    //             <MenuItem value='signout' icon='delete' caption='Delete' disabled/>
+    //         </IconMenu>
+    //     );
+    // }
+// <DataGrid
+// idProperty='id'
+// dataSource={data}
+// columns={columns}
+// groupBy={['country','grade']}
+// style={{height: 400}}
+// onColumnResize={this.onColumnResize}
+// />
+
     render() {
         return (
             <div>
-                <DataGrid
-                    idProperty='id'
-                    dataSource={data}
-                    columns={columns}
-                    groupBy={['country','grade']}
-                    style={{height: 400}}
-                    onColumnResize={this.onColumnResize}
-                />
+                <div>
+                    {this.button()}
+                </div>
             </div>
         );
     }
