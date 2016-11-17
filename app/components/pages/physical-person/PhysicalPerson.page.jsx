@@ -24,6 +24,7 @@ class PhysicalPersonEditing extends Component {
         check7: false,
         check8: false,
         check9: false,
+        simple: 'Тестовый текст',
 
     };
 
@@ -31,8 +32,8 @@ class PhysicalPersonEditing extends Component {
         this.setState({...this.state, [name]: value});
     };
 
-    handleMultipleChange = (value) => {
-        this.setState({multiple: value});
+    handleSimpleChange = (value) => {
+        this.setState({simple: value});
     };
 
     render() {
@@ -52,8 +53,9 @@ class PhysicalPersonEditing extends Component {
                                 direction="down"
                                 label="Физическое лицо"
                                 multiple={false}
-                                onChange={this.handleMultipleChange}
+                                onChange={this.handleSimpleChange}
                                 source={countriesArray}
+                                value={this.state.simple}
                                 className={styles["input-autocomplete"]}
                             />
 
@@ -67,7 +69,7 @@ class PhysicalPersonEditing extends Component {
                                 direction="down"
                                 label="Подразделение"
                                 multiple={false}
-                                onChange={this.handleMultipleChange}
+                                onChange={this.handleSimpleChange}
                                 source={countriesArray}
                                 value={this.state.simple}
                                 className={styles["input-autocomplete"]}
@@ -119,7 +121,7 @@ class PhysicalPersonEditing extends Component {
                                 direction="down"
                                 label="Регистрационная информация (выберите раздел для заполнения)"
                                 multiple={false}
-                                onChange={this.handleMultipleChange}
+                                onChange={this.handleSimpleChange}
                                 source={countriesArray}
                                 value={this.state.simple}
                                 className={styles["input-autocomplete"]}
@@ -135,7 +137,7 @@ class PhysicalPersonEditing extends Component {
                             direction="down"
                             label="Тип клиента"
                             multiple={false}
-                            onChange={this.handleMultipleChange}
+                            onChange={this.handleSimpleChange}
                             source={countriesArray}
                             value={this.state.simple}
                             className={styles["input-autocomplete"]}
@@ -145,7 +147,7 @@ class PhysicalPersonEditing extends Component {
                             direction="down"
                             label="Признак удаления"
                             multiple={false}
-                            onChange={this.handleMultipleChange}
+                            onChange={this.handleSimpleChange}
                             source={countriesArray}
                             value={this.state.simple}
                             className={styles["input-autocomplete"]}
@@ -155,7 +157,7 @@ class PhysicalPersonEditing extends Component {
                             direction="down"
                             label="Пенсионер"
                             multiple={false}
-                            onChange={this.handleMultipleChange}
+                            onChange={this.handleSimpleChange}
                             source={countriesArray}
                             value={this.state.simple}
                             className={styles["input-autocomplete"]}
@@ -165,7 +167,7 @@ class PhysicalPersonEditing extends Component {
                             direction="down"
                             label="Признак инсайдера"
                             multiple={false}
-                            onChange={this.handleMultipleChange}
+                            onChange={this.handleSimpleChange}
                             source={countriesArray}
                             value={this.state.simple}
                             className={styles["input-autocomplete"]}
@@ -175,7 +177,7 @@ class PhysicalPersonEditing extends Component {
                             direction="down"
                             label="Планируемые обороты"
                             multiple={false}
-                            onChange={this.handleMultipleChange}
+                            onChange={this.handleSimpleChange}
                             source={countriesArray}
                             value={this.state.simple}
                             className={styles["input-autocomplete"]}
@@ -185,7 +187,7 @@ class PhysicalPersonEditing extends Component {
                             direction="down"
                             label="Институционный сектор экономики"
                             multiple={false}
-                            onChange={this.handleMultipleChange}
+                            onChange={this.handleSimpleChange}
                             source={countriesArray}
                             value={this.state.simple}
                             className={styles["input-autocomplete"]}
@@ -195,7 +197,7 @@ class PhysicalPersonEditing extends Component {
                             direction="down"
                             label="Форма владения"
                             multiple={false}
-                            onChange={this.handleMultipleChange}
+                            onChange={this.handleSimpleChange}
                             source={countriesArray}
                             value={this.state.simple}
                             className={styles["input-autocomplete"]}
@@ -205,7 +207,7 @@ class PhysicalPersonEditing extends Component {
                             direction="down"
                             label="Корпоративность"
                             multiple={false}
-                            onChange={this.handleMultipleChange}
+                            onChange={this.handleSimpleChange}
                             source={countriesArray}
                             value={this.state.simple}
                             className={styles["input-autocomplete"]}
@@ -215,7 +217,7 @@ class PhysicalPersonEditing extends Component {
                             direction="down"
                             label="Должность"
                             multiple={false}
-                            onChange={this.handleMultipleChange}
+                            onChange={this.handleSimpleChange}
                             source={countriesArray}
                             value={this.state.simple}
                             className={styles["input-autocomplete"]}
@@ -227,7 +229,7 @@ class PhysicalPersonEditing extends Component {
                             direction="down"
                             label="Дата регистрации"
                             multiple={false}
-                            onChange={this.handleMultipleChange}
+                            onChange={this.handleSimpleChange}
                             source={countriesArray}
                             value={this.state.simple}
                             className={styles["input-autocomplete"]}
@@ -243,7 +245,7 @@ class PhysicalPersonEditing extends Component {
                             direction="down"
                             label="Вид экономической деятельности"
                             multiple={false}
-                            onChange={this.handleMultipleChange}
+                            onChange={this.handleSimpleChange}
                             source={countriesArray}
                             value={this.state.simple}
                             className={styles["input-autocomplete"]}
