@@ -17,11 +17,16 @@
 
   .section-half {
     border: .1rem solid $border-gray-opacity;
-    flex-basis: 49%;
+    flex-basis: 48.5%;
     flex-grow: 1;
     margin: 0 2rem 2rem 0;
 
     &:last-child {
+      margin-right: 0;
+    }
+
+    @media all and (max-width: $tablet) {
+      flex-basis: 100%;
       margin-right: 0;
     }
   }
