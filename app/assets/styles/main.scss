@@ -1,8 +1,5 @@
+@import "variables";
+@import "global";
+@import "buttons";
 @import "typography";
-
-.text-green {
-  composes: text from './global.scss';
-
-  color: green;
-}
-
+@import "form";

@@ -61,8 +61,13 @@ module.exports = {
     postcss: [autoprefixer],
     // sassLoader: {
     //     data: '@import "assets/theme/_config.scss";',
-    //     includePaths: [path.resolve(__dirname, 'app'), path.resolve(__dirname, 'app/assets/styles')]
+    //     includePaths: [
+    //         path.resolve(__dirname, 'app'),
+    //         path.resolve(__dirname, 'app/assets/styles'),
+    //         path.resolve(__dirname, 'node_modules/react-toolbox/lib')
+    //     ]
     // },
+    
     plugins: [
         new ExtractTextPlugin('bundle.css', { allChunks: true }),
         new HtmlWebpackPlugin({
