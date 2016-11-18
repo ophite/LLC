@@ -1,0 +1,50 @@
+:global {
+  .wrapper {
+    max-width: $desktop-medium;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .section-wrap {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .section-full {
+    border: .1rem solid $border-gray-opacity;
+    margin-bottom: 2rem;
+  }
+
+  .section-half {
+    border: .1rem solid $border-gray-opacity;
+    flex-basis: 48.5%;
+    flex-grow: 1;
+    margin: 0 2rem 2rem 0;
+
+    &:last-child {
+      margin-right: 0;
+    }
+
+    @media all and (max-width: $tablet) {
+      flex-basis: 100%;
+      margin-right: 0;
+    }
+  }
+
+  .section-header {
+    background: $background-section-header;
+    padding: 1rem 2rem;
+  }
+
+  .section-content {
+    padding: 1rem 2rem;
+  }
+
+  .section-choose {
+    background: $background-autocomplete;
+    border: .1rem solid $border-gray;
+    margin: 2rem;
+    padding: 0 2rem;
+  }
+
+}

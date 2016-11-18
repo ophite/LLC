@@ -1,0 +1,21 @@
+.btn-wrap{
+  display: flex;
+  flex-basis: 100%;
+  padding: 1rem 0 2rem;
+}
+
+.btn-right {
+  composes: btn-wrap;
+  justify-content: flex-end;
+}
+
+.btn-center {
+  composes: btn-wrap;
+  justify-content: center;
+}
+
+.btn{
+  &:not(:last-child){
+    margin: 0 1rem;
+  }
+}

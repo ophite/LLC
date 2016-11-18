@@ -1,7 +1,5 @@
 import ModalContainer from '../../../containers/modal/Modal.container.jsx';
 
-// import "../../../assets/styles/main.scss"
-
 export default class LayoutPage extends React.Component {
 
     renderContainerModal() {
@@ -52,12 +50,6 @@ export default class LayoutPage extends React.Component {
 
         return (
             <div>
-                <div>
-                    <div>
-                        <h2 style={headerStyle}> Pokemon test</h2>
-                    </div>
-                </div>
-                <hr />
                 {children}
             </div>
         );
@@ -65,7 +57,7 @@ export default class LayoutPage extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="wrapper">
                 {this.renderContainerModal()}
                 {this.renderModal()}
                 {this.renderContent()}

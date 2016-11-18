@@ -1,0 +1,48 @@
+//-------------------------------------------------------------------------------
+// Screen resolution
+//-------------------------------------------------------------------------------
+
+$mobile-small: 380px;
+$mobile: 480px;
+$tablet: 768px;
+$desktop: 1024px;
+$desktop-medium: 1280px;
+$desktop-large: 1600px;
+
+//-------------------------------------------------------------------------------
+// Font size
+//-------------------------------------------------------------------------------
+
+
+
+
+//-------------------------------------------------------------------------------
+// Color palette
+//-------------------------------------------------------------------------------
+
+//Gray
+$gray-opacity: rgba(0, 0, 0, 0.12);
+
+//Blue
+$free-speech: #3f51b5;
+$free-speech-opacity: rgba(63,81,181,0.5);
+
+//White
+$white: #fff;
+$whitesmoke: #f2f2f2;
+$gainsboro: #e1e1e1;
+
+
+
+//-------------------------------------------------------------------------------
+// Color variables
+//-------------------------------------------------------------------------------
+
+//Background
+$background-autocomplete: $whitesmoke;
+$background-section-header: $free-speech;
+
+//Border
+$border-gray: $gainsboro;
+$border-gray-opacity: $gray-opacity;
+$border-blue-opacity: $free-speech-opacity;
