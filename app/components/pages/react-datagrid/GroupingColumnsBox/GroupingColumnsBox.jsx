@@ -20,8 +20,8 @@ const target = {
         }
 
         const dragIndex = item.index;
-        const hoverIndex = props.index;
-        props.handleColumnGrouping(dragIndex, hoverIndex);
+        // const hoverIndex = props.index;
+        props.handleOnColumnGrouping(dragIndex);
     }
 };
 
@@ -33,7 +33,7 @@ const target = {
 class GroupingColumnsBox extends Component {
 
     renderGroupingColumns = () => {
-        const { groupingColumns, handleOnDeleteGroupedColumn } = this.props;
+        const { groupingColumns, handleOnDeleteColumnGroup } = this.props;
         if (!groupingColumns.length) {
             return null;
         }
@@ -42,7 +42,7 @@ class GroupingColumnsBox extends Component {
             return (
                 <Chip
                     key={index}
-                    onDeleteClick={handleOnDeleteGroupedColumn.bind(null, col)}
+                    onDeleteClick={handleOnDeleteColumnGroup.bind(null, col)}
                     deletable
                 >
                     {col}
@@ -76,12 +76,12 @@ class GroupingColumnsBox extends Component {
 }
 
 GroupingColumnsBox.PropTypes = {
-    handleOnDeleteGroupedColumn: PropTypes.func,
+    handleOnColumnGrouping: PropTypes.func,
+    handleOnDeleteColumnGroup: PropTypes.func,
     connectDropTarget: PropTypes.func.isRequired,
     isOver: PropTypes.bool.isRequired,
     canDrop: PropTypes.bool.isRequired,
     columns: PropTypes.array,
-    handleColumnGrouping: PropTypes.func
 };
 
 export {

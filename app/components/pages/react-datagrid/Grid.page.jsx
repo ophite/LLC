@@ -3,16 +3,7 @@ import HTML5Backend from 'react-dnd-html5-backend';
 import 'react-datagrid/index.css';
 import DataGrid from 'react-datagrid/src';
 import { GroupingColumnsBox } from './GroupingColumnsBox/GroupingColumnsBox.jsx';
-import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
-import { data } from './gridData'
-
-
-const columns = [
-    { name: 'index', title: '#', width: 150 },
-    { name: 'firstName' },
-    { name: 'country' },
-    { name: 'grade' }
-];
+import { data, columns } from './gridData'
 
 
 @DragDropContext(HTML5Backend)
@@ -30,34 +21,17 @@ class GridPage extends React.Component {
 
     handleOnColumnResize = (firstCol, firstSize, secondCol, secondSize) => {
         firstCol.width = firstSize;
-        // this.setState({});
         this.forceUpdate();
     };
 
-    handleMenuColumnsGrouping = (menuItem) => {
-        let groupingColumns = [...this.state.groupingColumns];
-        const index = groupingColumns.indexOf(menuItem);
-
-        if (index >= 0) {
-            groupingColumns = [
-                ...this.state.groupingColumns.slice(0, index),
-                ...this.state.groupingColumns.slice(index + 1, this.state.groupingColumns.length)
-            ];
-        } else {
-            groupingColumns.push(menuItem);
-        }
-
-        this.setState({ groupingColumns });
-    };
-
-    handleColumnOrder = (dragIndex, hoverIndex) => {
+    handleOnColumnOrder = (dragIndex, hoverIndex) => {
         const col = columns[dragIndex];
-        columns.splice(dragIndex, 1); //delete from index, 1 item
+        columns.splice(dragIndex, 1);
         columns.splice(hoverIndex, 0, col);
         this.forceUpdate();
     };
 
-    handleOnDeleteGroupedColumn = (item) => {
+    handleOnDeleteColumnGroup = (item) => {
         const index = this.state.groupingColumns.indexOf(item);
         this.setState({
             groupingColumns: [
@@ -67,64 +41,40 @@ class GridPage extends React.Component {
         });
     };
 
-    handleColumnGrouping = (dragIndex, hoverIndex) => {
-        const col = columns[dragIndex];
-        this.handleMenuColumnsGrouping(col.name);
+    handleOnColumnGrouping = (index) => {
+        const col = columns[index];
+        let groupingColumns = [...this.state.groupingColumns];
+        const groupIndex = groupingColumns.indexOf(col.name);
+
+        if (groupIndex >= 0) {
+            groupingColumns = [
+                ...groupingColumns.slice(0, groupIndex),
+                ...groupingColumns.slice(groupIndex + 1, groupingColumns.length)
+            ];
+        } else {
+            groupingColumns.push(col.name);
+        }
+
+        this.setState({ groupingColumns });
     };
-
-    handleSortChange = (sortInfo) => {
-        // SORT_INFO = sortInfo
-        // data = sort(data)
-        // this.setState({})
-    };
-
-    renderMenuGroupingColumns() {
-        const menusView = columns
-            .filter(c => c.name !== 'index')
-            .map((c, index) => {
-                return (
-                    <MenuItem
-                        key={index}
-                        icon='fiber_manual_record'
-                        value={c.name}
-                        caption={c.name}
-                    />
-                );
-            });
-
-        return (
-            <IconMenu onSelect={this.handleMenuColumnsGrouping} icon='more_vert' position='topLeft' menuRipple>
-                {menusView}
-            </IconMenu>
-        );
-    }
 
     renderGrid() {
-        if (!this.state.groupingColumns.length) {
-            return (
-                <DataGrid
-                    ref="dataGrid"
-                    idProperty='id'
-                    dataSource={data}
-                    columns={columns}
-                    style={{height: 400}}
-                    onColumnResize={this.handleOnColumnResize}
-                    handleColumnOrder={this.handleColumnOrder}
-                />
-            );
+        const props = {
+            ref: "dataGrid",
+            idProperty: 'id',
+            dataSource: data,
+            columns: columns,
+            style: { height: 400 },
+            onColumnResize: this.handleOnColumnResize,
+            handleColumnOrder: this.handleOnColumnOrder
+        };
+
+        if (this.state.groupingColumns.length) {
+            props.groupBy = this.state.groupingColumns;
         }
 
         return (
-            <DataGrid
-                ref="dataGrid"
-                idProperty='id'
-                dataSource={data}
-                columns={columns}
-                style={{height: 400}}
-                groupBy={this.state.groupingColumns}
-                onColumnResize={this.handleOnColumnResize}
-                handleColumnOrder={this.handleColumnOrder}
-            />
+            <DataGrid {...props} />
         );
     }
 
@@ -132,8 +82,8 @@ class GridPage extends React.Component {
         return (
             <div>
                 <GroupingColumnsBox
-                    handleOnDeleteGroupedColumn={this.handleOnDeleteGroupedColumn}
-                    handleColumnGrouping={this.handleColumnGrouping}
+                    handleOnDeleteColumnGroup={this.handleOnDeleteColumnGroup}
+                    handleOnColumnGrouping={this.handleOnColumnGrouping}
                     groupingColumns={this.state.groupingColumns}
                 />
                 {this.renderGrid()}

@@ -29,6 +29,14 @@ const gen = (function () {
 const LEN = 2000;
 const data = gen(LEN);
 
+const columns = [
+    { name: 'index', title: '#', width: 150 },
+    { name: 'firstName' },
+    { name: 'country' },
+    { name: 'grade' }
+];
+
 export {
-    data
+    data,
+    columns
 };
