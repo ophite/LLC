@@ -22,6 +22,8 @@ $desktop-large: 1600px;
 
 //Gray
 $gray-opacity: rgba(0, 0, 0, 0.12);
+$veryLightGrey: #cfcfcf;
+
 
 //Blue
 $free-speech: #3f51b5;
@@ -41,6 +43,7 @@ $gainsboro: #e1e1e1;
 //Background
 $background-autocomplete: $whitesmoke;
 $background-section-header: $free-speech;
+$background-table-hover: $veryLightGrey;
 
 //Border
 $border-gray: $gainsboro;

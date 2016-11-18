@@ -2,15 +2,8 @@ import React, { PropTypes, Component } from 'react';
 import 'react-datagrid/index.css';
 import { DragDropContext, DragSource, DropTarget } from 'react-dnd';
 import Chip from 'react-toolbox/lib/chip';
+import styles from "../../../../assets/styles/react-grid.scss";
 
-
-const style = {
-    border: '1px solid gray',
-    height: '15rem',
-    width: '15rem',
-    padding: '2rem',
-    textAlign: 'center'
-};
 
 const target = {
     drop(props, monitor, component) {
@@ -44,6 +37,7 @@ class GroupingColumnsBox extends Component {
                     key={index}
                     onDeleteClick={handleOnDeleteColumnGroup.bind(null, col)}
                     deletable
+                    className={styles["chip-custom"]}
                 >
                     {col}
                 </Chip>
@@ -52,7 +46,7 @@ class GroupingColumnsBox extends Component {
 
         return (
             <div>
-                Grouped columns: {chipsView}
+                {chipsView}
             </div>
         );
     };
@@ -60,16 +54,17 @@ class GroupingColumnsBox extends Component {
     render() {
         const { canDrop, isOver, connectDropTarget } = this.props;
         const isActive = canDrop && isOver;
+        const className = [
+            styles["section-dnd"]
+        ];
+        if (isActive) {
+            className.push(styles["active"])
+        }
 
         return connectDropTarget(
-            <div style={style}>
+            <div className={className.join(' ')}>
+                <h3 className={styles["title"]}>Drag columns here</h3>
                 {this.renderGroupingColumns()}
-                <div>
-                    {isActive ?
-                        'Release to drop' :
-                        'Drag item here'
-                    }
-                </div>
             </div>
         );
     }

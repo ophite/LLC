@@ -1,0 +1,34 @@
+@import "variables";
+
+:global {
+  .column-drug-hover {
+    background: red;
+  }
+}
+
+.section-dnd {
+  align-items: center;
+  background: $background-autocomplete;
+  border: .1rem solid $border-gray-opacity;
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  padding: 1rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-right: 1rem;
+}
+
+.chip-custom {
+  background: $free-speech;
+  color: $white;
+  display: inline-flex;
+  margin: 0 .15rem .25rem;
+}
+
+.active{
+  background: $background-table-hover;
+}
