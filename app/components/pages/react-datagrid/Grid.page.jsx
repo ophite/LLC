@@ -5,7 +5,8 @@ import DataGrid from 'react-datagrid/src';
 import { GroupingColumnsBox } from './GroupingColumnsBox/GroupingColumnsBox.jsx';
 import { data, columns } from './gridData'
 
-const initialData = data.slice();
+let dataSource = data;
+const initialData = dataSource.slice();
 
 
 @DragDropContext(HTML5Backend)
@@ -62,7 +63,7 @@ class GridPage extends React.Component {
 
     handleFilter = (column, value, allFilterValues) => {
         //reset data to original data-array
-        data = initialData;
+        dataSource = initialData;
 
         //go over all filters and apply them
         Object.keys(allFilterValues).forEach(function(name){
@@ -72,17 +73,17 @@ class GridPage extends React.Component {
                 return
             }
 
-            data = data.filter(function(item){
+            dataSource = dataSource.filter(function(item){
                 if ((item[name] + '').toUpperCase().indexOf(columnFilter) === 0){
                     return true
                 }
             })
-        })
+        });
         this.forceUpdate();
     };
 
     handleResetFilter = () => {
-        data = initialData;
+        dataSource = initialData;
         this.forceUpdate();
     };
 
@@ -90,7 +91,7 @@ class GridPage extends React.Component {
         const props = {
             ref: "dataGrid",
             idProperty: 'id',
-            dataSource: data,
+            dataSource: dataSource,
             columns: columns,
             style: { height: 400 },
             onColumnResize: this.handleOnColumnResize,
