@@ -1,10 +1,10 @@
-import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
-import 'react-datagrid/index.css';
-import DataGrid from 'react-datagrid/src';
-import { data } from './gridData'
 import { DragDropContext, DragSource, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-
+import 'react-datagrid/index.css';
+import DataGrid from 'react-datagrid/src';
+import { GroupingColumnsBox } from './GroupingColumnsBox/GroupingColumnsBox.jsx';
+import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
+import { data } from './gridData'
 
 
 const columns = [
@@ -15,80 +15,11 @@ const columns = [
 ];
 
 
-const style = {
-    border: '1px solid gray',
-    height: '15rem',
-    width: '15rem',
-    padding: '2rem',
-    textAlign: 'center'
-};
-
-const boxTarget = {
-    drop(props, monitor, component) {
-        const tItem = monitor.getItem();
-        if (!tItem) {
-            return
-        }
-        const dragIndex = tItem.index;
-        const hoverIndex = props.index;
-        props.handleColumnGrouping(dragIndex, hoverIndex);
-    }
-};
-
-@DropTarget("CARD", boxTarget, (connect, monitor) => ({
-    connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver(),
-    canDrop: monitor.canDrop()
-}))
-class TargetBox extends React.Component {
-    static propTypes = {
-        connectDropTarget: React.PropTypes.func.isRequired,
-        isOver: React.PropTypes.bool.isRequired,
-        canDrop: React.PropTypes.bool.isRequired,
-        columns: React.PropTypes.array,
-        handleColumnGrouping: React.PropTypes.func
-    };
-
-    renderGroupingColumns = () => {
-        if (!this.props.groupingColumns.length) {
-            return null;
-        }
-
-        return (
-            <div>
-                Grouped columns: {this.props.groupingColumns.join(', ')}
-            </div>
-        );
-    };
-
-    render() {
-        const { canDrop, isOver, connectDropTarget } = this.props;
-        const isActive = canDrop && isOver;
-
-        return connectDropTarget(
-            <div style={style}>
-                {this.renderGroupingColumns()}
-                <div>
-                    {isActive ?
-                        'Release to drop' :
-                        'Drag item here'
-                    }
-                </div>
-            </div>
-        );
-    }
-}
-
-
 @DragDropContext(HTML5Backend)
-class App extends React.Component {
+class GridPage extends React.Component {
 
     constructor(props, context) {
         super(props, context);
-        this.handleSortChange = this.handleSortChange.bind(this);
-        this.handleOnColumnResize = this.handleOnColumnResize.bind(this);
-        this.handleColumnGrouping = this.handleColumnGrouping.bind(this);
-        this.handleColumnOrder = this.handleColumnOrder.bind(this);
         this.state = {
             groupingColumns: [
                 'country',
@@ -97,11 +28,10 @@ class App extends React.Component {
         };
     }
 
-
     handleOnColumnResize = (firstCol, firstSize, secondCol, secondSize) => {
         firstCol.width = firstSize;
-        this.setState({});
-        // this.forceUpdate();
+        // this.setState({});
+        this.forceUpdate();
     };
 
     handleMenuColumnsGrouping = (menuItem) => {
@@ -127,23 +57,26 @@ class App extends React.Component {
         this.forceUpdate();
     };
 
+    handleOnDeleteGroupedColumn = (item) => {
+        const index = this.state.groupingColumns.indexOf(item);
+        this.setState({
+            groupingColumns: [
+                ...this.state.groupingColumns.slice(0, index),
+                ...this.state.groupingColumns.slice(index + 1, this.state.groupingColumns.length)
+            ]
+        });
+    };
+
     handleColumnGrouping = (dragIndex, hoverIndex) => {
         const col = columns[dragIndex];
         this.handleMenuColumnsGrouping(col.name);
     };
 
-    handleSortChange(sortInfo) {
+    handleSortChange = (sortInfo) => {
         // SORT_INFO = sortInfo
         // data = sort(data)
         // this.setState({})
-    }
-
-    // handleColumnOrderChange = (index, dropIndex) => {
-    //     const col = columns[index];
-    //     columns.splice(index, 1); //delete from index, 1 item
-    //     columns.splice(dropIndex, 0, col);
-    //     this.forceUpdate();
-    // };
+    };
 
     renderMenuGroupingColumns() {
         const menusView = columns
@@ -165,18 +98,6 @@ class App extends React.Component {
             </IconMenu>
         );
     }
-
-    renderDragAreaForGroupingColumns = () => {
-        const divStyle = {
-            height: '100px',
-        };
-
-        return (
-            <div style={divStyle}>
-                Drag here
-            </div>
-        );
-    };
 
     renderGrid() {
         if (!this.state.groupingColumns.length) {
@@ -210,16 +131,15 @@ class App extends React.Component {
     render() {
         return (
             <div>
-                <TargetBox
+                <GroupingColumnsBox
+                    handleOnDeleteGroupedColumn={this.handleOnDeleteGroupedColumn}
                     handleColumnGrouping={this.handleColumnGrouping}
                     groupingColumns={this.state.groupingColumns}
                 />
-                {this.renderMenuGroupingColumns()}
-                {this.renderDragAreaForGroupingColumns()}
                 {this.renderGrid()}
             </div>
         );
     }
 }
 
-export default App;
+export default GridPage;
