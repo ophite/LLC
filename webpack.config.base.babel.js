@@ -27,10 +27,6 @@ module.exports = {
     module: {
         loaders: [
             { test: /\.css$/, loader: 'style!css' },
-            // {
-            //     test: /\.scss$/,
-            //     loaders: ["style", "css", "sass"]
-            // },
             { test: /\.(sass)/, loader: 'style!css!resolve-url!sass?sourceMap' },
             {
                 test: /\.scss$/,
@@ -41,22 +37,28 @@ module.exports = {
             { test: /\.png$/, loader: 'url?limit=16000&mimetype=image/png' },
             { test: /\.svg/, loader: 'url?limit=50000&mimetype=image/svg+xml' },
             { test: /\.(woff|woff2|ttf|eot)/, loader: 'url?limit=1' },
-            { test: /\.jsx$/, loader: 'react-hot!babel', exclude: [/node_modules/, /public/] },
+            // { test: /\.jsx$/, loader: 'react-hot!babel', exclude: [/node_modules/, /public/] },
             {
-                test: /\.js$/,
-                loader: 'babel',
+                test: /\.(jsx|js)$/,
+                loaders: ['react-hot', 'babel'],
+                exclude: [/public/],
                 include: [
                     path.resolve(__dirname, "app"),
+                    path.resolve(__dirname, "node_modules/react-datagrid/src"),
                     path.resolve(__dirname, "node_modules/react-datagrid/lib"),
                     path.resolve(__dirname, "node_modules/react-toolbox/lib"),
                 ],
-                query: {
-                    presets: ['react', 'es2015', 'stage-0']
-                }
             },
 
             { test: /\.json$/, loader: 'json' }
         ]
+    },
+    resolve: {
+        modulesDirectories: [
+            path.join(__dirname, 'node_modules'),
+            // path.resolve(__dirname, "node_modules"),
+        ],
+        extensions: ['', '.js', '.jsx']
     },
     postcss: [autoprefixer],
     // sassLoader: {
@@ -64,6 +66,7 @@ module.exports = {
     //     includePaths: [path.resolve(__dirname, 'app'), path.resolve(__dirname, 'app/assets/styles')]
     // },
     plugins: [
+        // new webpack.HotModuleReplacementPlugin(),
         new ExtractTextPlugin('bundle.css', { allChunks: true }),
         new HtmlWebpackPlugin({
             filename: '../../index.html',

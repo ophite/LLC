@@ -1,10 +1,9 @@
 import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
 import 'react-datagrid/index.css';
-import DataGrid from 'react-datagrid/lib';
+import DataGrid from 'react-datagrid/src';
 import { data } from './gridData'
-import { DragSource, DropTarget } from 'react-dnd';
+import { DragDropContext, DragSource, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContext } from 'react-dnd';
 
 
 
@@ -98,9 +97,11 @@ class App extends React.Component {
         };
     }
 
+
     handleOnColumnResize = (firstCol, firstSize, secondCol, secondSize) => {
         firstCol.width = firstSize;
-        this.forceUpdate();
+        this.setState({});
+        // this.forceUpdate();
     };
 
     handleMenuColumnsGrouping = (menuItem) => {
