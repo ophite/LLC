@@ -47,7 +47,6 @@ class PhysicalPersonEditing extends Component {
             '12': '',
             '13': '',
         },
-
     };
 
     handleChange = (name, value) => {
