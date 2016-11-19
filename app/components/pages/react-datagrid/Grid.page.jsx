@@ -4,10 +4,10 @@ import 'react-datagrid/index.css';
 import DataGrid from 'react-datagrid/src';
 import { GroupingColumnsBox } from './GroupingColumnsBox/GroupingColumnsBox.jsx';
 import { data, columns } from './gridData'
+import sorty from 'sorty';
 
-let dataSource = data;
-const initialData = dataSource.slice();
-
+var sort = sorty([{ name: 'country', dir: 'asc' }])
+const initialData = data.slice();
 
 @DragDropContext(HTML5Backend)
 class GridPage extends React.Component {
@@ -18,7 +18,9 @@ class GridPage extends React.Component {
             groupingColumns: [
                 'country',
                 'grade',
-            ]
+            ],
+            dataSource: data,
+            SORT_INFO: [{ name: 'country', dir: 'asc' }],
         };
     }
 
@@ -87,17 +89,31 @@ class GridPage extends React.Component {
         this.forceUpdate();
     };
 
+    handleSortChange = (sortInfo) => {
+        let dataSource = this.state.dataSource.slice();
+
+        dataSource = [].concat(initialData)
+        dataSource = sorty(sortInfo, dataSource)
+
+        this.setState({
+            SORT_INFO: sortInfo,
+            dataSource,
+        });
+    };
+
     renderGrid() {
         const props = {
             ref: "dataGrid",
             idProperty: 'id',
-            dataSource: dataSource,
+            dataSource: this.state.dataSource,
             columns: columns,
             style: { height: 400 },
+            sortInfo: this.state.SORT_INFO,
             onColumnResize: this.handleOnColumnResize,
             handleColumnOrder: this.handleOnColumnOrder,
             handleFilter:this.handleFilter,
-            handleResetFilter:this.handleResetFilter
+            handleResetFilter:this.handleResetFilter,
+            onSortChange:this.handleSortChange
         };
 
         if (this.state.groupingColumns.length) {
