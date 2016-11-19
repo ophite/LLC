@@ -12,12 +12,11 @@
   border: .1rem solid $border-gray-opacity;
   display: flex;
   flex-wrap: wrap;
-  margin-bottom: 2rem;
-  padding: 1rem;
+  padding: .25rem 1rem;
 }
 
 .title {
-  font-size: 2rem;
+  font-size: 1.4rem;
   font-weight: bold;
   margin-right: 1rem;
 }
@@ -26,7 +25,8 @@
   background: $free-speech;
   color: $white;
   display: inline-flex;
-  margin: 0 .15rem .25rem;
+  margin: .15rem;
+  transform: scale(.85);
 }
 
 .active{
