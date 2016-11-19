@@ -57,7 +57,7 @@ export default class LayoutPage extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="wrapper">
                 {this.renderContainerModal()}
                 {this.renderModal()}
                 {this.renderContent()}

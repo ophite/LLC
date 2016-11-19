@@ -68,7 +68,7 @@ class PhysicalPersonEditing extends Component {
 
     renderAttributesTab() {
         return (
-            <div className="section-content">
+            <div>
                 <Input type='text' label='Код клиента' name='name' value={this.state.name}
                        onChange={this.handleChange.bind(this, 'name')}/>
 
