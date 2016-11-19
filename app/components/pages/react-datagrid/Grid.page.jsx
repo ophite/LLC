@@ -65,7 +65,7 @@ class GridPage extends React.Component {
 
     handleFilter = (column, value, allFilterValues) => {
         //reset data to original data-array
-        dataSource = initialData;
+        let dataSource = initialData;
 
         //go over all filters and apply them
         Object.keys(allFilterValues).forEach(function(name){
@@ -81,12 +81,15 @@ class GridPage extends React.Component {
                 }
             })
         });
-        this.forceUpdate();
+        this.setState({
+            dataSource
+        });
     };
 
     handleResetFilter = () => {
-        dataSource = initialData;
-        this.forceUpdate();
+        this.setState({
+            dataSource: initialData
+        });
     };
 
     handleSortChange = (sortInfo) => {
