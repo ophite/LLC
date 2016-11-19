@@ -1,3 +1,7 @@
+body {
+  position: relative;
+}
+
 :global {
   .wrapper {
     max-width: $desktop-medium;
