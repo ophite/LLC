@@ -47,10 +47,39 @@ class PhysicalPersonEditing extends Component {
             '12': '',
             '13': '',
         },
+        inputValues: {
+            '1': '',
+            '2': '',
+            '3': '',
+            '4': '',
+            '5': '',
+            '6': '',
+            '7': '',
+            '8': '',
+            '9': '',
+            '10': '',
+            '11': '',
+            '12': '',
+            '13': '',
+            '14': '',
+            '16': '',
+            '16': '',
+            '17': '',
+            '18': '',
+            '19': '',
+            '20': '',
+        },
     };
 
     handleChange = (name, value) => {
         this.setState({...this.state, [name]: value});
+    };
+
+    handleInputChange = (id, value) => {
+        const inputValues = JSON.parse(JSON.stringify(this.state.inputValues));
+        inputValues[id] = value;
+
+        this.setState({ inputValues });
     };
 
     handleSimpleChange = (id, value) => {
@@ -68,8 +97,8 @@ class PhysicalPersonEditing extends Component {
     renderAttributesTab() {
         return (
             <div>
-                <Input type='text' label='Код клиента' name='name' value={this.state.name}
-                       onChange={this.handleChange.bind(this, 'name')}/>
+                <Input type='text' label='Код клиента' name='name' value={this.state.inputValues['1']}
+                       onChange={this.handleInputChange.bind(this, '1')}/>
 
                 <Autocomplete
                     direction="down"
@@ -173,11 +202,11 @@ class PhysicalPersonEditing extends Component {
                     className={styles["input-autocomplete"]}
                 />
 
-                <Input type='text' label='Орган регистрации' name='name' value={this.state.name}
-                       onChange={this.handleChange.bind(this, 'name')}/>
+                <Input type='text' label='Орган регистрации' name='name' value={this.state.inputValues['2']}
+                       onChange={this.handleInputChange.bind(this, '2')}/>
 
-                <Input type='text' label='№ записи в регистрации' name='name' value={this.state.name}
-                       onChange={this.handleChange.bind(this, 'name')}/>
+                <Input type='text' label='№ записи в регистрации' name='name' value={this.state.inputValues['3']}
+                       onChange={this.handleInputChange.bind(this, '3')}/>
 
                 <Autocomplete
                     direction="down"
@@ -237,14 +266,14 @@ class PhysicalPersonEditing extends Component {
 
                 <h2 className={styles["title"]}>Счет клиента который открыт в другом банке</h2>
 
-                <Input type='text' label='МФО/SWIFT' name='name' value={this.state.name}
-                       onChange={this.handleChange.bind(this, 'name')}/>
+                <Input type='text' label='МФО/SWIFT' name='name' value={this.state.inputValues['4']}
+                       onChange={this.handleInputChange.bind(this, '4')}/>
 
-                <Input type='text' label='Номер счета' name='name' value={this.state.name}
-                       onChange={this.handleChange.bind(this, 'name')}/>
+                <Input type='text' label='Номер счета' name='name' value={this.state.inputValues['5']}
+                       onChange={this.handleInputChange.bind(this, '5')}/>
 
-                <Input type='text' label='Валюта' name='name' value={this.state.name}
-                       onChange={this.handleChange.bind(this, 'name')}/>
+                <Input type='text' label='Валюта' name='name' value={this.state.inputValues['6']}
+                       onChange={this.handleInputChange.bind(this, '6')}/>
             </div>
         );
     }
@@ -252,26 +281,26 @@ class PhysicalPersonEditing extends Component {
     renderAddressTab() {
         return (
             <div>
-                <Input type='text' label='Индекс' name='name' value={this.state.name}
-                       onChange={this.handleChange.bind(this, 'name')}/>
+                <Input type='text' label='Индекс' name='name' value={this.state.inputValues['7']}
+                       onChange={this.handleInputChange.bind(this, '7')}/>
 
-                <Input type='text' label='Улица' name='name' value={this.state.name}
-                       onChange={this.handleChange.bind(this, 'name')}/>
+                <Input type='text' label='Улица' name='name' value={this.state.inputValues['8']}
+                       onChange={this.handleInputChange.bind(this, '8')}/>
 
-                <Input type='text' label='Дом' name='name' value={this.state.name}
-                       onChange={this.handleChange.bind(this, 'name')}/>
+                <Input type='text' label='Дом' name='name' value={this.state.inputValues['9']}
+                       onChange={this.handleInputChange.bind(this, '9')}/>
 
-                <Input type='text' label='Квартира' name='name' value={this.state.name}
-                       onChange={this.handleChange.bind(this, 'name')}/>
+                <Input type='text' label='Квартира' name='name' value={this.state.inputValues['10']}
+                       onChange={this.handleInputChange.bind(this, '10')}/>
 
-                <Input type='text' label='Страна' name='name' value={this.state.name}
-                       onChange={this.handleChange.bind(this, 'name')}/>
+                <Input type='text' label='Страна' name='name' value={this.state.inputValues['11']}
+                       onChange={this.handleInputChange.bind(this, '11')}/>
 
-                <Input type='text' label='Страна' name='name' value={this.state.name}
-                       onChange={this.handleChange.bind(this, 'name')}/>
+                <Input type='text' label='Страна' name='name' value={this.state.inputValues['12']}
+                       onChange={this.handleInputChange.bind(this, '12')}/>
 
-                <Input type='text' label='Район' name='name' value={this.state.name}
-                       onChange={this.handleChange.bind(this, 'name')}/>
+                <Input type='text' label='Район' name='name' value={this.state.inputValues['13']}
+                       onChange={this.handleInputChange.bind(this, '13')}/>
             </div>
         );
     }
@@ -299,11 +328,11 @@ class PhysicalPersonEditing extends Component {
                                 className={styles["input-autocomplete"]}
                             />
 
-                            <Input type='text' label='Контактное имя' name='name' value={this.state.name}
-                                   onChange={this.handleChange.bind(this, 'name')}/>
+                            <Input type='text' label='Контактное имя' name='name' value={this.state.inputValues['14']}
+                                   onChange={this.handleInputChange.bind(this, '14')}/>
 
-                            <Input type='text' label='Идентификационный код' name='name' value={this.state.name}
-                                   onChange={this.handleChange.bind(this, 'name')}/>
+                            <Input type='text' label='Идентификационный код' name='name' value={this.state.inputValues['15']}
+                                   onChange={this.handleInputChange.bind(this, '15')}/>
 
                             <Autocomplete
                                 direction="down"
@@ -335,20 +364,20 @@ class PhysicalPersonEditing extends Component {
                         </div>
 
                         <div className="section-content">
-                            <Input type='tel' label='Телефон' name='phone' value={this.state.phone}
-                                   onChange={this.handleChange.bind(this, 'phone')}/>
+                            <Input type='tel' label='Телефон' name='phone' value={this.state.inputValues['16']}
+                                   onChange={this.handleInputChange.bind(this, '16')}/>
 
-                            <Input type='email' label='e-mail' value={this.state.email}
-                                   onChange={this.handleChange.bind(this, 'email')}/>
+                            <Input type='email' label='e-mail' value={this.state.inputValues['17']}
+                                   onChange={this.handleInputChange.bind(this, '17')}/>
 
-                            <Input type='text' label='Факс' name='name' value={this.state.name}
-                                   onChange={this.handleChange.bind(this, 'name')}/>
+                            <Input type='text' label='Факс' name='name' value={this.state.inputValues['18']}
+                                   onChange={this.handleInputChange.bind(this, '18')}/>
 
-                            <Input type='tel' label='Мобильный телефон' name='phone' value={this.state.phone}
-                                   onChange={this.handleChange.bind(this, 'phone')}/>
+                            <Input type='tel' label='Мобильный телефон' name='phone' value={this.state.inputValues['19']}
+                                   onChange={this.handleInputChange.bind(this, '19')}/>
 
-                            <Input type='text' label='Заметки' name='name' value={this.state.name}
-                                   onChange={this.handleChange.bind(this, 'name')}/>
+                            <Input type='text' label='Заметки' name='name' value={this.state.inputValues['20']}
+                                   onChange={this.handleInputChange.bind(this, '20')}/>
                         </div>
                     </section>
                 </div>
