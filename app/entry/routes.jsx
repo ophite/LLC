@@ -12,10 +12,10 @@ import PhysicalPersonEditing from '../components/pages/physical-person/PhysicalP
 export default (
     <Route path="/" component={App}>
         <Route component={Layout}>
-            <IndexRedirect to="pokemons"/>
+            <IndexRedirect to="home"/>
             <Route path="grid" component={Grid}/>
             <Route path="person" component={PhysicalPersonEditing}/>
-            <Route path="pokemons">
+            <Route path="home">
                 <IndexRoute component={Pokemons}/>
                 <Route path=":pokemonId" component={Pokemon}/>
             </Route>

@@ -10,7 +10,7 @@ const gen = (function () {
         var arr = [];
         for (var i = 0; i < len; i++) {
             arr.push({
-                id: i + 1,
+                index: i + 1,
                 grade: Math.round(Math.random() * 10),
                 email: faker.internet.email(),
                 firstName: faker.name.firstName(),
