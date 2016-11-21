@@ -1,7 +1,7 @@
 import { Route, IndexRoute, IndexRedirect } from 'react-router';
 
 import App from '../containers/layouts/App.jsx';
-import Layout from '../containers/layouts/Layout.container.h';
+import Layout from '../containers/layouts/Layout.container.jsx';
 import NotFoundPage from '../components/pages/notFound/NotFound.page.jsx'
 import Pokemon from '../containers/pokemons/Pokemon.container.jsx';
 import Pokemons from '../containers/pokemons/Pokemons.container.jsx';
