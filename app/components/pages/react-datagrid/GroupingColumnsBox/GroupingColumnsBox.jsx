@@ -2,7 +2,7 @@ import React, { PropTypes, Component } from 'react';
 import 'react-datagrid/index.css';
 import { DragDropContext, DragSource, DropTarget } from 'react-dnd';
 import Chip from 'react-toolbox/lib/chip';
-import styles from "../../../../assets/styles/react-grid.scss";
+import styles from "../../../../assets/styles/components/react-grid.scss";
 
 
 const target = {
