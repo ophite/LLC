@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import GridPage from '../../components/pages/fixed-data-table/Grid.page.jsx';
+import GridPage from '../../components/pages/react-datagrid/Grid.page.jsx';
 
 
 class GridContainer extends React.Component {

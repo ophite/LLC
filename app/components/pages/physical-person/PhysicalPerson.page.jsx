@@ -384,7 +384,7 @@ class PhysicalPersonEditing extends Component {
 
                 <section className="section-full">
 
-                    <div className="section-choose"> 
+                    <div className="section-choose">
                         <Tabs index={this.state.index} onChange={this.handleTabChange} fixed>
                           <Tab label='Адрес для кореспонденции'>
                               {this.renderAddressTab()}

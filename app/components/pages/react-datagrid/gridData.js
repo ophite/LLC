@@ -26,7 +26,7 @@ const gen = (function () {
     }
 })();
 
-const LEN = 2000;
+const LEN = 100;
 const data = gen(LEN);
 
 const columns = [
