@@ -22,6 +22,15 @@ module.exports = {
         // Only adds hash in build mode
         chunkFilename: '[name].[hash].js'
     },
+    module: {
+        loaders: [
+            ...config.module.loaders,
+            {
+                test: /\.scss$/,
+                loader: 'style!css?modules&resolve-url!sass?outputStyle=expanded&sourceMap'
+            },
+        ]
+    },
     plugins: [
         ...config.plugins,
         new webpack.optimize.DedupePlugin(),
