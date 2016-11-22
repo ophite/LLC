@@ -12,6 +12,7 @@ const GoldenLayout = require('golden-layout');
 import Pokemons from '../pokemons/Pokemons.container.jsx';
 import NotFound from '../../components/pages/notFound/NotFound.page.jsx';
 import Grid from '../fixed-data-table/Grid.container.jsx';
+import Person from '../../components/pages/physical-person/PhysicalPerson.page.jsx';
 
 
 var goldenLayout = new GoldenLayout({
@@ -45,6 +46,17 @@ var goldenLayout = new GoldenLayout({
                         type: 'component',
                         componentName: 'Grid',
                         title: 'Grid',
+                        props: { label: 'B' }
+                    },
+                ]
+            },
+            {
+                type: 'column',
+                content: [
+                    {
+                        type: 'component',
+                        componentName: 'Person',
+                        title: 'Person',
                         props: { label: 'B' }
                     },
                 ]
@@ -83,12 +95,24 @@ var GridComponent = function (container) {
     ReactDOM.render(view, m);
 };
 
+
+var PersonComponent = function (container) {
+    var m = container.getElement()[0];
+    const view = (
+        <Provider store={store}>
+            <Person/>
+        </Provider>
+    );
+    ReactDOM.render(view, m);
+};
 goldenLayout.registerComponent('Home', PokemonsComponent);
 goldenLayout.registerComponent('Home2', PokemonsComponent2);
 goldenLayout.registerComponent('Grid', GridComponent);
+goldenLayout.registerComponent('Person', PersonComponent);
 
 //Once all components are registered, call
 goldenLayout.init();
+
 
 
 class GoldenContainer extends Component {
