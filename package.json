@@ -41,7 +41,7 @@
         "query-string": "^3.0.0",
         "sorty": "^1.2.0",
         "react-dom": "0.14.8",
-        "react-datagrid": "git://github.com/ophite/react-datagrid.git#llc_develop",
+        "react-datagrid": "git://github.com/ophite/react-datagrid.git#dev",
         "react-redux": "^4.4.5",
         "react-router": "^2.5.1",
         "react-router-redux": "^4.0.2",
