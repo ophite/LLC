@@ -1,6 +1,7 @@
 import { Route, IndexRoute, IndexRedirect } from 'react-router';
 
 import App from '../containers/layouts/App.jsx';
+import Golden from '../containers/layouts/Golden.container.jsx';
 import Layout from '../containers/layouts/Layout.container.jsx';
 import NotFoundPage from '../components/pages/notFound/NotFound.page.jsx'
 import Pokemon from '../containers/pokemons/Pokemon.container.jsx';
@@ -11,6 +12,8 @@ import PhysicalPersonEditing from '../components/pages/physical-person/PhysicalP
 
 export default (
     <Route path="/" component={App}>
+        <Route path="/golden" component={Golden}>
+        </Route>
         <Route component={Layout}>
             <IndexRedirect to="home"/>
             <Route path="grid" component={Grid}/>
