@@ -1,7 +1,12 @@
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+
+import { closeModal } from '../../actions/modal.actions';
 import LayoutPage from '../../components/pages/layouts/Layout.page.jsx';
 
 
-class Layout extends React.Component {
+
+class LayoutContainer extends React.Component {
 
     handleKeyDown(e) {
         const { isModalOpen, handleCloseModal } = this.props;
@@ -22,4 +27,17 @@ class Layout extends React.Component {
     }
 }
 
-export default Layout;
+LayoutContainer.propTypes = {
+    isModalOpen: React.PropTypes.bool,
+    handleCloseModal: React.PropTypes.func,
+};
+
+const mapStateToProps = (state) => ({
+    isModalOpen: state.common.isModalOpen,
+});
+
+const mapDispatchToProps = (dispatch) => ({
+    handleCloseModal: bindActionCreators(closeModal, dispatch),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(LayoutContainer);
