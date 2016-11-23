@@ -55,7 +55,7 @@ class MenuComponent extends React.Component {
                 <Menu
                     multiple
                     mode="horizontal"
-                    onSelect={this.handleSelect}
+                    onClick={this.handleSelect}
                     className={styles["menu-top"]}
                 >
                     <MenuItem key={menu.file}>Файл</MenuItem>

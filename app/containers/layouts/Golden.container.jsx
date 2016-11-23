@@ -9,14 +9,12 @@ import configureStore from '../../store/root.store';
 const initialState = {};
 const store = configureStore(initialState);
 const GoldenLayout = require('golden-layout');
-import Pokemons from '../pokemons/Pokemons.container.jsx';
-import NotFound from '../../components/pages/notFound/NotFound.page.jsx';
 import Table from '../react-datagrid/Grid.container.jsx';
-import Invidual from '../../components/pages/physical-person/PhysicalPerson.page.jsx';
-import MenuComponent from '../../components/controls/menu/Menu.jsx';
+// import Invidual from '../../components/pages/physical-person/PhysicalPerson.page.jsx';
+import Invidual from '../pokemons/Pokemons.container.jsx';
 
 
-var goldenLayout = new GoldenLayout({
+const goldenLayout = new GoldenLayout({
     settings: {
         showPopoutIcon: false
     },
@@ -37,7 +35,7 @@ var goldenLayout = new GoldenLayout({
     ]
 });
 
-var TableComponent = function (container, state) {
+const TableComponent = function (container, state) {
     var m = container.getElement()[0];
     const view = (
         <Provider store={store}>
@@ -46,7 +44,7 @@ var TableComponent = function (container, state) {
     );
     ReactDOM.render(view, m);
 };
-var InvidualComponent = function (container, state) {
+const InvidualComponent = function (container, state) {
     var m = container.getElement()[0];
     const view = (
         <Provider store={store}>
@@ -61,7 +59,6 @@ goldenLayout.registerComponent('individual', InvidualComponent);
 
 
 export const addWindow = (title, componentName, componentState) => {
-    // TODO refactor this
     if (goldenLayout._maximisedItem) {
         return;
     }
@@ -75,12 +72,35 @@ export const addWindow = (title, componentName, componentState) => {
     goldenLayout.root.contentItems[0].addChild(newItemConfig);
 };
 
+goldenLayout.on( 'stackCreated', function( stack ){
+    stack
+        .header
+        .controlsContainer
+        .find( '.lm_close' ) //get the close icon
+        .off( 'click' ) //unbind the current click handler
+        .click(function(){
+            stack.remove();
+            goldenLayout._maximisedItem = null;
+        });
+});
+
+
+goldenLayout.on( 'tabCreated', function( tab ){
+    tab
+        .closeElement
+        .off( 'click' ) //unbind the current click handler
+        .click(function(){
+            //add your own
+            tab.contentItem.remove();
+            goldenLayout._maximisedItem = null;
+        });
+});
+
 //Once all components are registered, call
 goldenLayout.init();
 
 
 class GoldenContainer extends Component {
-    
     render() {
         return (
             <Provider store={store}>
