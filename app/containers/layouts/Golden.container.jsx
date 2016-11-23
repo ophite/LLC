@@ -11,65 +11,90 @@ const store = configureStore(initialState);
 const GoldenLayout = require('golden-layout');
 import Pokemons from '../pokemons/Pokemons.container.jsx';
 import NotFound from '../../components/pages/notFound/NotFound.page.jsx';
-import Grid from '../fixed-data-table/Grid.container.jsx';
-import Person from '../../components/pages/physical-person/PhysicalPerson.page.jsx';
+import Table from '../react-datagrid/Grid.container.jsx';
+import Invidual from '../../components/pages/physical-person/PhysicalPerson.page.jsx';
+import MenuComponent from '../../components/controls/menu/Menu.jsx';
 
 
 var goldenLayout = new GoldenLayout({
     settings: {
         showPopoutIcon: false
     },
-    content: [{
-        type: 'row',
-        content: [
-            {
-                type: 'component',
-                componentName: 'Home',
-                title: 'item A',
-                ComponentState: { label: 'A' }
-            },
-            {
-                type: 'column',
-                content: [
-                    {
-                        type: 'component',
-                        componentName: 'Home2',
-                        title: 'item b',
-                        props: { label: 'B' }
-                    },
-                ]
-            },
-            {
-                type: 'column',
-                content: [
-                    {
-                        type: 'component',
-                        componentName: 'Grid',
-                        title: 'Grid',
-                        props: { label: 'B' }
-                    },
-                ]
-            },
-            {
-                type: 'column',
-                content: [
-                    {
-                        type: 'component',
-                        componentName: 'Person',
-                        title: 'Person',
-                        props: { label: 'B' }
-                    },
-                ]
-            }
-        ]
-    }]
+    dimensions: {
+        borderWidth: 5,
+        minItemHeight: 10,
+        minItemWidth: 10,
+        headerHeight: 20,
+        dragProxyWidth: 300,
+        dragProxyHeight: 200
+    },
+    content: [
+        {
+            type: 'row',
+            isClosable: false,
+            content: []
+        }
+        // {
+        //     type: 'row',
+        //     content: [
+        //         {
+        //             type: 'component',
+        //             componentName: 'Home',
+        //             title: 'item A',
+        //             ComponentState: { label: 'A' }
+        //         },
+        //         {
+        //             type: 'column',
+        //             content: [
+        //                 {
+        //                     type: 'component',
+        //                     componentName: 'Home2',
+        //                     title: 'item b',
+        //                     props: { label: 'B' }
+        //                 },
+        //             ]
+        //         },
+        //         {
+        //             type: 'column',
+        //             content: [
+        //                 {
+        //                     type: 'component',
+        //                     componentName: 'Grid',
+        //                     title: 'Grid',
+        //                     props: { label: 'B' }
+        //                 },
+        //             ]
+        //         },
+        //         {
+        //             type: 'column',
+        //             content: [
+        //                 {
+        //                     type: 'component',
+        //                     componentName: 'Person',
+        //                     title: 'Person',
+        //                     props: { label: 'B' }
+        //                 },
+        //             ]
+        //         }
+        //     ]
+        // }
+    ]
 });
 
-var PokemonsComponent = function (container) {
+var TableComponent = function (container, state) {
     var m = container.getElement()[0];
     const view = (
         <Provider store={store}>
-            <Pokemons/>
+            <Table/>
+        </Provider>
+    );
+    ReactDOM.render(view, m);
+};
+var InvidualComponent = function (container, state) {
+    var m = container.getElement()[0];
+    const view = (
+        <Provider store={store}>
+            <Invidual/>
         </Provider>
     );
     ReactDOM.render(view, m);
@@ -96,23 +121,24 @@ var GridComponent = function (container) {
 };
 
 
-var PersonComponent = function (container) {
-    var m = container.getElement()[0];
-    const view = (
-        <Provider store={store}>
-            <Person/>
-        </Provider>
-    );
-    ReactDOM.render(view, m);
+goldenLayout.registerComponent('table', TableComponent);
+goldenLayout.registerComponent('individual', InvidualComponent);
+// goldenLayout.registerComponent('Grid', GridComponent);
+// goldenLayout.registerComponent('Person', PersonComponent);
+
+
+export const addWindow = (title, componentName, componentState) => {
+    var newItemConfig = {
+        title: title,
+        type: 'component',
+        componentName,
+        componentState
+    };
+    goldenLayout.root.contentItems[0].addChild(newItemConfig);
 };
-goldenLayout.registerComponent('Home', PokemonsComponent);
-goldenLayout.registerComponent('Home2', PokemonsComponent2);
-goldenLayout.registerComponent('Grid', GridComponent);
-goldenLayout.registerComponent('Person', PersonComponent);
 
 //Once all components are registered, call
 goldenLayout.init();
-
 
 
 class GoldenContainer extends Component {

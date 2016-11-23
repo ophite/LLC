@@ -1,63 +1,74 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
 import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
 import styles from '../../../assets/styles/components/menu-top.scss';
+import { addWindow } from '../../../containers/layouts/Golden.container.jsx';
 
-function handleSelect(info) {
-    console.log('selected ', info);
-}
 
-function handleDeselect(info) {
-    console.log('deselect ', info);
-}
-
-const titleRight = (<span>Menu Item 1
-  <i className="fa fa-caret-right pull-right"></i>
-</span>);
-const titleRight1 = (<span>Menu Item 4
-  <i className="fa fa-caret-right pull-right"></i>
-</span>);
-const titleRight2 = (<span>Sub Menu Item 4.2
-  <i className="fa fa-caret-right pull-right"></i>
-</span>);
+const menu = {
+    file: 'file',
+    subjects: 'subjects',
+    table: 'table',
+    table2: 'table',
+    custom: 'custom',
+    individual: 'individual'
+};
 
 
 class MenuComponent extends React.Component {
 
+    handleSelect = (info) => {
+        switch (info.key) {
+            case menu.table:
+            case menu.table2:
+            {
+                addWindow('Таблица', 'table');
+                break;
+            }
+            case menu.individual:
+            {
+                addWindow('Физлицо', 'individual');
+                break;
+            }
+            default:
+            {
+            }
+        }
+    };
+
     render() {
-        const leftMenu = (
-            <Menu
-                mode="horizontal"
-                multiple
-                onSelect={handleSelect}
-                onDeselect={handleDeselect}
-                defaultSelectedKeys={['1-1']}
-                className={styles["menu-top"]}
-            >
-                <SubMenu title={titleRight} key="1">
-                    <MenuItem key="1-1">Menu Item 1.1</MenuItem>
-                    <MenuItem key="1-2">Menu Item 1.2</MenuItem>
-                </SubMenu>
-                <MenuItem key="2">MenuItem 2</MenuItem>
-                <MenuItem key="3">MenuItem 3</MenuItem>
-                <SubMenu title={titleRight1} key="4">
-                    <MenuItem key="4-1">Menu Item 4.1</MenuItem>
-                    <SubMenu
-                        key="4-2"
-                        title={titleRight2}
-                    >
-                        <MenuItem key="4-2-1">Menu Item 4.2.1</MenuItem>
-                        <MenuItem key="4-2-2">Menu Item 4.2.2</MenuItem>
-                    </SubMenu>
-                </SubMenu>
-            </Menu>
+        const directoryTitleView = (
+            <span>
+                Справочники
+                <i className="fa fa-caret-right pull-right"/>
+            </span>
+        );
+        const subjectsTitleView = (
+            <span>
+                Контрагенты
+                <i className="fa fa-caret-right pull-right"/>
+            </span>
         );
 
         return (
             <div>
                 <link href="//cdn.bootcss.com/font-awesome/4.2.0/css/font-awesome.css" rel="stylesheet"/>
-                {leftMenu}
-            </div>);
+                <Menu
+                    multiple
+                    mode="horizontal"
+                    onSelect={this.handleSelect}
+                    className={styles["menu-top"]}
+                >
+                    <MenuItem key={menu.file}>Файл</MenuItem>
+                    <SubMenu key={menu.subjects} title={directoryTitleView}>
+                        <MenuItem key={menu.table2}>Таблица</MenuItem>
+                        <SubMenu key={menu.custom} title={subjectsTitleView}>
+                            <MenuItem key={menu.individual}>Физлицо</MenuItem>
+                            <MenuItem key={menu.table}>Таблица</MenuItem>
+                        </SubMenu>
+                    </SubMenu>
+                </Menu>
+            </div>
+        );
     }
 }
 
