@@ -1,19 +1,48 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-import { connect } from 'react-redux';
-
-import { bindActionCreators } from 'redux';
 import { Provider } from 'react-redux';
+
+import GoldenLayout from 'golden-layout';
+import Table from '../react-datagrid/Grid.container.jsx';
+import Invidual from '../../components/pages/physical-person/PhysicalPerson.page.jsx';
 
 import configureStore from '../../store/root.store';
 const initialState = {};
 const store = configureStore(initialState);
-const GoldenLayout = require('golden-layout');
-import Table from '../react-datagrid/Grid.container.jsx';
-import Invidual from '../../components/pages/physical-person/PhysicalPerson.page.jsx';
 
 
-const goldenLayout = new GoldenLayout({
+/***************** helper *********************/
+
+const ReduxComponentWrapper = (componentView) => {
+    return function (container, state) {
+        var m = container.getElement()[0];
+        const view = (
+            <Provider store={store}>
+                {React.createElement(componentView)}
+            </Provider>
+        );
+
+        ReactDOM.render(view, m);
+    };
+};
+
+export const addWindow = (title, componentName, componentState) => {
+    if (goldenLayoutComponent._maximisedItem) {
+        return;
+    }
+
+    var newItemConfig = {
+        title: title,
+        type: 'component',
+        componentName,
+        componentState
+    };
+    goldenLayoutComponent.root.contentItems[0].addChild(newItemConfig);
+};
+
+/***************** golden layout *********************/
+
+const goldenLayoutComponent = new GoldenLayout({
     settings: {
         showPopoutIcon: false
     },
@@ -33,38 +62,9 @@ const goldenLayout = new GoldenLayout({
         }
     ]
 });
-
-
-const ReduxComponentWrapper = (componentView) => {
-    return function (container, state) {
-        var m = container.getElement()[0];
-        const view = (
-            <Provider store={store}>
-                {React.createElement(componentView)}
-            </Provider>
-        );
-
-        ReactDOM.render(view, m);
-    };
-};
-
-export const addWindow = (title, componentName, componentState) => {
-    if (goldenLayout._maximisedItem) {
-        return;
-    }
-
-    var newItemConfig = {
-        title: title,
-        type: 'component',
-        componentName,
-        componentState
-    };
-    goldenLayout.root.contentItems[0].addChild(newItemConfig);
-};
-
-goldenLayout.registerComponent('table', ReduxComponentWrapper.call(null, Table));
-goldenLayout.registerComponent('individual', ReduxComponentWrapper.call(null, Invidual));
-goldenLayout.on('stackCreated', function (stack) {
+goldenLayoutComponent.registerComponent('table', ReduxComponentWrapper.call(null, Table));
+goldenLayoutComponent.registerComponent('individual', ReduxComponentWrapper.call(null, Invidual));
+goldenLayoutComponent.on('stackCreated', function (stack) {
     stack
         .header
         .controlsContainer
@@ -72,27 +72,28 @@ goldenLayout.on('stackCreated', function (stack) {
         .off('click') //unbind the current click handler
         .click(function () {
             stack.remove();
-            goldenLayout._maximisedItem = null;
+            goldenLayoutComponent._maximisedItem = null;
         });
 });
-goldenLayout.on('tabCreated', function (tab) {
+goldenLayoutComponent.on('tabCreated', function (tab) {
     tab
         .closeElement
         .off('click') //unbind the current click handler
         .click(function () {
             //add your own
             tab.contentItem.remove();
-            goldenLayout._maximisedItem = null;
+            goldenLayoutComponent._maximisedItem = null;
         });
 });
-goldenLayout.init();
+goldenLayoutComponent.init();
 
+/***************** container *********************/
 
 class GoldenContainer extends Component {
     render() {
         return (
             <Provider store={store}>
-                <goldenLayout/>
+                <goldenLayoutComponent/>
             </Provider>
         );
     }
