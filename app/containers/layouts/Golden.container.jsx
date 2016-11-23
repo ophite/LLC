@@ -34,50 +34,6 @@ var goldenLayout = new GoldenLayout({
             isClosable: false,
             content: []
         }
-        // {
-        //     type: 'row',
-        //     content: [
-        //         {
-        //             type: 'component',
-        //             componentName: 'Home',
-        //             title: 'item A',
-        //             ComponentState: { label: 'A' }
-        //         },
-        //         {
-        //             type: 'column',
-        //             content: [
-        //                 {
-        //                     type: 'component',
-        //                     componentName: 'Home2',
-        //                     title: 'item b',
-        //                     props: { label: 'B' }
-        //                 },
-        //             ]
-        //         },
-        //         {
-        //             type: 'column',
-        //             content: [
-        //                 {
-        //                     type: 'component',
-        //                     componentName: 'Grid',
-        //                     title: 'Grid',
-        //                     props: { label: 'B' }
-        //                 },
-        //             ]
-        //         },
-        //         {
-        //             type: 'column',
-        //             content: [
-        //                 {
-        //                     type: 'component',
-        //                     componentName: 'Person',
-        //                     title: 'Person',
-        //                     props: { label: 'B' }
-        //                 },
-        //             ]
-        //         }
-        //     ]
-        // }
     ]
 });
 
@@ -100,31 +56,8 @@ var InvidualComponent = function (container, state) {
     ReactDOM.render(view, m);
 };
 
-var PokemonsComponent2 = function (container) {
-    var m = container.getElement()[0];
-    const view = (
-        <Provider store={store}>
-            <NotFound/>
-        </Provider>
-    );
-    ReactDOM.render(view, m);
-};
-
-var GridComponent = function (container) {
-    var m = container.getElement()[0];
-    const view = (
-        <Provider store={store}>
-            <Grid/>
-        </Provider>
-    );
-    ReactDOM.render(view, m);
-};
-
-
 goldenLayout.registerComponent('table', TableComponent);
 goldenLayout.registerComponent('individual', InvidualComponent);
-// goldenLayout.registerComponent('Grid', GridComponent);
-// goldenLayout.registerComponent('Person', PersonComponent);
 
 
 export const addWindow = (title, componentName, componentState) => {
@@ -142,7 +75,7 @@ goldenLayout.init();
 
 
 class GoldenContainer extends Component {
-
+    
     render() {
         return (
             <Provider store={store}>
