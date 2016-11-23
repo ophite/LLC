@@ -68,7 +68,7 @@ module.exports = {
     
     plugins: [
         // new webpack.HotModuleReplacementPlugin(),
-        new ExtractTextPlugin('bundle.css', { allChunks: true }),
+        // new ExtractTextPlugin('bundle.css', { allChunks: true }),
         new HtmlWebpackPlugin({
             filename: '../../index.html',
             template: 'app/index.html'

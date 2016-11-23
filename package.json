@@ -4,7 +4,7 @@
     "description": "Example of using LLC for development in React.",
     "main": "app.js",
     "scripts": {
-        "build": "webpack -d --config webpack.config.base.babel.js --define process.env.NODE_ENV='\"production\"'",
+        "build": "webpack -d --config webpack.config.dev.babel.js --define process.env.NODE_ENV='\"production\"'",
         "webpack:dev:run": "webpack-dev-server -d --config webpack.config.dev.babel.js --hot --display-error-details",
         "webpack:dev:build": "webpack -d --config webpack.config.dev.babel.js --progress --color --display-error-details",
         "webpack:prod:build": "NODE_ENV=production webpack -p --config webpack.config.prod.babel.js",
@@ -36,18 +36,20 @@
         "babel-polyfill": "^6.9.1",
         "classnames": "^2.2.1",
         "faker": "^3.1.0",
+        "golden-layout": "1.5.1",
         "history": "^2.0.0",
         "ismobilejs": "^0.4.0",
         "query-string": "^3.0.0",
-        "sorty": "^1.2.0",
-        "react-dom": "0.14.8",
+        "react-addons-shallow-compare": "^15.4.0",
         "react-datagrid": "git://github.com/ophite/react-datagrid.git#dev",
+        "react-dom": "0.14.8",
         "react-redux": "^4.4.5",
         "react-router": "^2.5.1",
         "react-router-redux": "^4.0.2",
+        "react-virtualized": "^8.5.2",
         "redux": "^3.5.2",
         "redux-thunk": "^2.1.0",
-        "golden-layout": "1.5.1"
+        "sorty": "^1.2.0"
     },
     "devDependencies": {
         "babel-cli": "^6.18.0",
