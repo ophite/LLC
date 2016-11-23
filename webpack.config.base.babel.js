@@ -30,7 +30,7 @@ module.exports = {
             { test: /\.(sass)/, loader: 'style!css!resolve-url!sass?sourceMap' },
             { test: /\.gif$/, loader: 'url?limit=16000&mimetype=image/gif' },
             { test: /\.jpg$/, loader: 'url?limit=16000&mimetype=image/jpg' },
-            { test: /\.png$/, loader: 'url?limit=16000&mimetype=image/png' },
+            { test: /\.png$/, loader: 'url?limit=30000&mimetype=image/png' },
             { test: /\.svg/, loader: 'url?limit=50000&mimetype=image/svg+xml' },
             { test: /\.(woff|woff2|ttf|eot)/, loader: 'url?limit=1' },
             // { test: /\.jsx$/, loader: 'react-hot!babel', exclude: [/node_modules/, /public/] },

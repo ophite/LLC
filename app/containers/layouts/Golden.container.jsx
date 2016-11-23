@@ -10,6 +10,8 @@ import configureStore from '../../store/root.store';
 const initialState = {};
 const store = configureStore(initialState);
 
+import '../../assets/styles/components/golden-layout.scss'
+
 
 /***************** helper *********************/
 
@@ -50,7 +52,7 @@ const goldenLayoutComponent = new GoldenLayout({
         borderWidth: 5,
         minItemHeight: 10,
         minItemWidth: 10,
-        headerHeight: 20,
+        headerHeight: 39,
         dragProxyWidth: 300,
         dragProxyHeight: 200
     },
