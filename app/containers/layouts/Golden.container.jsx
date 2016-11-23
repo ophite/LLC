@@ -15,6 +15,8 @@ import Table from '../react-datagrid/Grid.container.jsx';
 import Invidual from '../../components/pages/physical-person/PhysicalPerson.page.jsx';
 import MenuComponent from '../../components/controls/menu/Menu.jsx';
 
+import '../../assets/styles/components/golden-layout.scss'
+
 
 var goldenLayout = new GoldenLayout({
     settings: {
@@ -24,7 +26,7 @@ var goldenLayout = new GoldenLayout({
         borderWidth: 5,
         minItemHeight: 10,
         minItemWidth: 10,
-        headerHeight: 20,
+        headerHeight: 39,
         dragProxyWidth: 300,
         dragProxyHeight: 200
     },
@@ -80,7 +82,7 @@ goldenLayout.init();
 
 
 class GoldenContainer extends Component {
-    
+
     render() {
         return (
             <Provider store={store}>

@@ -36,13 +36,8 @@
     background-color: #cfcfcf;
   }
   .rc-menu-item-selected {
-    background-color: #cfcfcf;
     -webkit-transform: translateZ(0);
     transform: translateZ(0);
-  }
-  .rc-menu-submenu-selected {
-    background-color: $background-section-header;
-    color: $white;
   }
   .rc-menu > li.rc-menu-submenu {
     padding: 0;
@@ -338,19 +333,5 @@
     top: calc(50% - .7rem);
     right: 1rem;
     transform: rotate(90deg);
-  }
-
-  .rc-menu-submenu-selected {
-    .fa.pull-right {
-      color: #fff;
-    }
-
-    &.rc-menu-submenu-active {
-      color: #000;
-
-      .fa.pull-right {
-        color: #000;
-      }
-    }
   }
 }
