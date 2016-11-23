@@ -10,8 +10,7 @@ const initialState = {};
 const store = configureStore(initialState);
 const GoldenLayout = require('golden-layout');
 import Table from '../react-datagrid/Grid.container.jsx';
-// import Invidual from '../../components/pages/physical-person/PhysicalPerson.page.jsx';
-import Invidual from '../pokemons/Pokemons.container.jsx';
+import Invidual from '../../components/pages/physical-person/PhysicalPerson.page.jsx';
 
 
 const goldenLayout = new GoldenLayout({
@@ -35,28 +34,19 @@ const goldenLayout = new GoldenLayout({
     ]
 });
 
-const TableComponent = function (container, state) {
-    var m = container.getElement()[0];
-    const view = (
-        <Provider store={store}>
-            <Table/>
-        </Provider>
-    );
-    ReactDOM.render(view, m);
-};
-const InvidualComponent = function (container, state) {
-    var m = container.getElement()[0];
-    const view = (
-        <Provider store={store}>
-            <Invidual/>
-        </Provider>
-    );
-    ReactDOM.render(view, m);
-};
 
-goldenLayout.registerComponent('table', TableComponent);
-goldenLayout.registerComponent('individual', InvidualComponent);
+const ReduxComponentWrapper = (componentView) => {
+    return function (container, state) {
+        var m = container.getElement()[0];
+        const view = (
+            <Provider store={store}>
+                {React.createElement(componentView)}
+            </Provider>
+        );
 
+        ReactDOM.render(view, m);
+    };
+};
 
 export const addWindow = (title, componentName, componentState) => {
     if (goldenLayout._maximisedItem) {
@@ -72,31 +62,29 @@ export const addWindow = (title, componentName, componentState) => {
     goldenLayout.root.contentItems[0].addChild(newItemConfig);
 };
 
-goldenLayout.on( 'stackCreated', function( stack ){
+goldenLayout.registerComponent('table', ReduxComponentWrapper.call(null, Table));
+goldenLayout.registerComponent('individual', ReduxComponentWrapper.call(null, Invidual));
+goldenLayout.on('stackCreated', function (stack) {
     stack
         .header
         .controlsContainer
-        .find( '.lm_close' ) //get the close icon
-        .off( 'click' ) //unbind the current click handler
-        .click(function(){
+        .find('.lm_close') //get the close icon
+        .off('click') //unbind the current click handler
+        .click(function () {
             stack.remove();
             goldenLayout._maximisedItem = null;
         });
 });
-
-
-goldenLayout.on( 'tabCreated', function( tab ){
+goldenLayout.on('tabCreated', function (tab) {
     tab
         .closeElement
-        .off( 'click' ) //unbind the current click handler
-        .click(function(){
+        .off('click') //unbind the current click handler
+        .click(function () {
             //add your own
             tab.contentItem.remove();
             goldenLayout._maximisedItem = null;
         });
 });
-
-//Once all components are registered, call
 goldenLayout.init();
 
 
