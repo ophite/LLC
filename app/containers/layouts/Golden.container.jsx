@@ -61,6 +61,11 @@ goldenLayout.registerComponent('individual', InvidualComponent);
 
 
 export const addWindow = (title, componentName, componentState) => {
+    // TODO refactor this
+    if (goldenLayout._maximisedItem) {
+        return;
+    }
+
     var newItemConfig = {
         title: title,
         type: 'component',
