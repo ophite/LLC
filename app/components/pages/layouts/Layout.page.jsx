@@ -1,4 +1,6 @@
 import ModalContainer from '../../../containers/modal/Modal.container.jsx';
+import MenuComponent from '../../controls/menu/Menu.jsx';
+
 
 export default class LayoutPage extends React.Component {
 
@@ -41,6 +43,12 @@ export default class LayoutPage extends React.Component {
         );
     }
 
+    renderMenu() {
+        return (
+            <MenuComponent/>
+        );
+    }
+
     renderContent() {
         const {
             children
@@ -58,6 +66,7 @@ export default class LayoutPage extends React.Component {
     render() {
         return (
             <div className="wrapper">
+                {this.renderMenu()}
                 {this.renderContainerModal()}
                 {this.renderModal()}
                 {this.renderContent()}
