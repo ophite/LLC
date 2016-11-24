@@ -75,7 +75,7 @@ goldenLayoutComponent.on('tabCreated', (tab) => {
     });
     tab._dragListener.on('dragStart', () => {
     });
-    tab._dragListener.on('dragStop', (event) => {
+    tab._dragListener.on('dragStop', () => {
         store.dispatch(handleGoldenForceUpdate(getComponentUuid(tab.contentItem)));
     });
     tab.closeElement
