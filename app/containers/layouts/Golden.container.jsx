@@ -38,7 +38,13 @@ const getComponentUuid = (contentItem) => {
     if (!contentItem) {
         return null;
     }
-    return contentItem.element[0].childNodes[0].childNodes[0].attributes[GOLDEN_CUSTOM_ATTRIBUTE].value;
+
+    const attribute = contentItem.element[0].childNodes[0].childNodes[0].attributes[GOLDEN_CUSTOM_ATTRIBUTE];
+    if (!attribute) {
+        return null;
+    }
+
+    return attribute.value;
 };
 
 
@@ -62,7 +68,11 @@ goldenLayoutComponent.on('stackCreated', (stack) => {
             goldenLayoutComponent._maximisedItem = null;
         });
 });
+
 goldenLayoutComponent.on('tabCreated', (tab) => {
+    tab.contentItem.container.on('resize', () => {
+        store.dispatch(handleGoldenForceUpdate(getComponentUuid(tab.contentItem)));
+    });
     tab._dragListener.on('dragStart', () => {
     });
     tab._dragListener.on('dragStop', (event) => {
