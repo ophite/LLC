@@ -13,11 +13,17 @@ export const addWindow = (goldenWindow, componentState) => {
         componentName: goldenWindow.name,
         componentState
     };
+
+    let root = null;
     if (goldenLayoutComponent._maximisedItem) {
-        goldenLayoutComponent._maximisedItem.addChild(newItemConfig);
+        root = _maximisedItem;
     } else {
-        goldenLayoutComponent.root.contentItems[0].addChild(newItemConfig);
+        root = goldenLayoutComponent.root.contentItems.length ?
+            goldenLayoutComponent.root.contentItems[0] :
+            goldenLayoutComponent.root;
     }
+
+    root.addChild(newItemConfig);
 };
 
 const initWindows = (goldenLayoutComponent, goldenWindows) => {
@@ -34,7 +40,9 @@ const goldenLayoutComponent = new GoldenLayout({
     settings: {
         showPopoutIcon: false
     },
+    width: 800,
     dimensions: {
+        width: 600,
         borderWidth: 5,
         minItemHeight: 10,
         minItemWidth: 10,
@@ -45,12 +53,12 @@ const goldenLayoutComponent = new GoldenLayout({
     content: [
         {
             type: 'row',
-            isClosable: false,
+            isClosable: true,
             content: [
-                {
-                    type: 'component',
-                    componentName: goldenWindows.virtulized.name
-                }
+                // {
+                    // type: 'component',
+                    // componentName: goldenWindows.virtulized.name
+                // }
             ]
         }
     ]

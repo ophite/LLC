@@ -1,6 +1,7 @@
 import { data, columns } from './gridData'
 
-class GridPage extends React.Component {
+
+class TablePage extends React.Component {
 
     constructor(props, context) {
         super(props, context);
@@ -16,10 +17,10 @@ class GridPage extends React.Component {
     render() {
         return (
             <div>
-               react-virtualized
+                react-virtualized
             </div>
         );
     }
 }
 
-export default GridPage;
+export default TablePage;
