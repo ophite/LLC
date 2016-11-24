@@ -27,6 +27,7 @@ const initWindows = (goldenLayoutComponent, goldenWindows) => {
     }
 };
 
+
 /***************** golden layout *********************/
 
 const goldenLayoutComponent = new GoldenLayout({
@@ -46,10 +47,10 @@ const goldenLayoutComponent = new GoldenLayout({
             type: 'row',
             isClosable: false,
             content: [
-                // {
-                //     type: 'component',
-                //     componentName: 'virtulized',
-                // },
+                {
+                    type: 'component',
+                    componentName: goldenWindows.virtulized.name
+                }
             ]
         }
     ]
