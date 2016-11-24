@@ -35,6 +35,9 @@
     -ms-user-select: none;
     -o-user-select: none;
     user-select: none;
+    .lm_dragProxy .lm_header {
+      height: 39px;
+    }
   }
 
   .lm_maximised {

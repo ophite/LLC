@@ -16,7 +16,7 @@ export const addWindow = (goldenWindow, componentState) => {
 
     let root = null;
     if (goldenLayoutComponent._maximisedItem) {
-        root = _maximisedItem;
+        root = goldenLayoutComponent._maximisedItem;
     } else {
         root = goldenLayoutComponent.root.contentItems.length ?
             goldenLayoutComponent.root.contentItems[0] :
@@ -39,12 +39,12 @@ const initWindows = (goldenLayoutComponent, goldenWindows) => {
 const goldenLayoutComponent = new GoldenLayout(goldenConfig);
 
 goldenLayoutComponent.on('initialised', () => {
+    console.log('initialised : ' + JSON.stringify(arguments))
     $('html, body').css({
         'overflow-y': 'scroll',
         'overflow-x': 'hidden'
     });
 });
-
 goldenLayoutComponent.on('stackCreated', (stack) => {
     stack
         .header
