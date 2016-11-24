@@ -55,10 +55,10 @@ const goldenLayoutComponent = new GoldenLayout({
             type: 'row',
             isClosable: true,
             content: [
-                // {
-                    // type: 'component',
-                    // componentName: goldenWindows.virtulized.name
-                // }
+                {
+                    type: 'component',
+                    componentName: goldenWindows.virtulized.name
+                }
             ]
         }
     ]
