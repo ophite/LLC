@@ -1,7 +1,8 @@
 import { data, columns } from './gridData'
+import GoldenComponentPage from '../layouts/GoldenComponent.page.jsx';
 
 
-class TablePage extends React.Component {
+class TablePage extends GoldenComponentPage {
 
     constructor(props, context) {
         super(props, context);
@@ -16,7 +17,7 @@ class TablePage extends React.Component {
 
     render() {
         return (
-            <div>
+            <div ref={(ref) => this.goldenWindow = ref}>
                 react-virtualized
             </div>
         );

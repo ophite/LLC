@@ -1,3 +1,4 @@
+import GoldenComponentPage from '../layouts/GoldenComponent.page.jsx';
 import { DragDropContext, DragSource, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import 'react-datagrid/index.css';
@@ -11,7 +12,7 @@ const initialData = data.slice();
 
 
 @DragDropContext(HTML5Backend)
-class TablePage extends React.Component {
+class TablePage extends GoldenComponentPage {
 
     constructor(props, context) {
         super(props, context);
@@ -69,15 +70,15 @@ class TablePage extends React.Component {
         let dataSource = initialData;
 
         //go over all filters and apply them
-        Object.keys(allFilterValues).forEach(function(name){
+        Object.keys(allFilterValues).forEach(function (name) {
             var columnFilter = (allFilterValues[name] + '').toUpperCase()
 
-            if (columnFilter == ''){
+            if (columnFilter == '') {
                 return
             }
 
-            dataSource = dataSource.filter(function(item){
-                if ((item[name] + '').toUpperCase().indexOf(columnFilter) === 0){
+            dataSource = dataSource.filter(function (item) {
+                if ((item[name] + '').toUpperCase().indexOf(columnFilter) === 0) {
                     return true
                 }
             })
@@ -115,9 +116,9 @@ class TablePage extends React.Component {
             sortInfo: this.state.SORT_INFO,
             onColumnResize: this.handleOnColumnResize,
             handleColumnOrder: this.handleOnColumnOrder,
-            handleFilter:this.handleFilter,
-            handleResetFilter:this.handleResetFilter,
-            onSortChange:this.handleSortChange
+            handleFilter: this.handleFilter,
+            handleResetFilter: this.handleResetFilter,
+            onSortChange: this.handleSortChange
         };
 
         if (this.state.groupingColumns.length) {
@@ -131,7 +132,7 @@ class TablePage extends React.Component {
 
     render() {
         return (
-            <div>
+            <div ref={(ref) => this.goldenWindow = ref}>
                 <GroupingColumnsBox
                     handleOnDeleteColumnGroup={this.handleOnDeleteColumnGroup}
                     handleOnColumnGrouping={this.handleOnColumnGrouping}
