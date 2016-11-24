@@ -240,16 +240,6 @@
 
   .lm_goldenlayout {
     background: url("../../images/app-bg.png");
-    position: relative;
-
-    &:before{
-      content: 'DEMO';
-      color: $white;
-      position: absolute;
-      font-size: 25rem;
-      top: calc(50% - 145px);
-      left: calc(50% - 350px);
-    }
   }
 
   .lm_content {
