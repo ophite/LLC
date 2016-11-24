@@ -4,7 +4,8 @@ import { Provider } from 'react-redux';
 
 import '../../assets/styles/components/golden-layout.scss'
 import GoldenLayout from 'golden-layout';
-import Table from '../react-datagrid/Grid.container.jsx';
+import TableVirtualized from '../react-virtualized/Table.container.jsx';
+import Table from '../react-datagrid/Table.container.jsx';
 import Invidual from '../../components/pages/individual/Individual.page.jsx';
 
 import configureStore from '../../store/root.store';
@@ -28,17 +29,17 @@ const ReduxComponentWrapper = (componentView) => {
 };
 
 export const addWindow = (title, componentName, componentState) => {
-    if (goldenLayoutComponent._maximisedItem) {
-        return;
-    }
-
     const newItemConfig = {
         title: title,
         type: 'component',
         componentName,
         componentState
     };
-    goldenLayoutComponent.root.contentItems[0].addChild(newItemConfig);
+    if (goldenLayoutComponent._maximisedItem) {
+        goldenLayoutComponent._maximisedItem.addChild(newItemConfig);
+    } else {
+        goldenLayoutComponent.root.contentItems[0].addChild(newItemConfig);
+    }
 };
 
 
@@ -60,10 +61,16 @@ const goldenLayoutComponent = new GoldenLayout({
         {
             type: 'row',
             isClosable: false,
-            content: []
+            content: [
+                // {
+                //     type: 'component',
+                //     componentName: 'virtulized',
+                // },
+            ]
         }
     ]
 });
+goldenLayoutComponent.registerComponent('virtulized', ReduxComponentWrapper.call(null, TableVirtualized));
 goldenLayoutComponent.registerComponent('table', ReduxComponentWrapper.call(null, Table));
 goldenLayoutComponent.registerComponent('individual', ReduxComponentWrapper.call(null, Invidual));
 goldenLayoutComponent.on('stackCreated', (stack) => {

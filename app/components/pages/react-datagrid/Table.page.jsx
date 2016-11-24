@@ -9,8 +9,9 @@ import sorty from 'sorty';
 var sort = sorty([{ name: 'country', dir: 'asc' }])
 const initialData = data.slice();
 
+
 @DragDropContext(HTML5Backend)
-class GridPage extends React.Component {
+class TablePage extends React.Component {
 
     constructor(props, context) {
         super(props, context);
@@ -104,7 +105,7 @@ class GridPage extends React.Component {
         });
     };
 
-    renderGrid() {
+    renderTable() {
         const props = {
             ref: "dataGrid",
             idProperty: 'id',
@@ -136,10 +137,10 @@ class GridPage extends React.Component {
                     handleOnColumnGrouping={this.handleOnColumnGrouping}
                     groupingColumns={this.state.groupingColumns}
                 />
-                {this.renderGrid()}
+                {this.renderTable()}
             </div>
         );
     }
 }
 
-export default GridPage;
+export default TablePage;
