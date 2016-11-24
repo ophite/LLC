@@ -2,29 +2,28 @@ import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 
+import '../../assets/styles/components/golden-layout.scss'
 import GoldenLayout from 'golden-layout';
 import Table from '../react-datagrid/Grid.container.jsx';
-import Invidual from '../../components/pages/physical-person/PhysicalPerson.page.jsx';
+import Invidual from '../../components/pages/individual/Individual.page.jsx';
 
 import configureStore from '../../store/root.store';
 const initialState = {};
 const store = configureStore(initialState);
 
-import '../../assets/styles/components/golden-layout.scss'
-
 
 /***************** helper *********************/
 
 const ReduxComponentWrapper = (componentView) => {
-    return function (container, state) {
-        var m = container.getElement()[0];
+    return (container, state) => {
+        const rootElement = container.getElement()[0];
         const view = (
             <Provider store={store}>
                 {React.createElement(componentView)}
             </Provider>
         );
 
-        ReactDOM.render(view, m);
+        ReactDOM.render(view, rootElement);
     };
 };
 
@@ -33,7 +32,7 @@ export const addWindow = (title, componentName, componentState) => {
         return;
     }
 
-    var newItemConfig = {
+    const newItemConfig = {
         title: title,
         type: 'component',
         componentName,
@@ -41,6 +40,7 @@ export const addWindow = (title, componentName, componentState) => {
     };
     goldenLayoutComponent.root.contentItems[0].addChild(newItemConfig);
 };
+
 
 /***************** golden layout *********************/
 
@@ -66,28 +66,29 @@ const goldenLayoutComponent = new GoldenLayout({
 });
 goldenLayoutComponent.registerComponent('table', ReduxComponentWrapper.call(null, Table));
 goldenLayoutComponent.registerComponent('individual', ReduxComponentWrapper.call(null, Invidual));
-goldenLayoutComponent.on('stackCreated', function (stack) {
+goldenLayoutComponent.on('stackCreated', (stack) => {
     stack
         .header
         .controlsContainer
         .find('.lm_close') //get the close icon
         .off('click') //unbind the current click handler
-        .click(function () {
+        .click(() => {
             stack.remove();
             goldenLayoutComponent._maximisedItem = null;
         });
 });
-goldenLayoutComponent.on('tabCreated', function (tab) {
+goldenLayoutComponent.on('tabCreated', (tab) => {
     tab
         .closeElement
         .off('click') //unbind the current click handler
-        .click(function () {
+        .click(() => {
             //add your own
             tab.contentItem.remove();
             goldenLayoutComponent._maximisedItem = null;
         });
 });
 goldenLayoutComponent.init();
+
 
 /***************** container *********************/
 
