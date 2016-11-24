@@ -4,11 +4,11 @@ import { Provider } from 'react-redux';
 
 import configureStore from '../store/root.store';
 const initialState = {};
-const store = configureStore(initialState);
+export const store = configureStore(initialState);
 
 import TableVirtualized from '../containers/react-virtualized/Table.container.jsx';
 import Table from '../containers/react-datagrid/Table.container.jsx';
-import Invidual from '../components/pages/individual/Individual.page.jsx';
+import Invidual from '../containers/individual/Individual.container.jsx';
 
 
 const ReduxComponentWrapper = (componentView) => {
@@ -19,7 +19,7 @@ const ReduxComponentWrapper = (componentView) => {
                 {React.createElement(componentView)}
             </Provider>
         );
-        
+
         ReactDOM.render(view, rootElement);
     };
 };
@@ -95,9 +95,12 @@ export const goldenConfig = {
             content: [
                 {
                     type: 'component',
-                    componentName: goldenWindows.virtulized.name
+                    componentName: goldenWindows.virtulized.name,
+                    props: { value: 'I\'m on the left' }
                 }
             ]
         }
     ]
 };
+
+export const GOLDEN_CUSTOM_ATTRIBUTE = 'golden_custom_attribute';

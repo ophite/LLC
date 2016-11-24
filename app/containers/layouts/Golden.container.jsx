@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import '../../assets/styles/components/golden-layout.scss'
 import GoldenLayout from 'golden-layout';
-import { goldenWindows, goldenConfig } from '../../constants/golden.constant';
+import { goldenWindows, goldenConfig, store, GOLDEN_CUSTOM_ATTRIBUTE } from '../../constants/golden.constant';
+import { goldenForceUpdate as handleGoldenForceUpdate } from '../../actions/common.actions';
 
 
 /***************** helper *********************/
@@ -33,13 +34,18 @@ const initWindows = (goldenLayoutComponent, goldenWindows) => {
     }
 };
 
+const getComponentUuid = (contentItem) => {
+    if (!contentItem) {
+        return null;
+    }
+    return contentItem.element[0].childNodes[0].childNodes[0].attributes[GOLDEN_CUSTOM_ATTRIBUTE].value;
+};
+
 
 /***************** golden layout *********************/
 
 const goldenLayoutComponent = new GoldenLayout(goldenConfig);
-
 goldenLayoutComponent.on('initialised', () => {
-    console.log('initialised : ' + JSON.stringify(arguments))
     $('html, body').css({
         'overflow-y': 'scroll',
         'overflow-x': 'hidden'
@@ -57,8 +63,12 @@ goldenLayoutComponent.on('stackCreated', (stack) => {
         });
 });
 goldenLayoutComponent.on('tabCreated', (tab) => {
-    tab
-        .closeElement
+    tab._dragListener.on('dragStart', () => {
+    });
+    tab._dragListener.on('dragStop', (event) => {
+        store.dispatch(handleGoldenForceUpdate(getComponentUuid(tab.contentItem)));
+    });
+    tab.closeElement
         .off('click') //unbind the current click handler
         .click(() => {
             //add your own
@@ -66,6 +76,7 @@ goldenLayoutComponent.on('tabCreated', (tab) => {
             goldenLayoutComponent._maximisedItem = null;
         });
 });
+
 initWindows(goldenLayoutComponent, goldenWindows);
 goldenLayoutComponent.init();
 

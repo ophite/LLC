@@ -1,32 +1,34 @@
-'use strict';
-
 import commonTypes from '../actions/types/common.types';
+import uuid from 'uuid';
 
 
 export default (state = DEFAULT_STATE, action) => {
     switch (action.type) {
-
+        
         case commonTypes.COMMON_HANDLE_ERROR:
             return reduceHandleError(state, action);
         case commonTypes.COMMON_CLEAR_ERROR:
             return reduceClearError(state, action);
-
+        
         case commonTypes.OPEN_MODAL:
             return reduceOpenModal(state, action);
         case commonTypes.CLOSE_MODAL:
             return reduceCloseModal(state, action);
-
+        
         case commonTypes.OPEN_CONTAINER_MODAL:
             return reduceOpenContainerModal(state, action);
         case commonTypes.CLOSE_CONTAINER_MODAL:
             return reduceCloseContainerModal(state, action);
-
+        
         case commonTypes.TOGGLE_MENU_BAR:
             return reduceToggleMenuBar(state, action);
-
+        
         case commonTypes.CHANGE_WINDOW_WIDTH:
             return reduceChangeWindowWidth(state, action);
-
+        
+        case commonTypes.GOLDEN_FORCE_UPDATE:
+            return reduceGoldenForceUpdate(state, action);
+        
         default:
             return state;
     }
@@ -50,7 +52,7 @@ const reduceClearError = (state, action) => {
 const reduceOpenModal = (state, action) => {
     const { modalData } = action.payload;
     const isOpen = modalData && modalData.isOpen;
-
+    
     return {
         ...state,
         isModalOpen: isOpen !== null && isOpen !== undefined ? isOpen : true,
@@ -68,7 +70,7 @@ const reduceCloseModal = (state, action) => {
 
 const reduceOpenContainerModal = (state, action) => {
     const { containerModalData } = action.payload;
-
+    
     return {
         ...state,
         isLoading: false,
@@ -88,7 +90,7 @@ const reduceCloseContainerModal = (state, action) => {
 
 const reduceToggleMenuBar = (state, action) => {
     const isMenuBarVisible = action.hide === true ? false : !state.isMenuBarVisible;
-
+    
     return {
         ...state,
         isMenuBarVisible,
@@ -104,6 +106,16 @@ const reduceChangeWindowWidth = (state, action) => {
     };
 };
 
+const reduceGoldenForceUpdate = (state, action) => {
+    const { goldenWindowUuid } = action.payload;
+    return {
+        ...state,
+        goldenWindowUuid,
+        goldenWindowUuidTst: uuid()
+    }
+};
+
+
 const DEFAULT_STATE = {
     isModalOpen: false,
     modalData: {},
@@ -111,5 +123,6 @@ const DEFAULT_STATE = {
     containerModalData: {},
     isMenuBarVisible: false,
     windowWidth: window.innerWidth,
+    goldenUpdateKey: null,
     error: null,
 };

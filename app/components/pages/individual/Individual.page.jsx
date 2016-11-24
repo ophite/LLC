@@ -1,19 +1,21 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
+import ReactDOM from 'react-dom';
 import Input from 'react-toolbox/lib/input';
-import {Autocomplete, Button, Checkbox} from 'react-toolbox/';
+import { Autocomplete, Button, Checkbox } from 'react-toolbox/';
 import { ThemeProvider } from 'react-css-themr';
 import { INPUT } from 'react-toolbox/lib/identifiers';
-import {Tab, Tabs} from 'react-toolbox';
+import { Tab, Tabs } from 'react-toolbox';
 
+import { GOLDEN_CUSTOM_ATTRIBUTE } from '../../../constants/golden.constant';
 import inputCustom from '../../../assets/theme/_autocomplite.scss';
 import styles from "../../../assets/styles/main.scss";
 
 const tabs = ['Адрес для кореспонденции', 'Дополнительные атрибуты'];
 const countriesArray = {
-  '1': 'Текст 1',
-  '2': 'Текст 2',
-  '3': 'Текст 3',
-  '4': 'Текст 4'
+    '1': 'Текст 1',
+    '2': 'Текст 2',
+    '3': 'Текст 3',
+    '4': 'Текст 4'
 };
 
 class PhysicalPersonEditing extends Component {
@@ -72,7 +74,7 @@ class PhysicalPersonEditing extends Component {
     };
 
     handleChange = (name, value) => {
-        this.setState({...this.state, [name]: value});
+        this.setState({ ...this.state, [name]: value });
     };
 
     handleInputChange = (id, value) => {
@@ -218,7 +220,8 @@ class PhysicalPersonEditing extends Component {
                     className={styles["input-autocomplete"]}
                 />
 
-                <h2 className={styles["title"]}>Характеристика источника поступлений денежных средств и других ценностей на счета клиентов</h2>
+                <h2 className={styles["title"]}>Характеристика источника поступлений денежных средств и других ценностей
+                    на счета клиентов</h2>
 
                 <div className={styles["checkbox-container"]}>
                     <Checkbox
@@ -305,10 +308,15 @@ class PhysicalPersonEditing extends Component {
         );
     }
 
+    componentDidMount() {
+        const { uuid } = this.props;
+        const element = ReactDOM.findDOMNode(this.test);
+        element.setAttribute(GOLDEN_CUSTOM_ATTRIBUTE, uuid);
+    }
+
     render() {
         return (
-
-            <div>
+            <div ref={(ref) => this.test = ref}>
                 <h2 className={styles["title"]}>Редактирование контрагента физического лица</h2>
                 <div className="section-wrap">
 
@@ -331,7 +339,8 @@ class PhysicalPersonEditing extends Component {
                             <Input type='text' label='Контактное имя' name='name' value={this.state.inputValues['14']}
                                    onChange={this.handleInputChange.bind(this, '14')}/>
 
-                            <Input type='text' label='Идентификационный код' name='name' value={this.state.inputValues['15']}
+                            <Input type='text' label='Идентификационный код' name='name'
+                                   value={this.state.inputValues['15']}
                                    onChange={this.handleInputChange.bind(this, '15')}/>
 
                             <Autocomplete
@@ -373,7 +382,8 @@ class PhysicalPersonEditing extends Component {
                             <Input type='text' label='Факс' name='name' value={this.state.inputValues['18']}
                                    onChange={this.handleInputChange.bind(this, '18')}/>
 
-                            <Input type='tel' label='Мобильный телефон' name='phone' value={this.state.inputValues['19']}
+                            <Input type='tel' label='Мобильный телефон' name='phone'
+                                   value={this.state.inputValues['19']}
                                    onChange={this.handleInputChange.bind(this, '19')}/>
 
                             <Input type='text' label='Заметки' name='name' value={this.state.inputValues['20']}
@@ -386,12 +396,12 @@ class PhysicalPersonEditing extends Component {
 
                     <div className="section-choose">
                         <Tabs index={this.state.index} onChange={this.handleTabChange} fixed>
-                          <Tab label='Адрес для кореспонденции'>
-                              {this.renderAddressTab()}
-                          </Tab>
-                          <Tab label='Дополнительные атрибуты'>
-                            {this.renderAttributesTab()}
-                          </Tab>
+                            <Tab label='Адрес для кореспонденции'>
+                                {this.renderAddressTab()}
+                            </Tab>
+                            <Tab label='Дополнительные атрибуты'>
+                                {this.renderAttributesTab()}
+                            </Tab>
                         </Tabs>
                     </div>
 
