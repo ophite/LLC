@@ -2,29 +2,15 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import InvidualPage from '../../components/pages/individual/Individual.page.jsx';
-import uuid from 'uuid';
+import GoldenComponentContainer from '../layouts/GoldenComponent.container.jsx';
 
 
-class IndividualContainer extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            uuid: uuid(),
-        };
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevState.uuid === this.props.uuid && this.props.goldenWindowUuidTst !== prevProps.goldenWindowUuidTst) {
-            this.forceUpdate();
-        }
-    }
-
+class IndividualContainer extends GoldenComponentContainer {
     render() {
         return (
             <InvidualPage
                 {...this.props}
-                uuid={this.state.uuid}
+                uuid={this.stateProps ? this.stateProps.uuid : null}
             />
         );
     }
@@ -34,8 +20,6 @@ IndividualContainer.propTypes = {};
 
 const mapStateToProps = (state) => {
     return {
-        uuid: state.common.goldenWindowUuid,
-        goldenWindowUuidTst: state.common.goldenWindowUuidTst
     };
 };
 

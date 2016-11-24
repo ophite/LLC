@@ -6,7 +6,9 @@ import { ThemeProvider } from 'react-css-themr';
 import { INPUT } from 'react-toolbox/lib/identifiers';
 import { Tab, Tabs } from 'react-toolbox';
 
-import { GOLDEN_CUSTOM_ATTRIBUTE } from '../../../constants/golden.constant';
+
+import GoldenComponentPage from '../layouts/GoldenComponent.page.jsx';
+
 import inputCustom from '../../../assets/theme/_autocomplite.scss';
 import styles from "../../../assets/styles/main.scss";
 
@@ -18,7 +20,7 @@ const countriesArray = {
     '4': 'Текст 4'
 };
 
-class PhysicalPersonEditing extends Component {
+class PhysicalPersonEditing extends GoldenComponentPage {
 
     state = {
         name: '',
@@ -308,15 +310,9 @@ class PhysicalPersonEditing extends Component {
         );
     }
 
-    componentDidMount() {
-        const { uuid } = this.props;
-        const element = ReactDOM.findDOMNode(this.test);
-        element.setAttribute(GOLDEN_CUSTOM_ATTRIBUTE, uuid);
-    }
-
     render() {
         return (
-            <div ref={(ref) => this.test = ref}>
+            <div ref={(ref) => this.goldenWindow = ref}>
                 <h2 className={styles["title"]}>Редактирование контрагента физического лица</h2>
                 <div className="section-wrap">
 
