@@ -1,6 +1,5 @@
 body {
   position: relative;
-  overflow: scroll !important;
 }
 
 :global {
@@ -16,7 +15,6 @@ body {
   }
 
   .section-full {
-    border: .1rem solid $border-gray-opacity;
     margin-bottom: 2rem;
   }
 
@@ -51,5 +49,4 @@ body {
     margin: 2rem;
     padding: 0 2rem;
   }
-
 }

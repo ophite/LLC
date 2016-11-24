@@ -13,6 +13,7 @@ export const addWindow = (goldenWindow, componentState) => {
         componentName: goldenWindow.name,
         componentState
     };
+
     if (goldenLayoutComponent._maximisedItem) {
         goldenLayoutComponent._maximisedItem.addChild(newItemConfig);
     } else {
@@ -55,6 +56,13 @@ const goldenLayoutComponent = new GoldenLayout({
     ]
 });
 
+goldenLayoutComponent.on('initialised', () => {
+    $('html, body').css({
+        'overflow-y': 'scroll',
+        'overflow-x': 'hidden'
+    });
+});
+
 goldenLayoutComponent.on('stackCreated', (stack) => {
     stack
         .header
@@ -78,6 +86,7 @@ goldenLayoutComponent.on('tabCreated', (tab) => {
 });
 initWindows(goldenLayoutComponent, goldenWindows);
 goldenLayoutComponent.init();
+
 
 
 /***************** container *********************/

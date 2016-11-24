@@ -94,9 +94,9 @@
   }
 
   .lm_header .lm_controls {
-    right: 5px;
+    right: 25px;
     position: absolute;
-    top: 11px;
+    top: calc(50% - 6px);
   }
 
   .lm_header .lm_controls > li {
