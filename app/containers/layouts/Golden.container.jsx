@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../assets/styles/components/golden-layout.scss'
 import GoldenLayout from 'golden-layout';
-import { goldenWindows } from '../../constants/golden.constant';
+import { goldenWindows, goldenConfig } from '../../constants/golden.constant';
 
 
 /***************** helper *********************/
@@ -36,34 +36,7 @@ const initWindows = (goldenLayoutComponent, goldenWindows) => {
 
 /***************** golden layout *********************/
 
-const goldenLayoutComponent = new GoldenLayout({
-    settings: {
-        showPopoutIcon: false
-    },
-    width: 800,
-    dimensions: {
-        width: 600,
-        borderWidth: 5,
-        minItemHeight: 10,
-        minItemWidth: 10,
-        headerHeight: 39,
-        dragProxyWidth: 300,
-        dragProxyHeight: 200
-    },
-    content: [
-        {
-            type: 'row',
-            isClosable: true,
-            content: [
-                {
-                    type: 'component',
-                    componentName: goldenWindows.virtulized.name
-                }
-            ]
-        }
-    ]
-});
-
+const goldenLayoutComponent = new GoldenLayout(goldenConfig);
 goldenLayoutComponent.on('stackCreated', (stack) => {
     stack
         .header
