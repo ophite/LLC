@@ -1,38 +1,16 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-
 import '../../assets/styles/components/golden-layout.scss'
 import GoldenLayout from 'golden-layout';
-import TableVirtualized from '../react-virtualized/Table.container.jsx';
-import Table from '../react-datagrid/Table.container.jsx';
-import Invidual from '../../components/pages/individual/Individual.page.jsx';
-
-import configureStore from '../../store/root.store';
-const initialState = {};
-const store = configureStore(initialState);
+import { goldenWindows } from '../../constants/golden.constant';
 
 
 /***************** helper *********************/
 
-const ReduxComponentWrapper = (componentView) => {
-    return (container, state) => {
-        const rootElement = container.getElement()[0];
-        const view = (
-            <Provider store={store}>
-                {React.createElement(componentView)}
-            </Provider>
-        );
-
-        ReactDOM.render(view, rootElement);
-    };
-};
-
-export const addWindow = (title, componentName, componentState) => {
+export const addWindow = (goldenWindow, componentState) => {
     const newItemConfig = {
-        title: title,
+        title: goldenWindow.fullName,
         type: 'component',
-        componentName,
+        componentName: goldenWindow.name,
         componentState
     };
     if (goldenLayoutComponent._maximisedItem) {
@@ -42,6 +20,12 @@ export const addWindow = (title, componentName, componentState) => {
     }
 };
 
+const initWindows = (goldenLayoutComponent, goldenWindows) => {
+    for (const key in goldenWindows) {
+        const goldenWindow = goldenWindows[key];
+        goldenLayoutComponent.registerComponent(goldenWindow.name, goldenWindow.component());
+    }
+};
 
 /***************** golden layout *********************/
 
@@ -70,9 +54,7 @@ const goldenLayoutComponent = new GoldenLayout({
         }
     ]
 });
-goldenLayoutComponent.registerComponent('virtulized', ReduxComponentWrapper.call(null, TableVirtualized));
-goldenLayoutComponent.registerComponent('table', ReduxComponentWrapper.call(null, Table));
-goldenLayoutComponent.registerComponent('individual', ReduxComponentWrapper.call(null, Invidual));
+
 goldenLayoutComponent.on('stackCreated', (stack) => {
     stack
         .header
@@ -94,6 +76,7 @@ goldenLayoutComponent.on('tabCreated', (tab) => {
             goldenLayoutComponent._maximisedItem = null;
         });
 });
+initWindows(goldenLayoutComponent, goldenWindows);
 goldenLayoutComponent.init();
 
 
@@ -102,9 +85,7 @@ goldenLayoutComponent.init();
 class GoldenContainer extends Component {
     render() {
         return (
-            <Provider store={store}>
-                <goldenLayoutComponent/>
-            </Provider>
+            <goldenLayoutComponent/>
         );
     }
 }
