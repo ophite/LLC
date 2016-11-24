@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../../assets/styles/components/golden-layout.scss'
 import GoldenLayout from 'golden-layout';
-import { goldenWindows } from '../../constants/golden.constant';
+import { goldenWindows, goldenConfig } from '../../constants/golden.constant';
 
 
 /***************** helper *********************/
@@ -14,11 +14,16 @@ export const addWindow = (goldenWindow, componentState) => {
         componentState
     };
 
+    let root = null;
     if (goldenLayoutComponent._maximisedItem) {
-        goldenLayoutComponent._maximisedItem.addChild(newItemConfig);
+        root = _maximisedItem;
     } else {
-        goldenLayoutComponent.root.contentItems[0].addChild(newItemConfig);
+        root = goldenLayoutComponent.root.contentItems.length ?
+            goldenLayoutComponent.root.contentItems[0] :
+            goldenLayoutComponent.root;
     }
+
+    root.addChild(newItemConfig);
 };
 
 const initWindows = (goldenLayoutComponent, goldenWindows) => {
@@ -28,33 +33,10 @@ const initWindows = (goldenLayoutComponent, goldenWindows) => {
     }
 };
 
+
 /***************** golden layout *********************/
 
-const goldenLayoutComponent = new GoldenLayout({
-    settings: {
-        showPopoutIcon: false
-    },
-    dimensions: {
-        borderWidth: 5,
-        minItemHeight: 10,
-        minItemWidth: 10,
-        headerHeight: 39,
-        dragProxyWidth: 300,
-        dragProxyHeight: 200
-    },
-    content: [
-        {
-            type: 'row',
-            isClosable: false,
-            content: [
-                // {
-                //     type: 'component',
-                //     componentName: 'virtulized',
-                // },
-            ]
-        }
-    ]
-});
+const goldenLayoutComponent = new GoldenLayout(goldenConfig);
 
 goldenLayoutComponent.on('initialised', () => {
     $('html, body').css({
@@ -86,7 +68,6 @@ goldenLayoutComponent.on('tabCreated', (tab) => {
 });
 initWindows(goldenLayoutComponent, goldenWindows);
 goldenLayoutComponent.init();
-
 
 
 /***************** container *********************/
