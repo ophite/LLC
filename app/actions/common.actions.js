@@ -130,3 +130,13 @@ export const changeWindowWidth = (windowWidth) => {
         payload: { windowWidth },
     };
 };
+
+
+// golden 
+
+export const goldenForceUpdate = (goldenWindowUuid) => {
+    return {
+        type: typesCommon.GOLDEN_FORCE_UPDATE,
+        payload: { goldenWindowUuid },
+    };
+};
