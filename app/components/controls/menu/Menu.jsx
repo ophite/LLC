@@ -2,7 +2,7 @@ import React from 'react';
 import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
 import styles from '../../../assets/styles/components/menu-top.scss';
 import { addWindow } from '../../../containers/layouts/Golden.container.jsx';
-
+import { goldenWindows } from '../../../constants/golden.constant';
 
 const menu = {
     file: 'file',
@@ -21,12 +21,12 @@ class MenuComponent extends React.Component {
             case menu.table:
             case menu.table2:
             {
-                addWindow('Таблица', 'table');
+                addWindow(goldenWindows.table);
                 break;
             }
             case menu.individual:
             {
-                addWindow('Физлицо', 'individual');
+                addWindow(goldenWindows.individual);
                 break;
             }
             default:
@@ -55,7 +55,7 @@ class MenuComponent extends React.Component {
                 <Menu
                     multiple
                     mode="horizontal"
-                    onSelect={this.handleSelect}
+                    onClick={this.handleSelect}
                     className={styles["menu-top"]}
                 >
                     <MenuItem key={menu.file}>Файл</MenuItem>

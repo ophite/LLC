@@ -5,6 +5,7 @@ import { Router } from 'react-router';
 
 import configureStore from '../store/root.store';
 import routes from './routes.jsx';
+import routesGolden from './routes.golden.jsx';
 import { history } from './history'
 
 const initialState = {};
@@ -15,7 +16,7 @@ const rrsHistory = syncHistoryWithStore(history, store);
 const Root = () => {
     return (
         <Provider store={store}>
-            <Router children={routes} history={rrsHistory}/>
+            <Router children={routesGolden} history={rrsHistory}/>
         </Provider>
     );
 };
