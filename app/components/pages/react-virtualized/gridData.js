@@ -14,9 +14,11 @@ const gen = (function () {
                 grade: Math.round(Math.random() * 10),
                 email: faker.internet.email(),
                 firstName: faker.name.firstName(),
+                fullName: faker.name.firstName() + ' ' + faker.name.lastName(),
                 lastName: faker.name.lastName(),
                 birthDate: faker.date.past(),
-                country: faker.address.country(),
+                company: faker.name.firstName(),
+                position: faker.address.country(),
                 city: faker.address.city()
             })
         }
