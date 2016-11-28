@@ -1,6 +1,4 @@
-/** @flow */
 import React, { Component, PropTypes } from 'react'
-import { LabeledInput, InputRow } from './LabeledInput'
 import { AutoSizer, Table, Column } from 'react-virtualized'
 import SortDirection from './SortDirection'
 import SortIndicator from './SortIndicator'
@@ -28,12 +26,6 @@ export default class TableExample extends Component {
             sortDirection: SortDirection.ASC,
             useDynamicRowHeight: false
         };
-
-        this._getRowHeight = this._getRowHeight.bind(this)
-        this._headerRenderer = this._headerRenderer.bind(this)
-        this._noRowsRenderer = this._noRowsRenderer.bind(this)
-        this._rowClassName = this._rowClassName.bind(this)
-        this._sort = this._sort.bind(this)
     }
 
     render() {
@@ -49,17 +41,18 @@ export default class TableExample extends Component {
         } = this.state;
 
         const { list } = this.props;
-        const sortedList = this._isSortEnabled()
-            ? list
-            .sortBy(item => item[sortBy])
-            .update(list =>
-                sortDirection === SortDirection.DESC
-                    ? list.reverse()
-                    : list
-            )
-            : list;
+        const sortedList = this._isSortEnabled() ?
+            list
+                .sortBy(item => item[sortBy])
+                .update(
+                    list => sortDirection === SortDirection.DESC ?
+                        list.reverse() : list
+                ) : list;
 
-        const rowGetter = ({ index }) => this._getDatum(sortedList, index);
+        const rowGetter = (params) => {
+            const { index } = params;
+            return this._getDatum(sortedList, index);
+        };
 
         return (
             <div className={stylesApplication.Body}>
@@ -85,9 +78,7 @@ export default class TableExample extends Component {
                             >
                                 <Column
                                     label='Index'
-                                    cellDataGetter={
-                      ({ columnData, dataKey, rowData }) => rowData.index
-                    }
+                                    cellDataGetter={({ columnData, dataKey, rowData }) => rowData.index}
                                     dataKey='index'
                                     disableSort={!this._isSortEnabled()}
                                     width={60}
@@ -104,9 +95,7 @@ export default class TableExample extends Component {
                                     label='The description label is really long so that it will be truncated'
                                     dataKey='random'
                                     className={styles.exampleColumn}
-                                    cellRenderer={
-                    ({ cellData, columnData, dataKey, rowData, rowIndex }) => cellData
-                  }
+                                    cellRenderer={({ cellData, columnData, dataKey, rowData, rowIndex }) => cellData}
                                     flexGrow={1}
                                 />
                             </Table>
@@ -117,27 +106,29 @@ export default class TableExample extends Component {
         )
     }
 
-    shouldComponentUpdate(nextProps, nextState) {
+    shouldComponentUpdate = (nextProps, nextState) => {
         return shallowCompare(this, nextProps, nextState)
-    }
+    };
 
-    _getDatum(list, index) {
+    _getDatum = (list, index) => {
         return list.get(index % list.size)
-    }
+    };
 
-    _getRowHeight({ index }) {
+    _getRowHeight = (params) => {
+        const { index } = params;
         const { list } = this.props;
         return this._getDatum(list, index).size
-    }
+    };
 
-    _headerRenderer({
-        columnData,
-        dataKey,
-        disableSort,
-        label,
-        sortBy,
-        sortDirection
-    }) {
+    _headerRenderer = (params) => {
+        const {
+            columnData,
+            dataKey,
+            disableSort,
+            label,
+            sortBy,
+            sortDirection
+        } = params;
         return (
             <div>
                 Full Name
@@ -147,32 +138,33 @@ export default class TableExample extends Component {
                 }
             </div>
         )
-    }
+    };
 
-    _isSortEnabled() {
+    _isSortEnabled = () => {
         const { list } = this.props;
         const { rowCount } = this.state;
-
         return rowCount <= list.size
-    }
+    };
 
-    _noRowsRenderer() {
+    _noRowsRenderer = () => {
         return (
             <div className={styles.noRows}>
                 No rows
             </div>
         )
-    }
+    };
 
-    _rowClassName({ index }) {
+    _rowClassName = ({ index }) => {
+        // const { index } = params;
         if (index < 0) {
             return styles.headerRow
         } else {
             return index % 2 === 0 ? styles.evenRow : styles.oddRow
         }
-    }
+    };
 
-    _sort({ sortBy, sortDirection }) {
+    _sort = (params) => {
+        const { sortBy, sortDirection } = params;
         this.setState({ sortBy, sortDirection })
-    }
+    };
 }
