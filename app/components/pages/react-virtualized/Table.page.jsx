@@ -1,5 +1,9 @@
 import { data, columns } from './gridData'
 import GoldenComponentPage from '../layouts/GoldenComponent.page.jsx';
+import { generateRandomList } from './demo/utils'
+import Table from './demo/Table.example';
+import Immutable from 'immutable'
+const list = Immutable.List(generateRandomList());
 
 
 class TablePage extends GoldenComponentPage {
@@ -18,7 +22,9 @@ class TablePage extends GoldenComponentPage {
     render() {
         return (
             <div ref={(ref) => this.goldenWindow = ref}>
-                react-virtualized
+                <Table
+                    list={list}
+                />
             </div>
         );
     }
