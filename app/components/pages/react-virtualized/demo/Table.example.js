@@ -42,11 +42,8 @@ export default class TableExample extends Component {
     _onSortEnd = (props) => {
         const { list } = this.state;
         const { oldIndex, newIndex } = props;
-        const buf = list[newIndex];
-        list[newIndex] = list[oldIndex];
-        list[oldIndex] = buf;
         this.setState({
-            list: [...list]
+            list: arrayMove(list, oldIndex, newIndex)
         });
     };
 
