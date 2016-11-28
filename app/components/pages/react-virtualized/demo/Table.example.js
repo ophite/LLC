@@ -163,7 +163,7 @@ class TableExample extends Component {
                     width={60}
                 />
                 <Column
-                    dataKey='name'
+                    dataKey='firstName'
                     disableSort={!this._isSortEnabled()}
                     headerRenderer={this._headerRenderer}
                     width={90}
@@ -171,8 +171,8 @@ class TableExample extends Component {
                 <Column
                     width={210}
                     disableSort
-                    label='The description label is really long so that it will be truncated'
-                    dataKey='random'
+                    label='last Name'
+                    dataKey='lastName'
                     className={styles.exampleColumn}
                     cellRenderer={({ cellData, columnData, dataKey, rowData, rowIndex }) => cellData}
                     flexGrow={1}
