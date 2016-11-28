@@ -1,12 +1,21 @@
 import React, { Component, PropTypes } from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
-import { AutoSizer, Table, Column } from 'react-virtualized'
+import { AutoSizer, Table, Column, defaultTableRowRenderer } from 'react-virtualized'
+import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
 
 import SortDirection from './SortDirection'
 import SortIndicator from './SortIndicator'
 
 import './styles.css';
 import styles from './Table.example.css'
+
+
+const SortableTable = SortableContainer(Table);
+const SortableTableRowRenderer = SortableElement(defaultTableRowRenderer);
+
+function rowRenderer(props) {
+    return <SortableTableRowRenderer {...props} />
+}
 
 
 export default class TableExample extends Component {
@@ -18,6 +27,7 @@ export default class TableExample extends Component {
         super(props, context);
 
         this.state = {
+            list: props.list,
             headerHeight: 30,
             height: 500,
             overscanRowCount: 10,
@@ -29,6 +39,17 @@ export default class TableExample extends Component {
         };
     }
 
+    _onSortEnd = (props) => {
+        const { list } = this.state;
+        const { oldIndex, newIndex } = props;
+        const buf = list[newIndex];
+        list[newIndex] = list[oldIndex];
+        list[oldIndex] = buf;
+        this.setState({
+            list: [...list]
+        });
+    };
+
     render() {
         const {
             headerHeight,
@@ -38,21 +59,22 @@ export default class TableExample extends Component {
             rowCount,
             sortBy,
             sortDirection,
-            useDynamicRowHeight
+            useDynamicRowHeight,
+            list
         } = this.state;
 
-        const { list } = this.props;
-        const sortedList = this._isSortEnabled() ?
-            list
-                .sortBy(item => item[sortBy])
-                .update(
-                    list => sortDirection === SortDirection.DESC ?
-                        list.reverse() : list
-                ) : list;
+        // const { list } = this.props;
+        // const sortedList = this._isSortEnabled() ?
+        //     list
+        //         .sortBy(item => item[sortBy])
+        //         .update(
+        //             list => sortDirection === SortDirection.DESC ?
+        //                 list.reverse() : list
+        //         ) : list;
 
         const rowGetter = (params) => {
             const { index } = params;
-            return this._getDatum(sortedList, index);
+            return this._getDatum(list, index);
         };
 
         return (
@@ -60,9 +82,11 @@ export default class TableExample extends Component {
                 <div className={styles.column}>
                     <AutoSizer disableHeight>
                         {({ width }) => (
-                            <Table
+                            <SortableTable
                                 ref='Table'
+                                onSortEnd={this._onSortEnd}
                                 disableHeader={false}
+                                rowRenderer={rowRenderer}
                                 headerClassName={styles.headerColumn}
                                 headerHeight={headerHeight}
                                 height={height}
@@ -99,7 +123,7 @@ export default class TableExample extends Component {
                                     cellRenderer={({ cellData, columnData, dataKey, rowData, rowIndex }) => cellData}
                                     flexGrow={1}
                                 />
-                            </Table>
+                            </SortableTable>
                         )}
                     </AutoSizer>
                 </div>
@@ -112,13 +136,13 @@ export default class TableExample extends Component {
     };
 
     _getDatum = (list, index) => {
-        return list.get(index % list.size)
+        return list[index % list.length]
     };
 
     _getRowHeight = (params) => {
         const { index } = params;
         const { list } = this.props;
-        return this._getDatum(list, index).size
+        return this._getDatum(list, index).length
     };
 
     _headerRenderer = (params) => {
@@ -144,7 +168,7 @@ export default class TableExample extends Component {
     _isSortEnabled = () => {
         const { list } = this.props;
         const { rowCount } = this.state;
-        return rowCount <= list.size
+        return rowCount <= list.length
     };
 
     _noRowsRenderer = () => {
