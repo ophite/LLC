@@ -1,11 +1,12 @@
 import React, { Component, PropTypes } from 'react'
+import shallowCompare from 'react-addons-shallow-compare'
 import { AutoSizer, Table, Column } from 'react-virtualized'
+
 import SortDirection from './SortDirection'
 import SortIndicator from './SortIndicator'
-import shallowCompare from 'react-addons-shallow-compare'
+
 import './styles.css';
 import styles from './Table.example.css'
-import stylesApplication from './Application.css'
 
 
 export default class TableExample extends Component {
@@ -55,8 +56,8 @@ export default class TableExample extends Component {
         };
 
         return (
-            <div className={stylesApplication.Body}>
-                <div className={stylesApplication.column}>
+            <div className={styles.Body}>
+                <div className={styles.column}>
                     <AutoSizer disableHeight>
                         {({ width }) => (
                             <Table
@@ -154,8 +155,8 @@ export default class TableExample extends Component {
         )
     };
 
-    _rowClassName = ({ index }) => {
-        // const { index } = params;
+    _rowClassName = (params) => {
+        const { index } = params;
         if (index < 0) {
             return styles.headerRow
         } else {
