@@ -2,8 +2,8 @@ import { data, columns } from './gridData'
 import GoldenComponentPage from '../layouts/GoldenComponent.page.jsx';
 import { generateRandomList } from './demo/utils'
 import Table from './demo/Table.example';
-
-const list = generateRandomList();
+import Immutable from 'immutable'
+const list = Immutable.List(generateRandomList());
 
 
 class TablePage extends GoldenComponentPage {
