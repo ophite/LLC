@@ -1,7 +1,17 @@
 import React, { Component, PropTypes } from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
-import { AutoSizer, Table, Column, defaultTableRowRenderer } from 'react-virtualized'
-import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
+import {
+    Table,
+    Column,
+    defaultRowRenderer,
+    defaultHeaderRenderer
+} from 'react-virtualized/source/Table'
+import {
+    AutoSizer,
+} from 'react-virtualized/source/AutoSizer'
+import SortableContainer from 'react-sortable-hoc/src/SortableContainer';
+import SortableElement from 'react-sortable-hoc/src/SortableElement';
+import { arrayMove } from 'react-sortable-hoc/src/utils';
 import Immutable from 'immutable'
 
 import SortDirection from './SortDirection'
@@ -12,18 +22,12 @@ import styles from './Table.example.css'
 
 
 const SortableTable = SortableContainer(Table);
-const SortableTableRowRenderer = SortableElement(defaultTableRowRenderer);
-
-function rowRenderer(props) {
-    return <SortableTableRowRenderer {...props} />
-}
 
 
 class TableExample extends Component {
 
     constructor(props, context) {
         super(props, context);
-
         this.state = {
             list: props.list,
             headerHeight: 30,
@@ -33,7 +37,43 @@ class TableExample extends Component {
             rowCount: 1000,
             sortBy: 'index',
             sortDirection: SortDirection.ASC,
-            useDynamicRowHeight: false
+            useDynamicRowHeight: false,
+            columns: [
+                ({ index })=> {
+                    return {
+                        key: index,
+                        headerRenderer: this._headerRendererDnd.bind(this, index),
+                        label: 'Index',
+                        dataKey: 'index',
+                        cellDataGetter: ({ columnData, dataKey, rowData }) => rowData.index,
+                        disableSort: !this._isSortEnabled(),
+                        width: 60
+                    }
+                },
+                ({ index })=> {
+                    return {
+                        key: index,
+                        headerRenderer: this._headerRendererDnd.bind(this, index),
+                        label: 'first Name',
+                        dataKey: 'firstName',
+                        disableSort: !this._isSortEnabled(),
+                        width: 90
+                    }
+                },
+                ({ index })=> {
+                    return {
+                        key: index,
+                        headerRenderer: this._headerRendererDnd.bind(this, index),
+                        label: 'last Name',
+                        dataKey: 'lastName',
+                        width: 210,
+                        disableSort: true,
+                        className: styles.exampleColumn,
+                        cellRenderer: ({ cellData, columnData, dataKey, rowData, rowIndex }) => cellData,
+                        flexGrow: 1
+                    }
+                }
+            ]
         };
     }
 
@@ -52,26 +92,6 @@ class TableExample extends Component {
         return this._getDatum(list, index).size
     };
 
-    _headerRenderer = (params) => {
-        const {
-            columnData,
-            dataKey,
-            disableSort,
-            label,
-            sortBy,
-            sortDirection
-        } = params;
-        return (
-            <div>
-                Full Name
-                {
-                    sortBy === dataKey &&
-                    <SortIndicator sortDirection={sortDirection}/>
-                }
-            </div>
-        )
-    };
-
     _isSortEnabled = () => {
         const { list } = this.props;
         const { rowCount } = this.state;
@@ -83,7 +103,7 @@ class TableExample extends Component {
             <div className={styles.noRows}>
                 No rows
             </div>
-        )
+        );
     };
 
     _rowClassName = (params) => {
@@ -97,7 +117,7 @@ class TableExample extends Component {
 
     _sort = (params) => {
         const { sortBy, sortDirection } = params;
-        this.setState({ sortBy, sortDirection })
+        this.setState({ sortBy, sortDirection });
     };
 
     _onSortEnd = (props) => {
@@ -105,6 +125,50 @@ class TableExample extends Component {
         const { oldIndex, newIndex } = props;
         this.setState({
             list: Immutable.List(arrayMove(list.toArray(), oldIndex, newIndex))
+        });
+    };
+
+    _headerRenderer = (params) => {
+        const {
+            columnData,
+            dataKey,
+            disableSort,
+            label,
+            sortBy,
+            sortDirection
+        } = params;
+        return (
+            <div>
+                Full Name1
+                {
+                    sortBy === dataKey &&
+                    <SortIndicator sortDirection={sortDirection}/>
+                }
+            </div>
+        );
+    };
+
+    _headerRendererDnd = (index, params) => {
+        const extendedProps = {
+            ...params,
+            index
+        };
+
+        const header = (props) => {
+            return (
+                <div>
+                    {defaultHeaderRenderer(props)}
+                </div>
+            );
+        };
+
+        const Header = SortableElement(header);
+        return <Header {...extendedProps} />
+    };
+
+    renderColumns = () => {
+        return this.state.columns.map((getColumnProps, index) => {
+            return <Column {...getColumnProps({ index })}/>;
         });
     };
 
@@ -138,9 +202,10 @@ class TableExample extends Component {
         return (
             <SortableTable
                 ref='Table'
+                axis={'x'}
+                pressDelay={0}
                 disableHeader={false}
                 onSortEnd={this._onSortEnd}
-                rowRenderer={rowRenderer}
                 headerClassName={styles.headerColumn}
                 headerHeight={headerHeight}
                 height={height}
@@ -155,28 +220,7 @@ class TableExample extends Component {
                 sortDirection={sortDirection}
                 width={width}
             >
-                <Column
-                    label='Index'
-                    cellDataGetter={({ columnData, dataKey, rowData }) => rowData.index}
-                    dataKey='index'
-                    disableSort={!this._isSortEnabled()}
-                    width={60}
-                />
-                <Column
-                    dataKey='firstName'
-                    disableSort={!this._isSortEnabled()}
-                    headerRenderer={this._headerRenderer}
-                    width={90}
-                />
-                <Column
-                    width={210}
-                    disableSort
-                    label='last Name'
-                    dataKey='lastName'
-                    className={styles.exampleColumn}
-                    cellRenderer={({ cellData, columnData, dataKey, rowData, rowIndex }) => cellData}
-                    flexGrow={1}
-                />
+                {this.renderColumns()}
             </SortableTable>
         );
     };
@@ -196,7 +240,7 @@ class TableExample extends Component {
 
 
 TableExample.PropTypes = {
-    list: PropTypes.instanceOf(Immutable.List).isRequired // PropTypes.array.isRequired
+    list: PropTypes.instanceOf(Immutable.List).isRequired
 };
 
 export default TableExample;

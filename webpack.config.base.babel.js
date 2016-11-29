@@ -40,6 +40,8 @@ module.exports = {
                 exclude: [/public/],
                 include: [
                     path.resolve(__dirname, "app"),
+                    path.resolve(__dirname, "node_modules/react-sortable-hoc/src"),
+                    path.resolve(__dirname, "node_modules/react-virtualized/source"),
                     path.resolve(__dirname, "node_modules/react-datagrid/src"),
                     path.resolve(__dirname, "node_modules/react-datagrid/lib"),
                     path.resolve(__dirname, "node_modules/react-toolbox/lib"),
@@ -65,7 +67,7 @@ module.exports = {
     //         path.resolve(__dirname, 'node_modules/react-toolbox/lib')
     //     ]
     // },
-    
+
     plugins: [
         // new webpack.HotModuleReplacementPlugin(),
         // new ExtractTextPlugin('bundle.css', { allChunks: true }),
