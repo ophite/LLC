@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import GoldenComponentPage from '../layouts/GoldenComponent.page.jsx';
+import GoldenComponentPage from '../golden/GoldenComponent.page.jsx';
 import 'react-datagrid/index.css';
 import DataGrid from 'react-datagrid/src';
 import { GroupingColumnsBox } from './GroupingColumnsBox/GroupingColumnsBox.jsx';

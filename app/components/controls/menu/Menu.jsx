@@ -1,7 +1,7 @@
 import React from 'react';
 import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
 import styles from '../../../assets/styles/components/menu-top.scss';
-import { addWindow } from '../../../containers/layouts/GoldenInit';
+import { addWindow } from '../../../containers/golden/GoldenInit';
 import { goldenWindows } from '../../../constants/golden.constant';
 
 const menu = {

@@ -2,10 +2,10 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import InvidualPage from '../../components/pages/individual/Individual.page.jsx';
-import GoldenComponentContainer from '../layouts/GoldenComponent.container.jsx';
+import GoldenContainer from '../golden/Golden.container.jsx';
 
 
-class IndividualContainer extends GoldenComponentContainer {
+class IndividualContainer extends GoldenContainer {
     render() {
         return (
             <InvidualPage
