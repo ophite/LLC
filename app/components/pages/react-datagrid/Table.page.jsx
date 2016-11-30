@@ -1,6 +1,5 @@
+import React, { Component, PropTypes } from 'react'
 import GoldenComponentPage from '../layouts/GoldenComponent.page.jsx';
-import { DragDropContext, DragSource, DropTarget } from 'react-dnd';
-import HTML5Backend from 'react-dnd-html5-backend';
 import 'react-datagrid/index.css';
 import DataGrid from 'react-datagrid/src';
 import { GroupingColumnsBox } from './GroupingColumnsBox/GroupingColumnsBox.jsx';
@@ -11,9 +10,8 @@ var sort = sorty([{ name: 'country', dir: 'asc' }])
 const initialData = data.slice();
 
 
-@DragDropContext(HTML5Backend)
 class TablePage extends GoldenComponentPage {
-
+ 
     constructor(props, context) {
         super(props, context);
         this.state = {

@@ -9,9 +9,6 @@ import {
 import {
     AutoSizer,
 } from 'react-virtualized/source/AutoSizer'
-import SortableContainer from 'react-sortable-hoc/src/SortableContainer';
-import SortableElement from 'react-sortable-hoc/src/SortableElement';
-import { arrayMove } from 'react-sortable-hoc/src/utils';
 import Immutable from 'immutable'
 
 import SortDirection from './SortDirection'
@@ -19,9 +16,8 @@ import SortIndicator from './SortIndicator'
 
 import './styles.css';
 import styles from './Table.example.css'
+import { GroupingColumnsBox } from '../../react-datagrid/GroupingColumnsBox/GroupingColumnsBox.jsx';
 
-
-const SortableTable = SortableContainer(Table);
 
 
 class TableExample extends Component {
@@ -29,6 +25,10 @@ class TableExample extends Component {
     constructor(props, context) {
         super(props, context);
         this.state = {
+            groupingColumns: [
+                'firstName',
+                'index',
+            ],
             list: props.list,
             headerHeight: 30,
             height: 500,
@@ -37,43 +37,7 @@ class TableExample extends Component {
             rowCount: 1000,
             sortBy: 'index',
             sortDirection: SortDirection.ASC,
-            useDynamicRowHeight: false,
-            columns: [
-                ({ index })=> {
-                    return {
-                        key: index,
-                        headerRenderer: this._headerRendererDnd.bind(this, index),
-                        label: 'Index',
-                        dataKey: 'index',
-                        cellDataGetter: ({ columnData, dataKey, rowData }) => rowData.index,
-                        disableSort: !this._isSortEnabled(),
-                        width: 60
-                    }
-                },
-                ({ index })=> {
-                    return {
-                        key: index,
-                        headerRenderer: this._headerRendererDnd.bind(this, index),
-                        label: 'first Name',
-                        dataKey: 'firstName',
-                        disableSort: !this._isSortEnabled(),
-                        width: 90
-                    }
-                },
-                ({ index })=> {
-                    return {
-                        key: index,
-                        headerRenderer: this._headerRendererDnd.bind(this, index),
-                        label: 'last Name',
-                        dataKey: 'lastName',
-                        width: 210,
-                        disableSort: true,
-                        className: styles.exampleColumn,
-                        cellRenderer: ({ cellData, columnData, dataKey, rowData, rowIndex }) => cellData,
-                        flexGrow: 1
-                    }
-                }
-            ]
+            useDynamicRowHeight: false
         };
     }
 
@@ -120,14 +84,6 @@ class TableExample extends Component {
         this.setState({ sortBy, sortDirection });
     };
 
-    _onSortEnd = (props) => {
-        const { list } = this.state;
-        const { oldIndex, newIndex } = props;
-        this.setState({
-            list: Immutable.List(arrayMove(list.toArray(), oldIndex, newIndex))
-        });
-    };
-
     _headerRenderer = (params) => {
         const {
             columnData,
@@ -146,30 +102,6 @@ class TableExample extends Component {
                 }
             </div>
         );
-    };
-
-    _headerRendererDnd = (index, params) => {
-        const extendedProps = {
-            ...params,
-            index
-        };
-
-        const header = (props) => {
-            return (
-                <div>
-                    {defaultHeaderRenderer(props)}
-                </div>
-            );
-        };
-
-        const Header = SortableElement(header);
-        return <Header {...extendedProps} />
-    };
-
-    renderColumns = () => {
-        return this.state.columns.map((getColumnProps, index) => {
-            return <Column {...getColumnProps({ index })}/>;
-        });
     };
 
     renderTable = (width) => {
@@ -200,12 +132,9 @@ class TableExample extends Component {
         };
 
         return (
-            <SortableTable
+            <Table
                 ref='Table'
-                axis={'x'}
-                pressDelay={0}
                 disableHeader={false}
-                onSortEnd={this._onSortEnd}
                 headerClassName={styles.headerColumn}
                 headerHeight={headerHeight}
                 height={height}
@@ -220,14 +149,67 @@ class TableExample extends Component {
                 sortDirection={sortDirection}
                 width={width}
             >
-                {this.renderColumns()}
-            </SortableTable>
+                <Column
+                    label='Index'
+                    cellDataGetter={({ columnData, dataKey, rowData }) => rowData.index}
+                    dataKey='index'
+                    disableSort={!this._isSortEnabled()}
+                    width={60}
+                />
+                <Column
+                    dataKey='firstName'
+                    disableSort={!this._isSortEnabled()}
+                    headerRenderer={this._headerRenderer}
+                    width={90}
+                />
+                <Column
+                    width={210}
+                    disableSort
+                    label='last Name'
+                    dataKey='lastName'
+                    className={styles.exampleColumn}
+                    cellRenderer={({ cellData, columnData, dataKey, rowData, rowIndex }) => cellData}
+                    flexGrow={1}
+                />
+            </Table>
         );
+    };
+
+    handleOnDeleteColumnGroup = (item) => {
+        const index = this.state.groupingColumns.indexOf(item);
+        this.setState({
+            groupingColumns: [
+                ...this.state.groupingColumns.slice(0, index),
+                ...this.state.groupingColumns.slice(index + 1, this.state.groupingColumns.length)
+            ]
+        });
+    };
+
+    handleOnColumnGrouping = (index) => {
+        const col = columns[index];
+        let groupingColumns = [...this.state.groupingColumns];
+        const groupIndex = groupingColumns.indexOf(col.name);
+
+        if (groupIndex >= 0) {
+            groupingColumns = [
+                ...groupingColumns.slice(0, groupIndex),
+                ...groupingColumns.slice(groupIndex + 1, groupingColumns.length)
+            ];
+        } else {
+            groupingColumns.push(col.name);
+        }
+
+        this.setState({ groupingColumns });
     };
 
     render() {
         return (
             <div className={styles.Body}>
+                <GroupingColumnsBox
+                    handleOnDeleteColumnGroup={this.handleOnDeleteColumnGroup}
+                    handleOnColumnGrouping={this.handleOnColumnGrouping}
+                    groupingColumns={this.state.groupingColumns}
+                />
                 <div className={styles.column}>
                     <AutoSizer disableHeight>
                         {({ width }) => this.renderTable(width) }

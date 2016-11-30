@@ -1,3 +1,4 @@
+import React, { Component, PropTypes } from 'react'
 import { data, columns } from './gridData'
 import GoldenComponentPage from '../layouts/GoldenComponent.page.jsx';
 import Table from './demo/Table.example';

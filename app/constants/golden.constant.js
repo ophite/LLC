@@ -93,11 +93,11 @@ export const goldenConfig = {
             type: 'row',
             isClosable: true,
             content: [
-                {
-                    type: 'component',
-                    componentName: goldenWindows.virtulized.name,
-                    props: { value: 'I\'m on the left' }
-                }
+                // {
+                //     type: 'component',
+                //     componentName: goldenWindows.virtulized.name,
+                //     props: { value: 'I\'m on the left' }
+                // }
             ]
         }
     ]
