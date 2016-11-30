@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import { findDOMNode } from 'react-dom';
 import shallowCompare from 'react-addons-shallow-compare'
 import {
     Table,
@@ -23,7 +24,7 @@ import stylesGrid from "../../../../assets/styles/components/react-grid.scss";
 
 const cardSource = {
     beginDrag(props) {
-        console.log('cardSource.beginDrag: ' + JSON.stringify(props));
+        // console.log('cardSource.beginDrag: ' + JSON.stringify(props));
         return {
             id: props.id,
             index: props.index
@@ -31,7 +32,7 @@ const cardSource = {
     },
 
     canDrag: function (props) {
-        console.log('cardSource.canDrag: ' + JSON.stringify(props));
+        // console.log('cardSource.canDrag: ' + JSON.stringify(props));
         // You can disallow drag based on props
         return true;
     },
@@ -67,7 +68,7 @@ const cardSource = {
 
 const cardTarget = {
     drop(props, monitor, component) {
-        console.log('cardTarget.drop: ' + JSON.stringify(props));
+        // console.log('cardTarget.drop: ' + JSON.stringify(props));
         const tItem = monitor.getItem();
         if (!tItem) {
             return
@@ -78,44 +79,44 @@ const cardTarget = {
     },
     hover(props, monitor, component) {
         // console.log('cardTarget.hover: ' + JSON.stringify(props));
-        // const tItem = monitor.getItem();
-        // if (!tItem) {
-        //     return
-        // }
-        // const dragIndex = tItem.index;
-        // const hoverIndex = props.index;
-        //
-        // // Don't replace items with themselves
-        // if (dragIndex === hoverIndex) {
+        const tItem = monitor.getItem();
+        if (!tItem) {
+            return
+        }
+        const dragIndex = tItem.index;
+        const hoverIndex = props.index;
+
+        // Don't replace items with themselves
+        if (dragIndex === hoverIndex) {
+            return;
+        }
+
+        // Determine rectangle on screen
+        const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
+
+        // Get vertical middle
+        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 3;
+
+
+        // Determine mouse position
+        const clientOffset = monitor.getClientOffset();
+
+        // Get pixels to the top
+        const hoverClientY = clientOffset.y - hoverBoundingRect.top;
+
+        // Only perform the move when the mouse has crossed half of the items height
+        // When dragging downwards, only move when the cursor is below 50%
+        // When dragging upwards, only move when the cursor is above 50%
+
+        // Dragging downwards
+        // if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         //     return;
         // }
-        //
-        // // Determine rectangle on screen
-        // const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
-        //
-        // // Get vertical middle
-        // const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 3;
-        //
-        //
-        // // Determine mouse position
-        // const clientOffset = monitor.getClientOffset();
-        //
-        // // Get pixels to the top
-        // const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-        //
-        // // Only perform the move when the mouse has crossed half of the items height
-        // // When dragging downwards, only move when the cursor is below 50%
-        // // When dragging upwards, only move when the cursor is above 50%
-        //
-        // // Dragging downwards
-        // // if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        // //     return;
-        // // }
-        //
-        // // Dragging upwards
-        // if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        //     return;
-        // }
+
+        // Dragging upwards
+        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
+            return;
+        }
 
         // Time to actually perform the action
         // props.handleColumnOrder(dragIndex, hoverIndex);
@@ -129,19 +130,24 @@ const cardTarget = {
 };
 
 
-function collect(connect, monitor) {
+const collectTarget = (connect, monitor) => {
     return {
         connectDropTarget: connect.dropTarget(),
         isOver: monitor.isOver(),
         canDrop: monitor.canDrop(),
     };
-}
+};
 
-@DropTarget("CARD", cardTarget, collect)
-@DragSource("CARD", cardSource, (connect, monitor) => ({
-    connectDragSource: connect.dragSource(),
-    isDragging: monitor.isDragging()
-}))
+
+const collectSource = (connect, monitor) => {
+    return {
+        connectDragSource: connect.dragSource(),
+        isDragging: monitor.isDragging()
+    };
+};
+
+@DropTarget("CARD", cardTarget, collectTarget)
+@DragSource("CARD", cardSource, collectSource)
 class HeaderRenderer extends Component {
     render() {
         const {
@@ -195,42 +201,45 @@ class TableExample extends Component {
             sortBy: 'index',
             sortDirection: SortDirection.ASC,
             useDynamicRowHeight: false,
-            // columns: [
-            //     ({ index })=> {
-            //         return {
-            //             key: index,
-            //             headerRenderer: this._headerRendererDnd.bind(this, index),
-            //             label: 'Index',
-            //             dataKey: 'index',
-            //             cellDataGetter: ({ columnData, dataKey, rowData }) => rowData.index,
-            //             disableSort: !this._isSortEnabled(),
-            //             width: 60
-            //         }
-            //     },
-            //     ({ index })=> {
-            //         return {
-            //             key: index,
-            //             headerRenderer: this._headerRendererDnd.bind(this, index),
-            //             label: 'first Name',
-            //             dataKey: 'firstName',
-            //             disableSort: !this._isSortEnabled(),
-            //             width: 90
-            //         }
-            //     },
-            //     ({ index })=> {
-            //         return {
-            //             key: index,
-            //             headerRenderer: this._headerRendererDnd.bind(this, index),
-            //             label: 'last Name',
-            //             dataKey: 'lastName',
-            //             width: 210,
-            //             disableSort: true,
-            //             className: styles.exampleColumn,
-            //             cellRenderer: ({ cellData, columnData, dataKey, rowData, rowIndex }) => cellData,
-            //             flexGrow: 1
-            //         }
-            //     }
-            // ]
+            columns: [
+                ({ index })=> {
+                    return {
+                        key: index,
+                        dataKey: 'index',
+                        label: 'Index',
+                        index,
+                        width: 60,
+                        headerRenderer: this.renderHeader,
+                        cellDataGetter: ({ columnData, dataKey, rowData }) => rowData.index,
+                        disableSort: !this._isSortEnabled()
+                    }
+                },
+                ({ index })=> {
+                    return {
+                        key: index,
+                        dataKey: 'firstName',
+                        label: 'first Name',
+                        index,
+                        width: 90,
+                        headerRenderer: this.renderHeader,
+                        disableSort: !this._isSortEnabled()
+                    }
+                },
+                ({ index })=> {
+                    return {
+                        key: index,
+                        dataKey: 'lastName',
+                        label: 'last Name',
+                        index,
+                        width: 210,
+                        headerRenderer: this.renderHeader,
+                        disableSort: true,
+                        className: styles.exampleColumn,
+                        cellRenderer: ({ cellData, columnData, dataKey, rowData, rowIndex }) => cellData,
+                        flexGrow: 1
+                    }
+                }
+            ]
         };
     }
 
@@ -277,13 +286,29 @@ class TableExample extends Component {
         this.setState({ sortBy, sortDirection });
     };
 
-    _headerRenderer = (params) => {
+    renderHeader = (params) => {
+        const index = this.state.columns
+            .map((getColumnProps, index) => getColumnProps({ index }).dataKey)
+            .indexOf(params.dataKey);
+
         return (
             <HeaderRenderer
                 {...this.props}
+                {...{
+                    handleColumnOrder: this.handleOnColumnOrder,
+                    index
+                }}
                 {...params}
             />
         )
+    };
+
+    renderColumns = () => {
+        return this.state
+            .columns
+            .map((getColumnProps, index) => {
+                return <Column {...getColumnProps({ index })}/>;
+            });
     };
 
     renderTable = (width) => {
@@ -331,39 +356,13 @@ class TableExample extends Component {
                 sortDirection={sortDirection}
                 width={width}
             >
-                <Column
-                    dataKey='index'
-                    label='Index'
-                    index={1}
-                    width={60}
-                    headerRenderer={this._headerRenderer}
-                    cellDataGetter={({ columnData, dataKey, rowData }) => rowData.index}
-                    disableSort={!this._isSortEnabled()}
-                />
-                <Column
-                    dataKey='firstName'
-                    label='first Name'
-                    index={2}
-                    width={90}
-                    headerRenderer={this._headerRenderer}
-                    disableSort={!this._isSortEnabled()}
-                />
-                <Column
-                    dataKey='lastName'
-                    label='last Name'
-                    index={3}
-                    width={210}
-                    headerRenderer={this._headerRenderer}
-                    disableSort
-                    className={styles.exampleColumn}
-                    cellRenderer={({ cellData, columnData, dataKey, rowData, rowIndex }) => cellData}
-                    flexGrow={1}
-                />
+                {this.renderColumns()}
             </Table>
         );
     };
 
     handleOnDeleteColumnGroup = (item) => {
+        debugger
         const index = this.state.groupingColumns.indexOf(item);
         this.setState({
             groupingColumns: [
@@ -373,10 +372,21 @@ class TableExample extends Component {
         });
     };
 
+    handleOnColumnOrder = (dragIndex, hoverIndex) => {
+        let columns = [...this.state.columns];
+
+        const col = columns[dragIndex];
+        columns.splice(dragIndex, 1);
+        columns.splice(hoverIndex, 0, col);
+        this.setState({
+            columns
+        });
+    };
+
     handleOnColumnGrouping = (index) => {
-        const col = columns[index];
+        const col = this.state.columns[index]({index});
         let groupingColumns = [...this.state.groupingColumns];
-        const groupIndex = groupingColumns.indexOf(col.name);
+        const groupIndex = groupingColumns.indexOf(col.dataKey);
 
         if (groupIndex >= 0) {
             groupingColumns = [
@@ -384,7 +394,7 @@ class TableExample extends Component {
                 ...groupingColumns.slice(groupIndex + 1, groupingColumns.length)
             ];
         } else {
-            groupingColumns.push(col.name);
+            groupingColumns.push(col.dataKey);
         }
 
         this.setState({ groupingColumns });
