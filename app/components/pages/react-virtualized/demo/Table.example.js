@@ -15,13 +15,11 @@ import { arrayCutItem, arraySwipeItem } from '../../../../utils/helper';
 
 class TableComponent extends Component {
 
+    //region lifecycle
+
     constructor(props, context) {
         super(props, context);
         this.state = {
-            groupingColumns: [
-                'firstName',
-                'index',
-            ],
             list: props.list,
             headerHeight: 30,
             height: 500,
@@ -31,6 +29,10 @@ class TableComponent extends Component {
             sortBy: 'index',
             sortDirection: SortDirection.ASC,
             useDynamicRowHeight: false,
+            groupingColumns: [
+                'firstName',
+                'index',
+            ],
             columns: [
                 ({ index })=> {
                     return {
@@ -76,6 +78,10 @@ class TableComponent extends Component {
     shouldComponentUpdate = (nextProps, nextState) => {
         return shallowCompare(this, nextProps, nextState);
     };
+
+    //endregion
+
+    //region private
 
     _getDatum = (list, index) => {
         const item = list.get(index % list.size);
@@ -161,6 +167,10 @@ class TableComponent extends Component {
         this.setState({ groupingColumns });
     };
 
+    //endregion
+
+    //region render
+
     renderColumns = () => {
         return this.state
             .columns
@@ -235,6 +245,8 @@ class TableComponent extends Component {
             </div>
         );
     }
+
+    //endregion
 }
 
 
