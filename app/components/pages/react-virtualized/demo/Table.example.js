@@ -13,177 +13,14 @@ import {
 import Immutable from 'immutable'
 
 import SortDirection from './SortDirection'
-import SortIndicator from './SortIndicator'
 
 import './styles.css';
 import styles from './Table.example.css'
 import { GroupingColumnsBox } from '../../react-datagrid/GroupingColumnsBox/GroupingColumnsBox.jsx';
-import { DragSource, DropTarget } from 'react-dnd';
-import stylesGrid from "../../../../assets/styles/components/react-grid.scss";
+import { Header } from './Header';
 
 
-const cardSource = {
-    beginDrag(props) {
-        // console.log('cardSource.beginDrag: ' + JSON.stringify(props));
-        return {
-            id: props.id,
-            index: props.index
-        };
-    },
-
-    canDrag: function (props) {
-        // console.log('cardSource.canDrag: ' + JSON.stringify(props));
-        // You can disallow drag based on props
-        return true;
-    },
-
-    // isDragging: function (props, monitor) {
-    //     // If your component gets unmounted while dragged
-    //     // (like a card in Kanban board dragged between lists)
-    //     // you can implement something like this to keep its
-    //     // appearance dragged:
-    //     return monitor.getItem().id === props.id;
-    // },
-
-    // endDrag: function (props, monitor, component) {
-    //     if (!monitor.didDrop()) {
-    //         // You can check whether the drop was successful
-    //         // or if the drag ended but nobody handled the drop
-    //         return;
-    //     }
-    //
-    //     // When dropped on a compatible target, do something.
-    //     // Read the original dragged item from getItem():
-    //     var item = monitor.getItem();
-    //
-    //     // You may also read the drop result from the drop target
-    //     // that handled the drop, if it returned an object from
-    //     // its drop() method.
-    //     var dropResult = monitor.getDropResult();
-    //
-    //     // This is a good place to call some Flux action
-    //     CardActions.moveCardToList(item.id, dropResult.listId);
-    // }
-};
-
-const cardTarget = {
-    drop(props, monitor, component) {
-        // console.log('cardTarget.drop: ' + JSON.stringify(props));
-        const tItem = monitor.getItem();
-        if (!tItem) {
-            return
-        }
-        const dragIndex = tItem.index;
-        const hoverIndex = props.index;
-        props.handleColumnOrder(dragIndex, hoverIndex);
-    },
-    hover(props, monitor, component) {
-        // console.log('cardTarget.hover: ' + JSON.stringify(props));
-        const tItem = monitor.getItem();
-        if (!tItem) {
-            return
-        }
-        const dragIndex = tItem.index;
-        const hoverIndex = props.index;
-
-        // Don't replace items with themselves
-        if (dragIndex === hoverIndex) {
-            return;
-        }
-
-        // Determine rectangle on screen
-        const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
-
-        // Get vertical middle
-        const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 3;
-
-
-        // Determine mouse position
-        const clientOffset = monitor.getClientOffset();
-
-        // Get pixels to the top
-        const hoverClientY = clientOffset.y - hoverBoundingRect.top;
-
-        // Only perform the move when the mouse has crossed half of the items height
-        // When dragging downwards, only move when the cursor is below 50%
-        // When dragging upwards, only move when the cursor is above 50%
-
-        // Dragging downwards
-        // if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        //     return;
-        // }
-
-        // Dragging upwards
-        if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-            return;
-        }
-
-        // Time to actually perform the action
-        // props.handleColumnOrder(dragIndex, hoverIndex);
-
-        // Note: we're mutating the monitor item here!
-        // Generally it's better to avoid mutations,
-        // but it's good here for the sake of performance
-        // to avoid expensive index searches.
-        // monitor.getItem().index = hoverIndex;
-    }
-};
-
-
-const collectTarget = (connect, monitor) => {
-    return {
-        connectDropTarget: connect.dropTarget(),
-        isOver: monitor.isOver(),
-        canDrop: monitor.canDrop(),
-    };
-};
-
-
-const collectSource = (connect, monitor) => {
-    return {
-        connectDragSource: connect.dragSource(),
-        isDragging: monitor.isDragging()
-    };
-};
-
-@DropTarget("CARD", cardTarget, collectTarget)
-@DragSource("CARD", cardSource, collectSource)
-class HeaderRenderer extends Component {
-    render() {
-        const {
-            columnData,
-            dataKey,
-            disableSort,
-            label,
-            sortBy,
-            sortDirection
-        } = this.props;
-
-        const { isDragging, isOver, connectDragSource, connectDropTarget } = this.props;
-        const showSortIndicator = sortBy === dataKey;
-
-        return connectDragSource(connectDropTarget(
-            <div className={isOver && stylesGrid["active"]}>
-               <span
-                   className='ReactVirtualized__Table__headerTruncatedText'
-                   key='label'
-                   title={label}
-               >
-                {label}
-                </span>
-                {
-                    showSortIndicator &&
-                    <SortIndicator
-                        key='SortIndicator'
-                        sortDirection={sortDirection}
-                    />
-                }
-            </div>
-        ));
-    }
-}
-
-class TableExample extends Component {
+class TableComponent extends Component {
 
     constructor(props, context) {
         super(props, context);
@@ -292,12 +129,13 @@ class TableExample extends Component {
             .indexOf(params.dataKey);
 
         return (
-            <HeaderRenderer
-                {...this.props}
-                {...{
-                    handleColumnOrder: this.handleOnColumnOrder,
-                    index
-                }}
+            <Header
+                {
+                    ...{
+                        handleColumnOrder: this.handleOnColumnOrder,
+                        index
+                    }
+                }
                 {...params}
             />
         )
@@ -324,18 +162,17 @@ class TableExample extends Component {
             list
         } = this.state;
 
-        // const { list } = this.props;
-        // const sortedList = this._isSortEnabled() ?
-        //     list
-        //         .sortBy(item => item[sortBy])
-        //         .update(
-        //             list => sortDirection === SortDirection.DESC ?
-        //                 list.reverse() : list
-        //         ) : list;
+        const sortedList = this._isSortEnabled() ?
+            list
+                .sortBy(item => item[sortBy])
+                .update(
+                    list => sortDirection === SortDirection.DESC ?
+                        list.reverse() : list
+                ) : list;
 
         const rowGetter = (params) => {
             const { index } = params;
-            return this._getDatum(list, index);
+            return this._getDatum(sortedList, index);
         };
 
         return (
@@ -362,7 +199,6 @@ class TableExample extends Component {
     };
 
     handleOnDeleteColumnGroup = (item) => {
-        debugger
         const index = this.state.groupingColumns.indexOf(item);
         this.setState({
             groupingColumns: [
@@ -384,7 +220,7 @@ class TableExample extends Component {
     };
 
     handleOnColumnGrouping = (index) => {
-        const col = this.state.columns[index]({index});
+        const col = this.state.columns[index]({ index });
         let groupingColumns = [...this.state.groupingColumns];
         const groupIndex = groupingColumns.indexOf(col.dataKey);
 
@@ -419,8 +255,8 @@ class TableExample extends Component {
 }
 
 
-TableExample.PropTypes = {
+TableComponent.PropTypes = {
     list: PropTypes.instanceOf(Immutable.List).isRequired
 };
 
-export default TableExample;
+export default TableComponent;
