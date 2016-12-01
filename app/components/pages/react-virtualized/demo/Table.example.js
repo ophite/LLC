@@ -6,8 +6,8 @@ import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-ho
 import SortDirection from './SortDirection'
 import SortIndicator from './SortIndicator'
 
-import './styles.css';
-import styles from './Table.example.css'
+// import './styles.css';
+import styles from '../../../../assets/styles/components/react-virtualized.scss'
 
 
 const SortableTable = SortableContainer(Table);
@@ -28,10 +28,10 @@ export default class TableExample extends Component {
 
         this.state = {
             list: props.list,
-            headerHeight: 30,
+            headerHeight: 55,
             height: 500,
             overscanRowCount: 10,
-            rowHeight: 40,
+            rowHeight: 55,
             rowCount: 1000,
             sortBy: 'index',
             sortDirection: SortDirection.ASC,
@@ -103,13 +103,13 @@ export default class TableExample extends Component {
                                     cellDataGetter={({ columnData, dataKey, rowData }) => rowData.index}
                                     dataKey='index'
                                     disableSort={!this._isSortEnabled()}
-                                    width={60}
+                                    width={150}
                                 />
                                 <Column
                                     dataKey='name'
                                     disableSort={!this._isSortEnabled()}
                                     headerRenderer={this._headerRenderer}
-                                    width={90}
+                                    width={150}
                                 />
                                 <Column
                                     width={210}
