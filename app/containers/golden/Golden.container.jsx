@@ -8,12 +8,14 @@ class GoldenComponentContainer extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            uuid: uuid(),
+            uuid: uuid()
         };
     }
 
     componentDidUpdate(prevProps, prevState) {
-        if (prevState.uuid === this.props.uuid && this.props.goldenWindowUuidTst !== prevProps.goldenWindowUuidTst) {
+        const { uuid, goldenWindowUuidTst } = this.props;
+        if (prevState.uuid === uuid &&
+            prevProps.goldenWindowUuidTst !== goldenWindowUuidTst) {
             this.forceUpdate();
         }
     }

@@ -1,13 +1,16 @@
 import React, { Component, PropTypes } from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
-import { AutoSizer, Table, Column, defaultTableRowRenderer } from 'react-virtualized'
-import { SortableContainer, SortableElement, arrayMove } from 'react-sortable-hoc';
+import { Table, Column } from 'react-virtualized/source/Table'
+import { AutoSizer } from 'react-virtualized/source/AutoSizer'
+import Immutable from 'immutable'
 
-import SortDirection from './SortDirection'
-import SortIndicator from './SortIndicator'
 
 // import './styles.css';
 import styles from '../../../../assets/styles/components/react-virtualized.scss'
+import { GroupingColumnsBox } from '../../react-datagrid/GroupingColumnsBox/GroupingColumnsBox.jsx';
+import { Header } from './Header';
+import SortDirection from './SortDirection'
+import { arrayCutItem, arraySwipeItem } from '../../../../utils/helper';
 
 
 const SortableTable = SortableContainer(Table);
@@ -18,15 +21,18 @@ function rowRenderer(props) {
 }
 
 
-export default class TableExample extends Component {
+class TableComponent extends Component {
     // static contextTypes = {
     //     list: PropTypes.instanceOf(Immutable.List).isRequired
     // };
 
     constructor(props, context) {
         super(props, context);
-
         this.state = {
+            groupingColumns: [
+                'firstName',
+                'index',
+            ],
             list: props.list,
             headerHeight: 55,
             height: 500,
@@ -35,137 +41,68 @@ export default class TableExample extends Component {
             rowCount: 1000,
             sortBy: 'index',
             sortDirection: SortDirection.ASC,
-            useDynamicRowHeight: false
+            useDynamicRowHeight: false,
+            columns: [
+                ({ index })=> {
+                    return {
+                        key: index,
+                        dataKey: 'index',
+                        label: 'Index',
+                        index,
+                        width: 60,
+                        headerRenderer: this.renderHeader,
+                        cellDataGetter: ({ columnData, dataKey, rowData }) => rowData.index,
+                        disableSort: !this._isSortEnabled()
+                    }
+                },
+                ({ index })=> {
+                    return {
+                        key: index,
+                        dataKey: 'firstName',
+                        label: 'first Name',
+                        index,
+                        width: 90,
+                        headerRenderer: this.renderHeader,
+                        disableSort: !this._isSortEnabled()
+                    }
+                },
+                ({ index })=> {
+                    return {
+                        key: index,
+                        dataKey: 'lastName',
+                        label: 'last Name',
+                        index,
+                        width: 210,
+                        headerRenderer: this.renderHeader,
+                        disableSort: true,
+                        className: styles.exampleColumn,
+                        cellRenderer: ({ cellData, columnData, dataKey, rowData, rowIndex }) => cellData,
+                        flexGrow: 1
+                    }
+                }
+            ]
         };
-    }
-
-    _onSortEnd = (props) => {
-        const { list } = this.state;
-        const { oldIndex, newIndex } = props;
-        this.setState({
-            list: arrayMove(list, oldIndex, newIndex)
-        });
-    };
-
-    render() {
-        const {
-            headerHeight,
-            height,
-            overscanRowCount,
-            rowHeight,
-            rowCount,
-            sortBy,
-            sortDirection,
-            useDynamicRowHeight,
-            list
-        } = this.state;
-
-        // const { list } = this.props;
-        // const sortedList = this._isSortEnabled() ?
-        //     list
-        //         .sortBy(item => item[sortBy])
-        //         .update(
-        //             list => sortDirection === SortDirection.DESC ?
-        //                 list.reverse() : list
-        //         ) : list;
-
-        const rowGetter = (params) => {
-            const { index } = params;
-            return this._getDatum(list, index);
-        };
-
-        return (
-            <div className={styles.Body}>
-                <div className={styles.column}>
-                    <AutoSizer disableHeight>
-                        {({ width }) => (
-                            <SortableTable
-                                ref='Table'
-                                onSortEnd={this._onSortEnd}
-                                disableHeader={false}
-                                rowRenderer={rowRenderer}
-                                headerClassName={styles.headerColumn}
-                                headerHeight={headerHeight}
-                                height={height}
-                                noRowsRenderer={this._noRowsRenderer}
-                                overscanRowCount={overscanRowCount}
-                                rowClassName={this._rowClassName}
-                                rowHeight={useDynamicRowHeight ? this._getRowHeight : rowHeight}
-                                rowGetter={rowGetter}
-                                rowCount={rowCount}
-                                sort={this._sort}
-                                sortBy={sortBy}
-                                sortDirection={sortDirection}
-                                width={width}
-                            >
-                                <Column
-                                    label='Index'
-                                    cellDataGetter={({ columnData, dataKey, rowData }) => rowData.index}
-                                    dataKey='index'
-                                    disableSort={!this._isSortEnabled()}
-                                    width={150}
-                                />
-                                <Column
-                                    dataKey='name'
-                                    disableSort={!this._isSortEnabled()}
-                                    headerRenderer={this._headerRenderer}
-                                    width={150}
-                                />
-                                <Column
-                                    width={210}
-                                    disableSort
-                                    label='The description label is really long so that it will be truncated'
-                                    dataKey='random'
-                                    className={styles.exampleColumn}
-                                    cellRenderer={({ cellData, columnData, dataKey, rowData, rowIndex }) => cellData}
-                                    flexGrow={1}
-                                />
-                            </SortableTable>
-                        )}
-                    </AutoSizer>
-                </div>
-            </div>
-        )
     }
 
     shouldComponentUpdate = (nextProps, nextState) => {
-        return shallowCompare(this, nextProps, nextState)
+        return shallowCompare(this, nextProps, nextState);
     };
 
     _getDatum = (list, index) => {
-        return list[index % list.length]
+        const item = list.get(index % list.size);
+        return item;
     };
 
     _getRowHeight = (params) => {
         const { index } = params;
         const { list } = this.props;
-        return this._getDatum(list, index).length
-    };
-
-    _headerRenderer = (params) => {
-        const {
-            columnData,
-            dataKey,
-            disableSort,
-            label,
-            sortBy,
-            sortDirection
-        } = params;
-        return (
-            <div>
-                Full Name
-                {
-                    sortBy === dataKey &&
-                    <SortIndicator sortDirection={sortDirection}/>
-                }
-            </div>
-        )
+        return this._getDatum(list, index).size
     };
 
     _isSortEnabled = () => {
         const { list } = this.props;
         const { rowCount } = this.state;
-        return rowCount <= list.length
+        return rowCount <= list.size
     };
 
     _noRowsRenderer = () => {
@@ -173,7 +110,7 @@ export default class TableExample extends Component {
             <div className={styles.noRows}>
                 No rows
             </div>
-        )
+        );
     };
 
     _rowClassName = (params) => {
@@ -187,6 +124,133 @@ export default class TableExample extends Component {
 
     _sort = (params) => {
         const { sortBy, sortDirection } = params;
-        this.setState({ sortBy, sortDirection })
+        this.setState({ sortBy, sortDirection });
     };
+
+    renderHeader = (params) => {
+        const index = this.state.columns
+            .map((getColumnProps, index) => getColumnProps({ index }).dataKey)
+            .indexOf(params.dataKey);
+
+        return (
+            <Header
+                {
+                    ...{
+                        handleColumnOrder: this.handleOnColumnOrder,
+                        index
+                    }
+                }
+                {...params}
+            />
+        )
+    };
+
+    handleOnDeleteColumnGroup = (item) => {
+        const index = this.state.groupingColumns.indexOf(item);
+        this.setState({
+            groupingColumns: arrayCutItem(this.state.groupingColumns, index)
+        });
+    };
+
+    handleOnColumnOrder = (dragIndex, hoverIndex) => {
+        const columns = [...this.state.columns];
+        arraySwipeItem(columns, dragIndex, hoverIndex);
+        this.setState({ columns });
+    };
+
+    handleOnColumnGrouping = (index) => {
+        const col = this.state.columns[index]({ index });
+        let groupingColumns = [...this.state.groupingColumns];
+        const groupIndex = groupingColumns.indexOf(col.dataKey);
+
+        if (groupIndex >= 0) {
+            groupingColumns = arrayCutItem(groupingColumns, groupIndex);
+        } else {
+            groupingColumns.push(col.dataKey);
+        }
+
+        this.setState({ groupingColumns });
+    };
+
+    renderColumns = () => {
+        return this.state
+            .columns
+            .map((getColumnProps, index) => {
+                return <Column {...getColumnProps({ index })}/>;
+            });
+    };
+
+    renderTable = (width) => {
+        const {
+            headerHeight,
+            height,
+            overscanRowCount,
+            rowHeight,
+            rowCount,
+            sortBy,
+            sortDirection,
+            useDynamicRowHeight,
+            list
+        } = this.state;
+
+        // TODO add sorting multiple columns
+        const sortedList = this._isSortEnabled() ?
+            list
+                .sortBy(item => item[sortBy])
+                .update(
+                    list => sortDirection === SortDirection.DESC ?
+                        list.reverse() : list
+                ) : list;
+
+        const rowGetter = (params) => {
+            const { index } = params;
+            return this._getDatum(sortedList, index);
+        };
+
+        return (
+            <Table
+                ref='Table'
+                disableHeader={false}
+                headerClassName={styles.headerColumn}
+                headerHeight={headerHeight}
+                height={height}
+                noRowsRenderer={this._noRowsRenderer}
+                overscanRowCount={overscanRowCount}
+                rowClassName={this._rowClassName}
+                rowHeight={useDynamicRowHeight ? this._getRowHeight : rowHeight}
+                rowGetter={rowGetter}
+                rowCount={rowCount}
+                sort={this._sort}
+                sortBy={sortBy}
+                sortDirection={sortDirection}
+                width={width}
+            >
+                {this.renderColumns()}
+            </Table>
+        );
+    };
+
+    render() {
+        return (
+            <div className={styles.Body}>
+                <GroupingColumnsBox
+                    handleOnDeleteColumnGroup={this.handleOnDeleteColumnGroup}
+                    handleOnColumnGrouping={this.handleOnColumnGrouping}
+                    groupingColumns={this.state.groupingColumns}
+                />
+                <div className={styles.column}>
+                    <AutoSizer disableHeight>
+                        {({ width }) => this.renderTable(width) }
+                    </AutoSizer>
+                </div>
+            </div>
+        );
+    }
 }
+
+
+TableComponent.PropTypes = {
+    list: PropTypes.instanceOf(Immutable.List).isRequired
+};
+
+export default TableComponent;

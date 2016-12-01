@@ -1,9 +1,10 @@
+import React, { Component, PropTypes } from 'react'
 import { data, columns } from './gridData'
-import GoldenComponentPage from '../layouts/GoldenComponent.page.jsx';
-import { generateRandomList } from './demo/utils'
+import GoldenComponentPage from '../golden/GoldenComponent.page.jsx';
 import Table from './demo/Table.example';
+import Immutable from 'immutable'
 
-const list = generateRandomList();
+const list = Immutable.List(data);
 
 
 class TablePage extends GoldenComponentPage {
