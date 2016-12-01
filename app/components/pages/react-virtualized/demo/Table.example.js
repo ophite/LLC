@@ -1,23 +1,16 @@
 import React, { Component, PropTypes } from 'react'
-import { findDOMNode } from 'react-dom';
 import shallowCompare from 'react-addons-shallow-compare'
-import {
-    Table,
-    Column,
-    defaultRowRenderer,
-    defaultHeaderRenderer
-} from 'react-virtualized/source/Table'
-import {
-    AutoSizer,
-} from 'react-virtualized/source/AutoSizer'
+import { Table, Column } from 'react-virtualized/source/Table'
+import { AutoSizer } from 'react-virtualized/source/AutoSizer'
 import Immutable from 'immutable'
 
-import SortDirection from './SortDirection'
 
 import './styles.css';
 import styles from './Table.example.css'
 import { GroupingColumnsBox } from '../../react-datagrid/GroupingColumnsBox/GroupingColumnsBox.jsx';
 import { Header } from './Header';
+import SortDirection from './SortDirection'
+import { arrayCutItem, arraySwipeItem } from '../../../../utils/helper';
 
 
 class TableComponent extends Component {
@@ -141,6 +134,33 @@ class TableComponent extends Component {
         )
     };
 
+    handleOnDeleteColumnGroup = (item) => {
+        const index = this.state.groupingColumns.indexOf(item);
+        this.setState({
+            groupingColumns: arrayCutItem(this.state.groupingColumns, index)
+        });
+    };
+
+    handleOnColumnOrder = (dragIndex, hoverIndex) => {
+        const columns = [...this.state.columns];
+        arraySwipeItem(columns, dragIndex, hoverIndex);
+        this.setState({ columns });
+    };
+
+    handleOnColumnGrouping = (index) => {
+        const col = this.state.columns[index]({ index });
+        let groupingColumns = [...this.state.groupingColumns];
+        const groupIndex = groupingColumns.indexOf(col.dataKey);
+
+        if (groupIndex >= 0) {
+            groupingColumns = arrayCutItem(groupingColumns, groupIndex);
+        } else {
+            groupingColumns.push(col.dataKey);
+        }
+
+        this.setState({ groupingColumns });
+    };
+
     renderColumns = () => {
         return this.state
             .columns
@@ -162,6 +182,7 @@ class TableComponent extends Component {
             list
         } = this.state;
 
+        // TODO add sorting multiple columns
         const sortedList = this._isSortEnabled() ?
             list
                 .sortBy(item => item[sortBy])
@@ -196,44 +217,6 @@ class TableComponent extends Component {
                 {this.renderColumns()}
             </Table>
         );
-    };
-
-    handleOnDeleteColumnGroup = (item) => {
-        const index = this.state.groupingColumns.indexOf(item);
-        this.setState({
-            groupingColumns: [
-                ...this.state.groupingColumns.slice(0, index),
-                ...this.state.groupingColumns.slice(index + 1, this.state.groupingColumns.length)
-            ]
-        });
-    };
-
-    handleOnColumnOrder = (dragIndex, hoverIndex) => {
-        let columns = [...this.state.columns];
-
-        const col = columns[dragIndex];
-        columns.splice(dragIndex, 1);
-        columns.splice(hoverIndex, 0, col);
-        this.setState({
-            columns
-        });
-    };
-
-    handleOnColumnGrouping = (index) => {
-        const col = this.state.columns[index]({ index });
-        let groupingColumns = [...this.state.groupingColumns];
-        const groupIndex = groupingColumns.indexOf(col.dataKey);
-
-        if (groupIndex >= 0) {
-            groupingColumns = [
-                ...groupingColumns.slice(0, groupIndex),
-                ...groupingColumns.slice(groupIndex + 1, groupingColumns.length)
-            ];
-        } else {
-            groupingColumns.push(col.dataKey);
-        }
-
-        this.setState({ groupingColumns });
     };
 
     render() {
