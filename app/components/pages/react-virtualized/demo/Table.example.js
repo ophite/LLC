@@ -122,24 +122,6 @@ class TableComponent extends Component {
         this.setState({ sortBy, sortDirection });
     };
 
-    renderHeader = (params) => {
-        const index = this.state.columns
-            .map((getColumnProps, index) => getColumnProps({ index }).dataKey)
-            .indexOf(params.dataKey);
-
-        return (
-            <Header
-                {
-                    ...{
-                        handleColumnOrder: this.handleOnColumnOrder,
-                        index
-                    }
-                }
-                {...params}
-            />
-        )
-    };
-
     handleOnDeleteColumnGroup = (item) => {
         const index = this.state.groupingColumns.indexOf(item);
         this.setState({
@@ -170,6 +152,24 @@ class TableComponent extends Component {
     //endregion
 
     //region render
+
+    renderHeader = (params) => {
+        const index = this.state.columns
+            .map((getColumnProps, index) => getColumnProps({ index }).dataKey)
+            .indexOf(params.dataKey);
+
+        return (
+            <Header
+                {
+                    ...{
+                        handleColumnOrder: this.handleOnColumnOrder,
+                        index
+                    }
+                }
+                {...params}
+            />
+        )
+    };
 
     renderColumns = () => {
         return this.state
