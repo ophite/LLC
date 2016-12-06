@@ -4,8 +4,8 @@ import { syncHistoryWithStore } from 'react-router-redux'
 import { Router } from 'react-router';
 
 import configureStore from '../store/root.store';
-// import routes from './routes.jsx';
-import routes from './routes.golden.jsx';
+import routes from './routes.jsx';
+// import routes from './routes.golden.jsx';
 import { history } from './history'
 
 const initialState = {};

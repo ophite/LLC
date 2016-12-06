@@ -1,7 +1,7 @@
 import React from 'react';
 import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
 import styles from '../../../assets/styles/components/menu-top.scss';
-import { addWindow } from '../../../containers/golden/GoldenInit';
+// import { addWindow } from '../../../containers/golden/GoldenInit';
 import { goldenWindows } from '../../../constants/golden.constant';
 
 const menu = {
@@ -17,26 +17,26 @@ const menu = {
 class MenuComponent extends React.Component {
 
     handleSelect = (info) => {
-        switch (info.key) {
-            case menu.table:
-            {
-                addWindow(goldenWindows.table);
-                break;
-            }
-            case menu.tableVirtual:
-            {
-                addWindow(goldenWindows.virtulized);
-                break;
-            }
-            case menu.individual:
-            {
-                addWindow(goldenWindows.individual);
-                break;
-            }
-            default:
-            {
-            }
-        }
+        // switch (info.key) {
+        //     case menu.table:
+        //     {
+        //         addWindow(goldenWindows.table);
+        //         break;
+        //     }
+        //     case menu.tableVirtual:
+        //     {
+        //         addWindow(goldenWindows.virtulized);
+        //         break;
+        //     }
+        //     case menu.individual:
+        //     {
+        //         addWindow(goldenWindows.individual);
+        //         break;
+        //     }
+        //     default:
+        //     {
+        //     }
+        // }
     };
 
     render() {
