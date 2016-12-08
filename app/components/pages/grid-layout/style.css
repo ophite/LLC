@@ -5,11 +5,11 @@ body {
 }
 
 #content {
-    width: 100%;
 }
 
 .react-grid-layout {
     background: #eee;
+    width: 1044px; /*TODO for Sasha*/
 }
 
 .layoutJSON {

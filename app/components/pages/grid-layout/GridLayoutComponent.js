@@ -5,34 +5,87 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import './style.css';
+import PhysicalPersonEdit from '../individual/Individual.page.jsx';
+import TableVirtualized from '../../../containers/react-virtualized/Table.container.jsx';
 
 
 class GridLayoutComponent extends React.Component {
 
-    static propTypes = {
-        onLayoutChange: React.PropTypes.func.isRequired
-    };
-
-    static defaultProps = {
-        className: "layout",
-        rowHeight: 30,
-        breakpoints: { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 },
-        cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
-        initialItems: generateLayout()
-    };
-
     state = {
         currentBreakpoint: 'lg',
         mounted: false,
-        newCounter: 0,
-        items: this.props.initialItems,
+        layoutIdCounter: 0,
+        layouts: this.props.initialLayouts,
     };
+
+    componentDidUpdate(nextProps, nextState) {
+        // console.log('componentDidUpdate', JSON.stringify(nextState));
+    }
 
     componentDidMount() {
         this.setState({ mounted: true });
     }
 
-    createElement = (el) => {
+    onAddItem = () => {
+        console.log('adding', 'n' + this.state.layoutIdCounter);
+        this.setState({
+            // Add a new item. It must have a unique key!
+            layouts: this.state.layouts.concat({
+                i: 'n' + this.state.layoutIdCounter,
+                x: this.state.layouts.length * 2 % (this.state.cols || 12),
+                y: Infinity, // puts it at the bottom
+                w: 2,
+                h: 2
+            }),
+            // Increment the counter to ensure key is always unique.
+            layoutIdCounter: this.state.layoutIdCounter + 1
+        });
+    };
+
+    onNewLayout = () => {
+        console.log('onNewLayout');
+        this.setState({
+            layouts: generateLayout()
+        });
+        this.forceUpdate();
+    };
+
+    onBreakpointChange = (breakpoint, cols) => {
+        this.setState({
+            currentBreakpoint: breakpoint,
+            cols: cols
+        });
+    };
+
+    onLayoutChange = (layout, layouts) => {
+        this.props.onLayoutChange(layout, layouts);
+        this.setState({ layout: layout });
+    };
+
+    onRemoveItem = (i) => {
+        console.log('removing', i);
+        this.setState({ layouts: _.reject(this.state.layouts, { i: i }) });
+    };
+
+
+    onWidthChange = (containerWidth, margin, cols, containerPadding) => {
+        console.log('onWidthChange', containerWidth);
+    };
+
+    renderHeader() {
+        return (
+            <div>
+                <button onClick={this.onAddItem}>Add Item</button>
+                <div>
+                    Current Breakpoint: {this.state.currentBreakpoint} ({this.props.cols[this.state.currentBreakpoint]}
+                    columns)
+                </div>
+                <button onClick={this.onNewLayout}>Generate New Layout</button>
+            </div>
+        );
+    }
+
+    renderLayout = (el) => {
         var removeStyle = {
             position: 'absolute',
             right: '2px',
@@ -62,93 +115,60 @@ class GridLayoutComponent extends React.Component {
             </div>
         );
     };
-
-    onAddItem = () => {
-        console.log('adding', 'n' + this.state.newCounter);
-        this.setState({
-            // Add a new item. It must have a unique key!
-            items: this.state.items.concat({
-                i: 'n' + this.state.newCounter,
-                x: this.state.items.length * 2 % (this.state.cols || 12),
-                y: Infinity, // puts it at the bottom
-                w: 2,
-                h: 2
-            }),
-            // Increment the counter to ensure key is always unique.
-            newCounter: this.state.newCounter + 1
-        });
-    };
-
-    generateDOM = () => {
-        // return _.map(this.state.items, function (l, i) {
-        //     return (
-        //         <div key={i}>
-        //             <span className="text">aaa {i}</span>
-        //         </div>);
-        // });
-        return _.map(this.state.items, this.createElement);
-    };
-
-    onBreakpointChange = (breakpoint, cols) => {
-        this.setState({
-            currentBreakpoint: breakpoint,
-            // cols: cols
-        });
-    };
-
-    onLayoutChange = (layout, layouts) => {
-        this.props.onLayoutChange(layout, layouts);
-        this.setState({ layout: layout });
-    };
-
-    onRemoveItem = (i) => {
-        console.log('removing', i);
-        this.setState({ items: _.reject(this.state.items, { i: i }) });
-    };
-
-    onNewLayout = () => {
-        this.setState({
-            items: generateLayout()
-        });
+    renderLayouts = () => {
+        return _.map(this.state.layouts, this.renderLayout);
     };
 
     render() {
         return (
             <div>
-                <button onClick={this.onAddItem}>Add Item</button>
-                <div>Current Breakpoint: {this.state.currentBreakpoint} ({this.props.cols[this.state.currentBreakpoint]}
-                    columns)
-                </div>
-                <button onClick={this.onNewLayout}>Generate New Layout</button>
+                {this.renderHeader()}
                 <ResponsiveReactGridLayout
                     {...this.props}
-                    layouts={{lg : this.state.items}}
+                    layouts={{lg : this.state.layouts}}
+                    // layout={this.state.layouts}
                     onBreakpointChange={this.onBreakpointChange}
                     onLayoutChange={this.onLayoutChange}
                     // WidthProvider option
                     measureBeforeMount={false}
                     // I like to have it animate on mount. If you don't, delete `useCSSTransforms` (it's default `true`)
                     // and set `measureBeforeMount={true}`.
-                    useCSSTransforms={this.state.mounted}>
-                    {this.generateDOM()}
+                    // onWidthChange={this.onWidthChange}
+                    useCSSTransforms={this.state.mounted}
+                >
+                    {this.renderLayouts()}
                 </ResponsiveReactGridLayout>
             </div>
         );
     }
 }
 
-function generateLayout() {
-    return _.map(_.range(0, 25), function (item, i) {
+const generateLayout = () => {
+    return _.map(_.range(0, 2), function (item, i) {
         var y = Math.ceil(Math.random() * 4) + 1;
         return {
-            x: _.random(0, 5) * 2 % 12,
+            x: _.random(0, 5), //_.random(0, 5) * 2 % 12,
             y: Math.floor(i / 6) * y,
-            w: 2,
-            h: y,
+            w: 6,
+            h: y * i + 4,
             i: i.toString()
         };
     });
-}
+};
+
+
+GridLayoutComponent.propTypes = {
+    onLayoutChange: React.PropTypes.func.isRequired
+};
+
+GridLayoutComponent.defaultProps = {
+    className: "layout",
+    rowHeight: 30,
+    breakpoints: { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 },
+    cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
+    initialLayouts: generateLayout()
+};
+
 
 export {
     GridLayoutComponent
