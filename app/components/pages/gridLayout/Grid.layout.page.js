@@ -10,7 +10,7 @@ import './style.css';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 
-class GridLayoutComponent extends React.Component {
+class GridLayoutPage extends React.Component {
 
     state = {
         currentBreakpoint: 'lg',
@@ -155,11 +155,11 @@ const generateLayout = () => {
 };
 
 
-GridLayoutComponent.propTypes = {
+GridLayoutPage.propTypes = {
     onLayoutChange: React.PropTypes.func.isRequired
 };
 
-GridLayoutComponent.defaultProps = {
+GridLayoutPage.defaultProps = {
     className: "layout",
     rowHeight: 30,
     breakpoints: { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 },
@@ -169,5 +169,5 @@ GridLayoutComponent.defaultProps = {
 
 
 export {
-    GridLayoutComponent
+    GridLayoutPage
 }

@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react'
-import GoldenComponentPage from '../goldenLayout/GoldenComponent.page.jsx';
+import GoldenLayoutPage from '../goldenLayout/Golden.layout.page.jsx';
 import 'react-datagrid/index.css';
 import DataGrid from 'react-datagrid/src';
 import { GroupingColumnsBox } from './GroupingColumnsBox/GroupingColumnsBox.jsx';
@@ -10,7 +10,7 @@ var sort = sorty([{ name: 'country', dir: 'asc' }])
 const initialData = data.slice();
 
 
-class TablePage extends GoldenComponentPage {
+class TablePage extends GoldenLayoutPage {
  
     constructor(props, context) {
         super(props, context);

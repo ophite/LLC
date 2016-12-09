@@ -3,7 +3,7 @@ import { Route, IndexRoute, IndexRedirect } from 'react-router';
 import App from '../containers/layouts/App.jsx';
 import NotFoundPage from '../components/pages/notFound/NotFound.page.jsx'
 import Layout from '../containers/layouts/Layout.container.jsx';
-import GridLayoutContainer from '../containers/gridLayout/GridLayout.container.jsx';
+import GridLayoutContainer from '../containers/gridLayout/Grid.layout.container.jsx';
 
 
 export default (

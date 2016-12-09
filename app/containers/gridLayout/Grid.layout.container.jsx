@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { GridLayoutComponent } from '../../components/pages/gridLayout/GridLayoutComponent';
+import { GridLayoutPage } from '../../components/pages/gridLayout/Grid.layout.page';
 
 
 class GridLayoutComponentContainer extends React.Component {
@@ -14,9 +14,10 @@ class GridLayoutComponentContainer extends React.Component {
     render() {
         return (
             <div>
-                <GridLayoutComponent
+                <GridLayoutPage
                     {...this.props}
-                    onLayoutChange={this.onLayoutChange}/>
+                    onLayoutChange={this.onLayoutChange}
+                />
             </div>
         );
     }

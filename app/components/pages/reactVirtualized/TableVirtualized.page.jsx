@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import { data, columns } from './gridData'
-import GoldenComponentPage from '../goldenLayout/GoldenComponent.page.jsx';
+import GoldenLayoutPage from '../goldenLayout/Golden.layout.page.jsx';
 import Table from './demo/Table.example';
 import Immutable from 'immutable'
 
 const list = Immutable.List(data);
 
 
-class TablePage extends GoldenComponentPage {
+class TablePage extends GoldenLayoutPage {
 
     constructor(props, context) {
         super(props, context);
