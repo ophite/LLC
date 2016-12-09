@@ -2,10 +2,10 @@ import React from 'react';
 import reject from 'lodash/reject';
 import map from 'lodash/map';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-import 'react-grid-layout/css/styles.css';
-import 'react-resizable/css/styles.css';
 
-import './style.css';
+import '../../../assets/styles/components/react-resizable.scss';
+import '../../../assets/styles/components/grid-layout.scss';
+
 // import { Responsive as ResponsiveReactGridLayout } from 'react-grid-layout';
 // import ResponsiveReactGridLayout from 'react-grid-layout';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
@@ -74,40 +74,21 @@ class GridLayoutPage extends React.Component {
 
     renderLayouts = () => {
         const renderLayout = (layoutElement) => {
-            const removeStyle = {
-                position: 'absolute',
-                right: '2px',
-                top: 0,
-                cursor: 'pointer'
-            };
-            const fullScreenStyle = {
-                position: 'absolute',
-                right: '12px',
-                top: 0,
-                cursor: 'pointer'
-            };
-
-            const style = {
-                'height': '300px'
-            };
-
             return (
-                <div style={style} key={layoutElement.i} data-grid={layoutElement}>
-                    <div>
-                        <span
-                            className="remove"
-                            style={removeStyle}
-                            onClick={this.onDeleteLayout.bind(this, layoutElement)}>
-                            x
-                        </span>
-                    </div>
-                    <div>
-                        <span
-                            className="remove"
-                            style={fullScreenStyle}
-                            onClick={this.onFullScreenLayout.bind(this, layoutElement)}>
-                            []
-                        </span>
+                <div key={layoutElement.i} data-grid={layoutElement}>
+                    <div className="react-grid__header">
+                        <div>
+                            <span
+                                className="close"
+                                onClick={this.onDeleteLayout.bind(this, layoutElement)}>
+                            </span>
+                        </div>
+                        <div>
+                            <span
+                                className="full-screen"
+                                onClick={this.onFullScreenLayout.bind(this, layoutElement)}>
+                            </span>
+                        </div>
                     </div>
                     {layoutElement.layout.component}
                 </div>
@@ -132,6 +113,7 @@ class GridLayoutPage extends React.Component {
                     // and set `measureBeforeMount={true}`.
                     // onWidthChange={this.onWidthChange}
                     useCSSTransforms={this.state.mounted}
+                    draggableHandle='.react-grid__header'
                 >
                     {this.renderLayouts()}
                 </ResponsiveReactGridLayout>
