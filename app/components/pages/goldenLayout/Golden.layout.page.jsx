@@ -14,7 +14,7 @@ const getDefaultManager = () => {
 };
 
 
-class GoldenComponentPage extends Component {
+class GoldenLayoutPage extends Component {
 
     static contextTypes = {
         dragDropManager: PropTypes.object
@@ -44,4 +44,4 @@ class GoldenComponentPage extends Component {
     }
 }
 
-export default GoldenComponentPage;
+export default GoldenLayoutPage;

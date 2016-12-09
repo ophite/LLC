@@ -1,9 +1,10 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { GridLayoutPage } from '../../components/pages/gridLayout/Grid.layout.page';
+import { deleteLayout } from '../../actions/layout.actions';
 
 
-class GridLayoutComponentContainer extends React.Component {
+class GridLayoutContainer extends React.Component {
 
     state = { layout: [] };
 
@@ -24,15 +25,19 @@ class GridLayoutComponentContainer extends React.Component {
 }
 
 
-GridLayoutComponentContainer.propTypes = {};
 const mapStateToProps = (state) => {
-    return {};
+    return {
+        layout: state.layout.layout,
+        layouts: state.layout.layouts,
+    };
 };
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+        handleDeleteLayout: bindActionCreators(deleteLayout, dispatch),
+    };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(GridLayoutComponentContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(GridLayoutContainer);
 
 
 

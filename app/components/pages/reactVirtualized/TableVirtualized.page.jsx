@@ -7,7 +7,7 @@ import Immutable from 'immutable'
 const list = Immutable.List(data);
 
 
-class TablePage extends GoldenLayoutPage {
+class TableVirtualizedPage extends GoldenLayoutPage {
 
     constructor(props, context) {
         super(props, context);
@@ -31,4 +31,4 @@ class TablePage extends GoldenLayoutPage {
     }
 }
 
-export default TablePage;
+export default TableVirtualizedPage;

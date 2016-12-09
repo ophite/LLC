@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import uuid from 'uuid';
 
 
-class GoldenComponentContainer extends React.Component {
+class GoldenLayoutContainer extends React.Component {
 
     constructor(props) {
         super(props);
@@ -28,7 +28,7 @@ class GoldenComponentContainer extends React.Component {
     }
 }
 
-GoldenComponentContainer.propTypes = {};
+GoldenLayoutContainer.propTypes = {};
 
 const mapStateToProps = (state) => {
     return {
@@ -41,7 +41,7 @@ const mapDispatchToProps = (dispatch) => {
     return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(GoldenComponentContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(GoldenLayoutContainer);
 
 
 

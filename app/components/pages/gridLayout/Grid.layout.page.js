@@ -3,10 +3,8 @@ import _ from 'lodash';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
-import './style.css';
 
-// import PhysicalPersonEdit from '../individual/Individual.page.jsx';
-// import TableVirtualized from '../../../containers/react-virtualized/Table.container.jsx';
+import './style.css';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 
@@ -16,36 +14,41 @@ class GridLayoutPage extends React.Component {
         currentBreakpoint: 'lg',
         mounted: false,
         layoutIdCounter: 0,
-        layouts: this.props.initialLayouts,
+        layouts: [],
     };
 
-    componentDidUpdate(nextProps, nextState) {
-        // console.log('componentDidUpdate', JSON.stringify(nextState));
+    componentDidUpdate(prevProps, prevState) {
+        const { layouts, layout } = this.props;
+        if (prevProps.layouts && prevProps.layouts.length < layouts.length) {
+            this.onAddLayout(layout);
+        }
     }
 
     componentDidMount() {
         this.setState({ mounted: true });
     }
 
-    onAddItem = () => {
-        console.log('adding', 'n' + this.state.layoutIdCounter);
+    onAddLayout = (layout) => {
         this.setState({
-            layouts: this.state.layouts.concat({
-                i: 'n' + this.state.layoutIdCounter,
-                x: this.state.layouts.length * 2 % (this.state.cols || 12),
-                y: Infinity, // puts it at the bottom
-                w: 2,
-                h: 2
-            }),
-            layoutIdCounter: this.state.layoutIdCounter + 1
+            layoutIdCounter: this.state.layoutIdCounter + 1,
+            layouts: [
+                ...this.state.layouts,
+                {
+                    i: 'n' + this.state.layoutIdCounter,
+                    x: this.state.layouts.length * 2 % (this.state.cols || 12),
+                    y: Infinity, // puts it at the bottom
+                    w: 2,
+                    h: 2,
+                    layout
+                }
+            ]
         });
     };
 
-    onNewLayout = () => {
-        console.log('onNewLayout');
-        this.setState({
-            layouts: generateLayout()
-        });
+    onRemoveLayout = (layoutElement) => {
+        const { handleDeleteLayout } = this.props;
+        handleDeleteLayout(layoutElement.layout);
+        this.setState({ layouts: _.reject(this.state.layouts, { i: layoutElement.i }) });
     };
 
     onBreakpointChange = (breakpoint, cols) => {
@@ -56,71 +59,43 @@ class GridLayoutPage extends React.Component {
     };
 
     onLayoutChange = (layout, layouts) => {
-        this.props.onLayoutChange(layout, layouts);
+        const { onLayoutChange } = this.props;
+        onLayoutChange(layout, layouts);
         this.setState({ layout: layout });
     };
-
-    onRemoveItem = (i) => {
-        console.log('removing', i);
-        this.setState({ layouts: _.reject(this.state.layouts, { i: i }) });
-    };
-
 
     onWidthChange = (containerWidth, margin, cols, containerPadding) => {
         console.log('onWidthChange', containerWidth);
     };
 
-    renderHeader() {
-        return (
-            <div>
-                <button onClick={this.onAddItem}>Add Item</button>
-                <div>
-                    Current Breakpoint: {this.state.currentBreakpoint} ({this.props.cols[this.state.currentBreakpoint]}
-                    columns)
-                </div>
-                <button onClick={this.onNewLayout}>Generate New Layout</button>
-            </div>
-        );
-    }
-
-    renderLayout = (el) => {
-        var removeStyle = {
-            position: 'absolute',
-            right: '2px',
-            top: 0,
-            cursor: 'pointer'
-        };
-        var i = el.add ? '+' : el.i;
-        return (
-            <div key={i} data-grid={el}>
-                {
-                    el.add ?
-                        (
-                            <span
-                                className="add text"
-                                onClick={this.onAddItem}
-                                title="You can add an item by clicking here, too.">
-                                Add +
-                            </span>
-                        ) : <span className="text">{i}</span>
-                }
-                <span
-                    className="remove"
-                    style={removeStyle}
-                    onClick={this.onRemoveItem.bind(this, i)}>
-                    x
-                </span>
-            </div>
-        );
-    };
     renderLayouts = () => {
-        return _.map(this.state.layouts, this.renderLayout);
+        const renderLayout = (layoutElement) => {
+            const removeStyle = {
+                position: 'absolute',
+                right: '2px',
+                top: 0,
+                cursor: 'pointer'
+            };
+
+            return (
+                <div key={layoutElement.i} data-grid={layoutElement}>
+                    <span
+                        className="remove"
+                        style={removeStyle}
+                        onClick={this.onRemoveLayout.bind(this, layoutElement)}>
+                        x
+                    </span>
+                    {layoutElement.layout.component}
+                </div>
+            );
+        };
+
+        return _.map(this.state.layouts, renderLayout);
     };
 
     render() {
         return (
             <div>
-                {this.renderHeader()}
                 <ResponsiveReactGridLayout
                     {...this.props}
                     layouts={{lg : this.state.layouts}}
@@ -141,22 +116,11 @@ class GridLayoutPage extends React.Component {
     }
 }
 
-const generateLayout = () => {
-    return _.map(_.range(0, 2), function (item, i) {
-        var y = Math.ceil(Math.random() * 4) + 1;
-        return {
-            x: _.random(0, 5), //_.random(0, 5) * 2 % 12,
-            y: Math.floor(i / 6) * y,
-            w: 6,
-            h: y * i + 4,
-            i: i.toString()
-        };
-    });
-};
-
 
 GridLayoutPage.propTypes = {
-    onLayoutChange: React.PropTypes.func.isRequired
+    onLayoutChange: React.PropTypes.func.isRequired,
+    layout: React.PropTypes.object,
+    layouts: React.PropTypes.array,
 };
 
 GridLayoutPage.defaultProps = {
@@ -164,7 +128,6 @@ GridLayoutPage.defaultProps = {
     rowHeight: 30,
     breakpoints: { lg: 1200, md: 996, sm: 768, xs: 480, xxs: 0 },
     cols: { lg: 12, md: 10, sm: 6, xs: 4, xxs: 2 },
-    initialLayouts: generateLayout()
 };
 
 

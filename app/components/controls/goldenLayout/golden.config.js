@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { windows } from '../../../constants/menu.constant.js';
+import { layouts } from '../../../constants/menu.constant.js';
 
 
 export const goldenConfigDefaults = {
@@ -56,7 +56,7 @@ export const goldenConfig = {
             content: [
                 {
                     type: 'component',
-                    componentName: windows.virtulized.name,
+                    componentName: layouts.virtulized.name,
                     props: { value: 'I\'m on the left' }
                 }
             ]

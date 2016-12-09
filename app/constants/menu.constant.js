@@ -7,7 +7,7 @@ const initialState = {};
 export const store = configureStore(initialState);
 
 import TableVirtualized from '../containers/reactVirtualized/TableVirtualized.container.jsx';
-import Table from '../containers/reactDatagrid/TableDatagrid.container.jsx';
+import TableDatagrid from '../containers/reactDatagrid/TableDatagrid.container.jsx';
 import Invidual from '../containers/individual/Individual.container.jsx';
 
 
@@ -25,23 +25,23 @@ const ReduxComponentWrapper = (componentView) => {
 };
 
 
-export const windows = {
+export const layouts = {
     virtulized: {
         fullName: 'Виртуалайз',
         name: 'virtulized',
         componentGolden: ()=> ReduxComponentWrapper.call(null, TableVirtualized),
-        component: TableVirtualized
+        component: React.createElement(TableVirtualized)
     },
     table: {
         fullName: 'Таблица',
         name: 'table',
-        componentGolden: ()=> ReduxComponentWrapper.call(null, Table),
-        component: Table
+        componentGolden: ()=> ReduxComponentWrapper.call(null, TableDatagrid),
+        component: React.createElement(TableDatagrid)
     },
     individual: {
         fullName: 'Физ. лицо',
         name: 'individual',
         componentGolden: () => ReduxComponentWrapper.call(null, Invidual),
-        component: Invidual
+        component: React.createElement(Invidual)
     }
 };
