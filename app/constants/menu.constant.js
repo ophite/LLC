@@ -6,8 +6,8 @@ import configureStore from '../store/root.store';
 const initialState = {};
 export const store = configureStore(initialState);
 
-import TableVirtualized from '../containers/reactVirtualized/Table.container.jsx';
-import Table from '../containers/reactDatagrid/Table.container.jsx';
+import TableVirtualized from '../containers/reactVirtualized/TableVirtualized.container.jsx';
+import Table from '../containers/reactDatagrid/TableDatagrid.container.jsx';
 import Invidual from '../containers/individual/Individual.container.jsx';
 
 

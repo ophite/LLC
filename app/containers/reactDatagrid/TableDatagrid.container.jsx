@@ -1,8 +1,7 @@
-import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import TablePage from '../../components/pages/reactVirtualized/Table.page.jsx';
+import TablePage from '../../components/pages/reactDatagrid/TableDataGrid.page.jsx';
 import GoldenContainer from '../goldenLayout/GoldenLayout.container.jsx';
 
 

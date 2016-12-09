@@ -5,8 +5,8 @@ import { Router } from 'react-router';
 
 import configureStore from '../store/root.store';
 // import routes from './routes.jsx';
-// import routes from './routes.golden.jsx';
-import routes from './routes.grid-layout.jsx';
+import routes from './routes.golden.layout.jsx';
+// import routes from './routes.grid.layout.jsx';
 
 import { history } from './history'
 
