@@ -7,24 +7,13 @@ import Immutable from 'immutable'
 
 // import './styles.css';
 import styles from '../../../../assets/styles/components/react-virtualized.scss'
-import { GroupingColumnsBox } from '../../react-datagrid/GroupingColumnsBox/GroupingColumnsBox.jsx';
+import { GroupingColumnsBox } from '../../reactDatagrid/GroupingColumnsBox/GroupingColumnsBox.jsx';
 import { Header } from './Header';
 import SortDirection from './SortDirection'
 import { arrayCutItem, arraySwipeItem } from '../../../../utils/helper';
 
 
-const SortableTable = SortableContainer(Table);
-const SortableTableRowRenderer = SortableElement(defaultTableRowRenderer);
-
-function rowRenderer(props) {
-    return <SortableTableRowRenderer {...props} />
-}
-
-
 class TableComponent extends Component {
-    // static contextTypes = {
-    //     list: PropTypes.instanceOf(Immutable.List).isRequired
-    // };
 
     //region lifecycle
 
@@ -133,24 +122,6 @@ class TableComponent extends Component {
         this.setState({ sortBy, sortDirection });
     };
 
-    renderHeader = (params) => {
-        const index = this.state.columns
-            .map((getColumnProps, index) => getColumnProps({ index }).dataKey)
-            .indexOf(params.dataKey);
-
-        return (
-            <Header
-                {
-                    ...{
-                        handleColumnOrder: this.handleOnColumnOrder,
-                        index
-                    }
-                }
-                {...params}
-            />
-        )
-    };
-
     handleOnDeleteColumnGroup = (item) => {
         const index = this.state.groupingColumns.indexOf(item);
         this.setState({
@@ -181,6 +152,24 @@ class TableComponent extends Component {
     //endregion
 
     //region render
+
+    renderHeader = (params) => {
+        const index = this.state.columns
+            .map((getColumnProps, index) => getColumnProps({ index }).dataKey)
+            .indexOf(params.dataKey);
+
+        return (
+            <Header
+                {
+                    ...{
+                        handleColumnOrder: this.handleOnColumnOrder,
+                        index
+                    }
+                }
+                {...params}
+            />
+        )
+    };
 
     renderColumns = () => {
         return this.state

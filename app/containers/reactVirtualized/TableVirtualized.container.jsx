@@ -1,11 +1,12 @@
+import React, { Component, PropTypes } from 'react'
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
-import TablePage from '../../components/pages/react-datagrid/Table.page.jsx';
-import GoldenContainer from '../golden/Golden.container.jsx';
+import TablePage from '../../components/pages/reactVirtualized/TableVirtualized.page.jsx';
+import GoldenLayoutContainer from '../goldenLayout/Golden.layout.container.jsx';
 
 
-class TableContainer extends GoldenContainer {
+class TableContainer extends GoldenLayoutContainer {
 
     render() {
         return (

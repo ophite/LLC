@@ -6,10 +6,12 @@ import { routerReducer } from 'react-router-redux';
  */
 import pokeball from './pokeball.reducer';
 import common from './common.reducer';
+import layout from './layout.reducer';
 
 const rootReducer = combineReducers({
     pokeball,
     common,
+    layout,
     routing: routerReducer,
 });
 

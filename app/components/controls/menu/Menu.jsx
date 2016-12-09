@@ -1,8 +1,9 @@
 import React from 'react';
 import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
 import styles from '../../../assets/styles/components/menu-top.scss';
-import { addWindow } from '../../../containers/golden/GoldenInit';
-import { goldenWindows } from '../../../constants/golden.constant';
+// import { addWindow } from '../goldenLayout/golden.init';
+// import { addWindow } from '../../../containers/golden/GoldenInit';
+import { layouts } from '../../../constants/menu.constant';
 
 const menu = {
     file: 'file',
@@ -17,20 +18,22 @@ const menu = {
 class MenuComponent extends React.Component {
 
     handleSelect = (info) => {
+        const { handleAddLayout } = this.props;
+
         switch (info.key) {
             case menu.table:
             {
-                addWindow(goldenWindows.table);
+                handleAddLayout(layouts.table);
                 break;
             }
             case menu.tableVirtual:
             {
-                addWindow(goldenWindows.virtulized);
+                handleAddLayout(layouts.virtulized);
                 break;
             }
             case menu.individual:
             {
-                addWindow(goldenWindows.individual);
+                handleAddLayout(layouts.individual);
                 break;
             }
             default:
@@ -79,4 +82,7 @@ class MenuComponent extends React.Component {
     }
 }
 
+MenuComponent.propTypes = {
+    handleAddLayout: React.PropTypes.func.isRequired,
+};
 export default MenuComponent;

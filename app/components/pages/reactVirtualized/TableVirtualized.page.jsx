@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import { data, columns } from './gridData'
-import GoldenComponentPage from '../golden/GoldenComponent.page.jsx';
+import GoldenLayoutPage from '../goldenLayout/Golden.layout.page.jsx';
 import Table from './demo/Table.example';
 import Immutable from 'immutable'
 
 const list = Immutable.List(data);
 
 
-class TablePage extends GoldenComponentPage {
+class TableVirtualizedPage extends GoldenLayoutPage {
 
     constructor(props, context) {
         super(props, context);
@@ -31,4 +31,4 @@ class TablePage extends GoldenComponentPage {
     }
 }
 
-export default TablePage;
+export default TableVirtualizedPage;

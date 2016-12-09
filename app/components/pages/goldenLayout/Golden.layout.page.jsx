@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import { GOLDEN_CUSTOM_ATTRIBUTE } from '../../../constants/golden.constant';
+import { GOLDEN_CUSTOM_ATTRIBUTE } from '../../controls/goldenLayout/golden.constant';
 import { DragDropManager } from 'dnd-core'
 import HTML5Backend from 'react-dnd-html5-backend';
 
@@ -14,7 +14,7 @@ const getDefaultManager = () => {
 };
 
 
-class GoldenComponentPage extends Component {
+class GoldenLayoutPage extends Component {
 
     static contextTypes = {
         dragDropManager: PropTypes.object
@@ -44,4 +44,4 @@ class GoldenComponentPage extends Component {
     }
 }
 
-export default GoldenComponentPage;
+export default GoldenLayoutPage;
