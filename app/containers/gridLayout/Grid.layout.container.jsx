@@ -6,18 +6,11 @@ import { deleteLayout } from '../../actions/layout.actions';
 
 class GridLayoutContainer extends React.Component {
 
-    state = { layout: [] };
-
-    onLayoutChange = (layout) => {
-        this.setState({ layout: layout });
-    };
-
     render() {
         return (
             <div>
                 <GridLayoutPage
                     {...this.props}
-                    onLayoutChange={this.onLayoutChange}
                 />
             </div>
         );

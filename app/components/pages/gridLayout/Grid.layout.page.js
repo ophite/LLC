@@ -1,5 +1,6 @@
 import React from 'react';
-import _ from 'lodash';
+import reject from 'lodash/reject';
+import map from 'lodash/map';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -35,7 +36,7 @@ class GridLayoutPage extends React.Component {
                 ...this.state.layouts,
                 {
                     i: 'n' + this.state.layoutIdCounter,
-                    x: this.state.layouts.length * 2 % (this.state.cols || 12),
+                    x: this.state.layoutIdCounter * 2 % (this.state.cols || 12),
                     y: Infinity, // puts it at the bottom
                     w: 2,
                     h: 2,
@@ -45,10 +46,10 @@ class GridLayoutPage extends React.Component {
         });
     };
 
-    onRemoveLayout = (layoutElement) => {
+    onDeleteLayout = (layoutElement) => {
         const { handleDeleteLayout } = this.props;
         handleDeleteLayout(layoutElement.layout);
-        this.setState({ layouts: _.reject(this.state.layouts, { i: layoutElement.i }) });
+        this.setState({ layouts: reject(this.state.layouts, { i: layoutElement.i }) });
     };
 
     onBreakpointChange = (breakpoint, cols) => {
@@ -59,9 +60,6 @@ class GridLayoutPage extends React.Component {
     };
 
     onLayoutChange = (layout, layouts) => {
-        const { onLayoutChange } = this.props;
-        onLayoutChange(layout, layouts);
-        this.setState({ layout: layout });
     };
 
     onWidthChange = (containerWidth, margin, cols, containerPadding) => {
@@ -82,7 +80,7 @@ class GridLayoutPage extends React.Component {
                     <span
                         className="remove"
                         style={removeStyle}
-                        onClick={this.onRemoveLayout.bind(this, layoutElement)}>
+                        onClick={this.onDeleteLayout.bind(this, layoutElement)}>
                         x
                     </span>
                     {layoutElement.layout.component}
@@ -90,7 +88,7 @@ class GridLayoutPage extends React.Component {
             );
         };
 
-        return _.map(this.state.layouts, renderLayout);
+        return map(this.state.layouts, renderLayout);
     };
 
     render() {
@@ -118,7 +116,6 @@ class GridLayoutPage extends React.Component {
 
 
 GridLayoutPage.propTypes = {
-    onLayoutChange: React.PropTypes.func.isRequired,
     layout: React.PropTypes.object,
     layouts: React.PropTypes.array,
 };
