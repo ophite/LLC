@@ -6,6 +6,8 @@ import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 
 import './style.css';
+// import { Responsive as ResponsiveReactGridLayout } from 'react-grid-layout';
+// import ResponsiveReactGridLayout from 'react-grid-layout';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 
@@ -44,6 +46,7 @@ class GridLayoutPage extends React.Component {
                 }
             ]
         });
+        window.dispatchEvent(new Event('resize'));
     };
 
     onDeleteLayout = (layoutElement) => {
@@ -67,7 +70,6 @@ class GridLayoutPage extends React.Component {
     };
 
     onWidthChange = (containerWidth, margin, cols, containerPadding) => {
-        console.log('onWidthChange', containerWidth);
     };
 
     renderLayouts = () => {
@@ -85,8 +87,12 @@ class GridLayoutPage extends React.Component {
                 cursor: 'pointer'
             };
 
+            const style = {
+                'height': '300px'
+            };
+
             return (
-                <div key={layoutElement.i} data-grid={layoutElement}>
+                <div style={style} key={layoutElement.i} data-grid={layoutElement}>
                     <div>
                         <span
                             className="remove"
@@ -117,7 +123,7 @@ class GridLayoutPage extends React.Component {
                 <ResponsiveReactGridLayout
                     {...this.props}
                     layouts={{lg : this.state.layouts}}
-                    // layout={this.state.layouts}
+                    // layouts={this.state.layouts}
                     onBreakpointChange={this.onBreakpointChange}
                     onLayoutChange={this.onLayoutChange}
                     // WidthProvider option
