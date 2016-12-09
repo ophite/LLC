@@ -7,7 +7,7 @@ import { INPUT } from 'react-toolbox/lib/identifiers';
 import { Tab, Tabs } from 'react-toolbox';
 
 
-import GoldenComponentPage from '../golden/GoldenComponent.page.jsx';
+import GoldenComponentPage from '../goldenLayout/GoldenComponent.page.jsx';
 
 import inputCustom from '../../../assets/theme/_autocomplite.scss';
 import styles from "../../../assets/styles/main.scss";

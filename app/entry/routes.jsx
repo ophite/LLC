@@ -5,9 +5,9 @@ import NotFoundPage from '../components/pages/notFound/NotFound.page.jsx'
 import Layout from '../containers/layouts/Layout.container.jsx';
 import Pokemon from '../containers/pokemons/Pokemon.container.jsx';
 import Pokemons from '../containers/pokemons/Pokemons.container.jsx';
-import Table from '../containers/react-datagrid/Table.container.jsx';
+import Table from '../containers/reactDatagrid/Table.container.jsx';
 import PhysicalPersonEdit from '../components/pages/individual/Individual.page.jsx';
-import GridLayoutContainer from '../containers/grid-layout/GridLayout.container.jsx';
+import GridLayoutContainer from '../containers/gridLayout/GridLayout.container.jsx';
 
 
 export default (

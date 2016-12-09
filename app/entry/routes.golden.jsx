@@ -3,7 +3,7 @@ import { Route, IndexRoute, IndexRedirect } from 'react-router';
 import App from '../containers/layouts/App.jsx';
 import NotFoundPage from '../components/pages/notFound/NotFound.page.jsx'
 import Layout from '../containers/layouts/Layout.container.jsx';
-import { initGolden } from '../components/controls/golden/GoldenInit';
+import { initGolden } from '../components/controls/goldenLayout/GoldenInit';
 
 initGolden();
 

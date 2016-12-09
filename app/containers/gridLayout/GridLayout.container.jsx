@@ -1,6 +1,6 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { GridLayoutComponent } from '../../components/pages/grid-layout/GridLayoutComponent';
+import { GridLayoutComponent } from '../../components/pages/gridLayout/GridLayoutComponent';
 
 
 class GridLayoutComponentContainer extends React.Component {

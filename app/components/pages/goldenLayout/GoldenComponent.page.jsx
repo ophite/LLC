@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import { GOLDEN_CUSTOM_ATTRIBUTE } from '../../controls/golden/golden.constant';
+import { GOLDEN_CUSTOM_ATTRIBUTE } from '../../controls/goldenLayout/golden.constant';
 import { DragDropManager } from 'dnd-core'
 import HTML5Backend from 'react-dnd-html5-backend';
 

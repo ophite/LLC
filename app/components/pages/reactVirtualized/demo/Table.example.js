@@ -7,7 +7,7 @@ import Immutable from 'immutable'
 
 import './styles.css';
 import styles from './Table.example.css'
-import { GroupingColumnsBox } from '../../react-datagrid/GroupingColumnsBox/GroupingColumnsBox.jsx';
+import { GroupingColumnsBox } from '../../reactDatagrid/GroupingColumnsBox/GroupingColumnsBox.jsx';
 import { Header } from './Header';
 import SortDirection from './SortDirection'
 import { arrayCutItem, arraySwipeItem } from '../../../../utils/helper';
