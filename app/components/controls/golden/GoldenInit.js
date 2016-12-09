@@ -1,8 +1,11 @@
 import React, { Component } from 'react';
-import '../../assets/styles/components/golden-layout.scss'
 import GoldenLayout from 'golden-layout';
-import { goldenWindows, goldenConfig, store, GOLDEN_CUSTOM_ATTRIBUTE } from '../../constants/golden.constant';
-import { goldenForceUpdate as handleGoldenForceUpdate } from '../../actions/common.actions';
+
+import '../../../assets/styles/components/golden-layout.scss'
+import { windows, store } from '../../../constants/menu.constant';
+import { goldenForceUpdate as handleGoldenForceUpdate } from '../../../actions/common.actions';
+import { GOLDEN_CUSTOM_ATTRIBUTE } from './golden.constant';
+import { goldenConfig } from './golden.config';
 
 
 /***************** helper *********************/
@@ -30,7 +33,7 @@ export const addWindow = (goldenWindow, componentState) => {
 const initWindows = (goldenLayoutComponent, goldenWindows) => {
     for (const key in goldenWindows) {
         const goldenWindow = goldenWindows[key];
-        goldenLayoutComponent.registerComponent(goldenWindow.name, goldenWindow.component());
+        goldenLayoutComponent.registerComponent(goldenWindow.name, goldenWindow.componentGolden());
     }
 };
 
@@ -92,8 +95,6 @@ export const initGolden = () => {
                 goldenLayoutComponent._maximisedItem = null;
             });
     });
-    initWindows(goldenLayoutComponent, goldenWindows);
+    initWindows(goldenLayoutComponent, windows);
     goldenLayoutComponent.init();
 };
-
-initGolden();

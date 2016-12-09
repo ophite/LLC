@@ -1,12 +1,13 @@
 import React from 'react';
 import _ from 'lodash';
 import { Responsive, WidthProvider } from 'react-grid-layout';
-const ResponsiveReactGridLayout = WidthProvider(Responsive);
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
 import './style.css';
-import PhysicalPersonEdit from '../individual/Individual.page.jsx';
-import TableVirtualized from '../../../containers/react-virtualized/Table.container.jsx';
+
+// import PhysicalPersonEdit from '../individual/Individual.page.jsx';
+// import TableVirtualized from '../../../containers/react-virtualized/Table.container.jsx';
+const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 
 class GridLayoutComponent extends React.Component {
@@ -29,7 +30,6 @@ class GridLayoutComponent extends React.Component {
     onAddItem = () => {
         console.log('adding', 'n' + this.state.layoutIdCounter);
         this.setState({
-            // Add a new item. It must have a unique key!
             layouts: this.state.layouts.concat({
                 i: 'n' + this.state.layoutIdCounter,
                 x: this.state.layouts.length * 2 % (this.state.cols || 12),
@@ -37,7 +37,6 @@ class GridLayoutComponent extends React.Component {
                 w: 2,
                 h: 2
             }),
-            // Increment the counter to ensure key is always unique.
             layoutIdCounter: this.state.layoutIdCounter + 1
         });
     };
@@ -47,7 +46,6 @@ class GridLayoutComponent extends React.Component {
         this.setState({
             layouts: generateLayout()
         });
-        this.forceUpdate();
     };
 
     onBreakpointChange = (breakpoint, cols) => {
