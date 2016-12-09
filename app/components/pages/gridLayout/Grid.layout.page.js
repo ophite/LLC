@@ -52,6 +52,10 @@ class GridLayoutPage extends React.Component {
         this.setState({ layouts: reject(this.state.layouts, { i: layoutElement.i }) });
     };
 
+    onFullScreenLayout = (layoutElement) => {
+        console.log('onFullScreenLayout')
+    };
+
     onBreakpointChange = (breakpoint, cols) => {
         this.setState({
             currentBreakpoint: breakpoint,
@@ -74,15 +78,31 @@ class GridLayoutPage extends React.Component {
                 top: 0,
                 cursor: 'pointer'
             };
+            const fullScreenStyle = {
+                position: 'absolute',
+                right: '12px',
+                top: 0,
+                cursor: 'pointer'
+            };
 
             return (
                 <div key={layoutElement.i} data-grid={layoutElement}>
-                    <span
-                        className="remove"
-                        style={removeStyle}
-                        onClick={this.onDeleteLayout.bind(this, layoutElement)}>
-                        x
-                    </span>
+                    <div>
+                        <span
+                            className="remove"
+                            style={removeStyle}
+                            onClick={this.onDeleteLayout.bind(this, layoutElement)}>
+                            x
+                        </span>
+                    </div>
+                    <div>
+                        <span
+                            className="remove"
+                            style={fullScreenStyle}
+                            onClick={this.onFullScreenLayout.bind(this, layoutElement)}>
+                            []
+                        </span>
+                    </div>
                     {layoutElement.layout.component}
                 </div>
             );
