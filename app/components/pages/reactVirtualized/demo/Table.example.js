@@ -121,9 +121,9 @@ class TableComponent extends Component {
     };
 
     _onRowClick = (ev) => {
-        if(ev && ev._meta){
+        if(ev && ev.sysMeta){
             const {groupInfo} = this.state;
-            groupInfo.toggleBy = ev._meta;
+            groupInfo.toggleBy = ev.sysMeta;
             
             this.setState({
                 groupInfo: customRowGroupping(groupInfo)

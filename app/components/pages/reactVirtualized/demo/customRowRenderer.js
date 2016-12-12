@@ -1,6 +1,5 @@
 /** @flow */
 import React from 'react'
-import type { RowRendererParams } from './types'
 
 /**
  * Default row renderer for Table.
@@ -17,7 +16,7 @@ export default function defaultRowRenderer ({
   onRowMouseOut,
   rowData,
   style
-}: RowRendererParams) {
+}) {
   const a11yProps = {}
 
   if (
@@ -44,12 +43,11 @@ export default function defaultRowRenderer ({
     }
   }
 
-  if(rowData && rowData._meta){
-    var padStyle = {
-        width: rowData._meta.level * 10 + 'px;'
-    };
+  if(rowData && rowData.sysMeta){
+    var padSpanStyle = {width: rowData.sysMeta.level * 10 + 'px;'};
+    var padSpan = (<span style={padSpanStyle}></span>);
   
-    var collapsedSpan = rowData._meta.collapsed  
+    var collapsedSpan = rowData.sysMeta.collapsed  
         ? (<span>[+]</span>)
         : (<span>[-]</span>);
  
@@ -67,7 +65,7 @@ export default function defaultRowRenderer ({
           style={style}
           onClick={toggleRowFunction}
         >
-          <span style={padStyle}>&nbsp;</span> {collapsedSpan} {rowData.name}
+           {padSpan} {collapsedSpan} {rowData.name}
         </div>
       )
   }
