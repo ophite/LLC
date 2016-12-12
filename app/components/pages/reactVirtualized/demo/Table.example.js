@@ -1,6 +1,8 @@
 import React, { Component, PropTypes } from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
+// import { Table, Column } from 'react-virtualized'
 import { Table, Column } from 'react-virtualized/source/Table'
+// import { AutoSizer } from 'react-virtualized'
 import { AutoSizer } from 'react-virtualized/source/AutoSizer'
 import Immutable from 'immutable'
 

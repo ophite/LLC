@@ -14,7 +14,6 @@ import '../../../assets/styles/components/grid-layout.scss';
 // import ResponsiveReactGridLayout from 'react-grid-layout';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
-const originalLayouts = getFromLS('layouts') || [];
 
 class GridLayoutPage extends React.Component {
 
@@ -25,22 +24,12 @@ class GridLayoutPage extends React.Component {
         layouts: [],
         fullScreenLayout: null,
         restoreLayouts: false
-        // layouts: JSON.parse(JSON.stringify(originalLayouts))
     };
 
     componentDidUpdate(prevProps, prevState) {
         const { stateLayouts, stateLayout } = this.props;
         if (prevProps.stateLayouts && prevProps.stateLayouts.length < stateLayouts.length) {
             this.onAddLayout(stateLayout);
-        }
-
-        if (this.state.mounted && this.state.restoreLayouts) {
-            // debugger
-            // this.setState({
-            //     restoreLayouts: false,
-            // });
-            // const layouts = JSON.parse(JSON.stringify(getFromLS('layouts') || []));
-            // this._mergeLayout(layouts);
         }
     }
 
@@ -79,32 +68,16 @@ class GridLayoutPage extends React.Component {
 
         if (!this.state.fullScreenLayout) {
             const node = ReactDOM.findDOMNode(this);
-            // const { handleChangeBreakpoint } = this.props
-            // handleChangeBreakpoint(this.state.currentBreakpoint);
-            const {handleSaveLayout} = this.props;
+            const { handleSaveLayout } = this.props;
             handleSaveLayout({
                 width: node.offsetWidth
             });
-            // saveToLS('width', node.offsetWidth)
-            // saveToLS('layouts', this.state.layouts.map(l => {
-            //     const tmpLayout = { ...l };
-            //     delete tmpLayout.stateLayout;
-            //     return tmpLayout;
-            // }));
-            // this.setState({
-            //     restoreLayouts: false
-            // });
         }
         else {
-            // layouts: JSON.parse(JSON.stringify(getFromLS('layouts') || []))
-            // this.setState({
-            //     restoreLayouts: true
-            // });
         }
     };
 
     onBreakpointChange = (breakpoint, cols) => {
-        console.log('onBreakpointChange', breakpoint)
         this.setState({
             currentBreakpoint: breakpoint,
             cols: cols
@@ -112,42 +85,10 @@ class GridLayoutPage extends React.Component {
     };
 
     onLayoutChange = (layout, layouts) => {
-        console.log('onLayoutChange layout', layout)
-        console.log('onLayoutChange layouts', layouts)
         this._mergeLayout(layout);
     };
 
     onWidthChange = (containerWidth, margin, cols, containerPadding) => {
-        this.setState({
-            width: containerWidth,
-        });
-    };
-
-    renderLayout = (layout) => {
-        const headerView = (
-            <LayoutHeader
-                layout={layout}
-                isFullScreen={this.state.fullScreenLayout !==null}
-                handleDeleteLayout={this.onDeleteLayout.bind(this, layout)}
-                handleToggleFullScreenLayout={this.onToggleFullScreenLayout.bind(this, layout)}
-            />
-        );
-
-        console.log('this.state.fullScreenLayout', this.state.fullScreenLayout);
-
-        if (this.state.fullScreenLayout) {
-            return headerView;
-        }
-
-        return (
-            <div key={layout.i} data-grid={layout}>
-                {headerView}
-            </div>
-        );
-    };
-
-    renderLayouts = () => {
-        return map(this.state.layouts, this.renderLayout);
     };
 
     _mergeLayout = (changedLayouts) => {
@@ -166,27 +107,41 @@ class GridLayoutPage extends React.Component {
         });
     };
 
-    onResize = (layout) => {
-        // this._mergeLayout(layout);
+    renderLayout = (layout) => {
+        const headerView = (
+            <LayoutHeader
+                layout={layout}
+                isFullScreen={this.state.fullScreenLayout !==null}
+                handleDeleteLayout={this.onDeleteLayout.bind(this, layout)}
+                handleToggleFullScreenLayout={this.onToggleFullScreenLayout.bind(this, layout)}
+            />
+        );
+
+        if (this.state.fullScreenLayout) {
+            return headerView;
+        }
+
+        return (
+            <div key={layout.i} data-grid={layout}>
+                {headerView}
+            </div>
+        );
+    };
+
+    renderLayouts = () => {
+        return map(this.state.layouts, this.renderLayout);
     };
 
     render() {
-        const { stateBreakpoint } = this.props;
-        console.log('state layouts', this.state.layouts);
         if (this.state.fullScreenLayout) {
             return this.renderLayout(this.state.fullScreenLayout)
         }
 
+        const { layoutProps } = this.props;
         return (
             <div>
                 <ResponsiveReactGridLayout
-                    // initialWidth={this.state.width ? this.state.width: 1280}
-                    // breakpoint={stateBreakpoint}
-                    // {...this.props}
-                    // onResizeStop={this.onResize}
-                    // layouts={{lg : this.state.layouts}}
-                    // layouts={this.state.layouts}
-                    initialWidth={this.props.layoutProps.width}
+                    initialWidth={layoutProps.width}
                     layout={this.state.layouts}
                     onBreakpointChange={this.onBreakpointChange}
                     onLayoutChange={this.onLayoutChange}
@@ -206,24 +161,6 @@ class GridLayoutPage extends React.Component {
 }
 
 
-function getFromLS(key) {
-    let ls = {};
-    if (global.localStorage) {
-        try {
-            ls = JSON.parse(global.localStorage.getItem('rgl-8')) || {};
-        } catch (e) {/*Ignore*/
-        }
-    }
-    return ls[key];
-}
-
-function saveToLS(key, value) {
-    if (global.localStorage) {
-        global.localStorage.setItem('rgl-8', JSON.stringify({
-            [key]: value
-        }));
-    }
-}
 GridLayoutPage.propTypes = {
     stateLayout: React.PropTypes.object,
     stateLayouts: React.PropTypes.array,
