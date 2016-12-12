@@ -5,6 +5,8 @@ import reject from 'lodash/reject';
 const DEFAULT_STATE = {
     layout: null,
     layouts: [],
+    breakpoint: null,
+    layoutProps: {}
 };
 
 
@@ -17,6 +19,12 @@ export default (state = DEFAULT_STATE, action) => {
         case typesLayout.DELETE_LAYOUT:
             return reduceDeleteLayout(state, action);
 
+        case typesLayout.CHANGE_BREAKPOINT:
+            return reduceChangeBreakpointLayout(state, action);
+
+        case typesLayout.SAVE_LAYOUT:
+            return reduceSaveLayout(state, action);
+
         default:
             return state;
     }
@@ -28,6 +36,7 @@ const reduceAddLayout = (state, action) => {
     layout.uuid = uuid();
 
     return {
+        ...state,
         layouts: [
             ...state.layouts,
             layout
@@ -39,7 +48,24 @@ const reduceAddLayout = (state, action) => {
 const reduceDeleteLayout = (state, action) => {
     const { layout } = action.payload;
     return {
+        ...state,
         layouts: reject(state.layouts, { uuid: layout.uuid }),
         layout: null
+    };
+};
+
+const reduceChangeBreakpointLayout = (state, action) => {
+    const { breakpoint } = action.payload;
+    return {
+        ...state,
+        breakpoint,
+    };
+};
+
+const reduceSaveLayout = (state, action) => {
+    const { layoutProps } = action.payload;
+    return {
+        ...state,
+        layoutProps,
     };
 };

@@ -1,8 +1,10 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import reject from 'lodash/reject';
 import map from 'lodash/map';
 import findIndex from 'lodash/findIndex';
-import { Responsive, WidthProvider } from 'react-grid-layout';
+import { Responsive/*, WidthProvider*/ } from 'react-grid-layout';
+import WidthProvider from './WidthProvider.jsx';
 
 import { LayoutHeader } from './Layout.header'
 import '../../../assets/styles/components/react-resizable.scss';
@@ -12,6 +14,7 @@ import '../../../assets/styles/components/grid-layout.scss';
 // import ResponsiveReactGridLayout from 'react-grid-layout';
 const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
+const originalLayouts = getFromLS('layouts') || [];
 
 class GridLayoutPage extends React.Component {
 
@@ -20,13 +23,24 @@ class GridLayoutPage extends React.Component {
         mounted: false,
         layoutIdCounter: 0,
         layouts: [],
-        fullScreenLayout: null
+        fullScreenLayout: null,
+        restoreLayouts: false
+        // layouts: JSON.parse(JSON.stringify(originalLayouts))
     };
 
     componentDidUpdate(prevProps, prevState) {
         const { stateLayouts, stateLayout } = this.props;
         if (prevProps.stateLayouts && prevProps.stateLayouts.length < stateLayouts.length) {
             this.onAddLayout(stateLayout);
+        }
+
+        if (this.state.mounted && this.state.restoreLayouts) {
+            // debugger
+            // this.setState({
+            //     restoreLayouts: false,
+            // });
+            // const layouts = JSON.parse(JSON.stringify(getFromLS('layouts') || []));
+            // this._mergeLayout(layouts);
         }
     }
 
@@ -58,14 +72,39 @@ class GridLayoutPage extends React.Component {
         this.setState({ layouts: reject(this.state.layouts, { i: layout.i }) });
     };
 
-    onFullScreenLayout = (layout) => {
+    onToggleFullScreenLayout = (layout) => {
         this.setState({
             fullScreenLayout: this.state.fullScreenLayout ? null : layout
         });
+
+        if (!this.state.fullScreenLayout) {
+            const node = ReactDOM.findDOMNode(this);
+            // const { handleChangeBreakpoint } = this.props
+            // handleChangeBreakpoint(this.state.currentBreakpoint);
+            const {handleSaveLayout} = this.props;
+            handleSaveLayout({
+                width: node.offsetWidth
+            });
+            // saveToLS('width', node.offsetWidth)
+            // saveToLS('layouts', this.state.layouts.map(l => {
+            //     const tmpLayout = { ...l };
+            //     delete tmpLayout.stateLayout;
+            //     return tmpLayout;
+            // }));
+            // this.setState({
+            //     restoreLayouts: false
+            // });
+        }
+        else {
+            // layouts: JSON.parse(JSON.stringify(getFromLS('layouts') || []))
+            // this.setState({
+            //     restoreLayouts: true
+            // });
+        }
     };
 
     onBreakpointChange = (breakpoint, cols) => {
-        console.log('onBreakpointChange')
+        console.log('onBreakpointChange', breakpoint)
         this.setState({
             currentBreakpoint: breakpoint,
             cols: cols
@@ -73,36 +112,51 @@ class GridLayoutPage extends React.Component {
     };
 
     onLayoutChange = (layout, layouts) => {
-        console.log('onLayoutChange')
+        console.log('onLayoutChange layout', layout)
+        console.log('onLayoutChange layouts', layouts)
+        this._mergeLayout(layout);
     };
 
     onWidthChange = (containerWidth, margin, cols, containerPadding) => {
+        this.setState({
+            width: containerWidth,
+        });
+    };
+
+    renderLayout = (layout) => {
+        const headerView = (
+            <LayoutHeader
+                layout={layout}
+                isFullScreen={this.state.fullScreenLayout !==null}
+                handleDeleteLayout={this.onDeleteLayout.bind(this, layout)}
+                handleToggleFullScreenLayout={this.onToggleFullScreenLayout.bind(this, layout)}
+            />
+        );
+
+        console.log('this.state.fullScreenLayout', this.state.fullScreenLayout);
+
+        if (this.state.fullScreenLayout) {
+            return headerView;
+        }
+
+        return (
+            <div key={layout.i} data-grid={layout}>
+                {headerView}
+            </div>
+        );
     };
 
     renderLayouts = () => {
-        const renderLayout = (layout) => {
-            return (
-                <div key={layout.i} data-grid={layout}>
-                    <LayoutHeader
-                        layout={layout}
-                        isFullScreen={this.state.fullScreenLayout !==null}
-                        handleDeleteLayout={this.onDeleteLayout.bind(this, layout)}
-                        handleToggleFullScreenLayout={this.onFullScreenLayout.bind(this, layout)}
-                    />
-                </div>
-            );
-        };
-
-        return map(this.state.layouts, renderLayout);
+        return map(this.state.layouts, this.renderLayout);
     };
 
-    onResize = (layouts) => {
+    _mergeLayout = (changedLayouts) => {
         const newLayouts = this.state.layouts.map(layout => {
-            const resizedIndex = findIndex(layouts, { i: layout.i });
-            const resizedLayout = layouts[resizedIndex];
+            const changedIndex = findIndex(changedLayouts, { i: layout.i });
+            const changedLayout = changedLayouts[changedIndex];
 
             return {
-                ...resizedLayout,
+                ...changedLayout,
                 stateLayout: layout.stateLayout
             };
         });
@@ -112,34 +166,36 @@ class GridLayoutPage extends React.Component {
         });
     };
 
+    onResize = (layout) => {
+        // this._mergeLayout(layout);
+    };
+
     render() {
+        const { stateBreakpoint } = this.props;
+        console.log('state layouts', this.state.layouts);
         if (this.state.fullScreenLayout) {
-            return (
-                <LayoutHeader
-                    layout={this.state.fullScreenLayout}
-                    isFullScreen={this.state.fullScreenLayout !==null}
-                    handleDeleteLayout={this.onDeleteLayout.bind(this, this.state.fullScreenLayout)}
-                    handleToggleFullScreenLayout={this.onFullScreenLayout.bind(this, this.state.fullScreenLayout)}
-                />
-            )
+            return this.renderLayout(this.state.fullScreenLayout)
         }
 
         return (
             <div>
                 <ResponsiveReactGridLayout
+                    // initialWidth={this.state.width ? this.state.width: 1280}
+                    // breakpoint={stateBreakpoint}
                     // {...this.props}
-                    onResizeStop={this.onResize}
+                    // onResizeStop={this.onResize}
                     // layouts={{lg : this.state.layouts}}
                     // layouts={this.state.layouts}
+                    initialWidth={this.props.layoutProps.width}
                     layout={this.state.layouts}
                     onBreakpointChange={this.onBreakpointChange}
                     onLayoutChange={this.onLayoutChange}
                     // WidthProvider option
-                    measureBeforeMount={false}
+                    // measureBeforeMount={false}
                     // I like to have it animate on mount. If you don't, delete `useCSSTransforms` (it's default `true`)
                     // and set `measureBeforeMount={true}`.
                     // onWidthChange={this.onWidthChange}
-                    useCSSTransforms={this.state.mounted}
+                    // useCSSTransforms={this.state.mounted}
                     draggableHandle='.react-grid__header'
                 >
                     {this.renderLayouts()}
@@ -150,6 +206,24 @@ class GridLayoutPage extends React.Component {
 }
 
 
+function getFromLS(key) {
+    let ls = {};
+    if (global.localStorage) {
+        try {
+            ls = JSON.parse(global.localStorage.getItem('rgl-8')) || {};
+        } catch (e) {/*Ignore*/
+        }
+    }
+    return ls[key];
+}
+
+function saveToLS(key, value) {
+    if (global.localStorage) {
+        global.localStorage.setItem('rgl-8', JSON.stringify({
+            [key]: value
+        }));
+    }
+}
 GridLayoutPage.propTypes = {
     stateLayout: React.PropTypes.object,
     stateLayouts: React.PropTypes.array,

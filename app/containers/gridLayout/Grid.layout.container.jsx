@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { GridLayoutPage } from '../../components/pages/gridLayout/Grid.layout.page';
-import { deleteLayout } from '../../actions/layout.actions';
+import { deleteLayout, changeBreakpoint, saveLayout } from '../../actions/layout.actions';
 
 
 class GridLayoutContainer extends React.Component {
@@ -20,6 +20,8 @@ class GridLayoutContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
+        layoutProps: state.layout.layoutProps,
+        stateBreakpoint: state.layout.breakpoint,
         stateLayout: state.layout.layout,
         stateLayouts: state.layout.layouts,
     };
@@ -27,6 +29,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         handleDeleteLayout: bindActionCreators(deleteLayout, dispatch),
+        handleChangeBreakpoint: bindActionCreators(changeBreakpoint, dispatch),
+        handleSaveLayout: bindActionCreators(saveLayout, dispatch),
     };
 };
 
