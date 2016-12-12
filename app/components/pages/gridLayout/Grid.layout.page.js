@@ -4,6 +4,7 @@ import map from 'lodash/map';
 import findIndex from 'lodash/findIndex';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 
+import { LayoutHeader } from './Layout.header'
 import '../../../assets/styles/components/react-resizable.scss';
 import '../../../assets/styles/components/grid-layout.scss';
 
@@ -33,7 +34,7 @@ class GridLayoutPage extends React.Component {
         this.setState({ mounted: true });
     }
 
-    onAddLayout = (layout) => {
+    onAddLayout = (stateLayout) => {
         this.setState({
             layoutIdCounter: this.state.layoutIdCounter + 1,
             layouts: [
@@ -44,35 +45,23 @@ class GridLayoutPage extends React.Component {
                     y: Infinity, // puts it at the bottom
                     w: 2,
                     h: 2,
-                    layout
+                    stateLayout
                 }
             ]
         });
         window.dispatchEvent(new Event('resize'));
     };
 
-    onDeleteLayout = (layoutElement) => {
+    onDeleteLayout = (layout) => {
         const { handleDeleteLayout } = this.props;
-        handleDeleteLayout(layoutElement.layout);
-        this.setState({ layouts: reject(this.state.layouts, { i: layoutElement.i }) });
+        handleDeleteLayout(layout.stateLayout);
+        this.setState({ layouts: reject(this.state.layouts, { i: layout.i }) });
     };
 
-    onFullScreenLayout = (layoutElement) => {
-        console.log('onFullScreenLayout')
+    onFullScreenLayout = (layout) => {
         this.setState({
-            fullScreenComponent: layoutElement.layout.component
+            fullScreenComponent: layout.stateLayout.component
         });
-        // const index = findIndex(this.state.layouts, { i: layoutElement.i });
-        // layoutElement.h = 7;
-        // const l = [
-        //     ...this.state.layouts.slice(0, index),
-        //     layoutElement,
-        //     ...this.state.layouts.slice(index, this.state.layouts.length - 1)
-        // ];
-        // this.setState({
-        //     layouts: l
-        // });
-        // window.dispatchEvent(new Event('resize'));
     };
 
     onBreakpointChange = (breakpoint, cols) => {
@@ -91,48 +80,35 @@ class GridLayoutPage extends React.Component {
     };
 
     renderLayouts = () => {
-        const renderLayout = (layoutElement) => {
-            const removeStyle = {
-                position: 'absolute',
-                right: '2px',
-                top: 0,
-                cursor: 'pointer'
-            };
-            const fullScreenStyle = {
-                position: 'absolute',
-                right: '12px',
-                top: 0,
-                cursor: 'pointer'
-            };
-
+        const renderLayout = (layout) => {
             return (
-                <div key={layoutElement.i} data-grid={layoutElement}>
-                    <div className="react-grid__header">
-                        <div>
-                            <span
-                                className="close"
-                                onClick={this.onDeleteLayout.bind(this, layoutElement)}>
-                            </span>
-                        </div>
-                        <div>
-                            <span
-                                className="full-screen"
-                                onClick={this.onFullScreenLayout.bind(this, layoutElement)}>
-                            </span>
-                        </div>
-                    </div>
-                    {layoutElement.layout.component}
+                <div key={layout.i} data-grid={layout}>
+                    <LayoutHeader
+                        key={layout.i}
+                        layout={layout}
+                        handleDeleteLayout={this.onDeleteLayout.bind(this, layout)}
+                        handleToggleFullScreenLayout={this.onFullScreenLayout.bind(this, layout)}
+                    />
                 </div>
             );
         };
 
-        console.log('this.state.layouts', this.state.layouts);
         return map(this.state.layouts, renderLayout);
     };
 
     onResize = (layouts) => {
+        const newLayouts = this.state.layouts.map(layout => {
+            const resizedIndex = findIndex(layouts, { i: layout.i });
+            const resizedLayout = layouts[resizedIndex];
+
+            return {
+                ...resizedLayout,
+                stateLayout: layout.stateLayout
+            };
+        });
+
         this.setState({
-            layouts,
+            layouts: newLayouts
         });
     };
 
