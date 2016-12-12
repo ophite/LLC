@@ -10,6 +10,6 @@ const SortDirection = {
    * This means arranging from the highest value to the lowest (e.g. z-a, 9-0).
    */
   DESC: 'DESC'
-}
+};
 
 export default SortDirection
