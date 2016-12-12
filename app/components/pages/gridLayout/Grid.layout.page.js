@@ -20,7 +20,7 @@ class GridLayoutPage extends React.Component {
         mounted: false,
         layoutIdCounter: 0,
         layouts: [],
-        fullScreenComponent: null
+        fullScreenLayout: null
     };
 
     componentDidUpdate(prevProps, prevState) {
@@ -60,7 +60,7 @@ class GridLayoutPage extends React.Component {
 
     onFullScreenLayout = (layout) => {
         this.setState({
-            fullScreenComponent: layout.stateLayout.component
+            fullScreenLayout: this.state.fullScreenLayout ? null : layout
         });
     };
 
@@ -84,8 +84,8 @@ class GridLayoutPage extends React.Component {
             return (
                 <div key={layout.i} data-grid={layout}>
                     <LayoutHeader
-                        key={layout.i}
                         layout={layout}
+                        isFullScreen={this.state.fullScreenLayout !==null}
                         handleDeleteLayout={this.onDeleteLayout.bind(this, layout)}
                         handleToggleFullScreenLayout={this.onFullScreenLayout.bind(this, layout)}
                     />
@@ -113,11 +113,14 @@ class GridLayoutPage extends React.Component {
     };
 
     render() {
-        if (this.state.fullScreenComponent) {
+        if (this.state.fullScreenLayout) {
             return (
-                <div>
-                    {this.state.fullScreenComponent}
-                </div>
+                <LayoutHeader
+                    layout={this.state.fullScreenLayout}
+                    isFullScreen={this.state.fullScreenLayout !==null}
+                    handleDeleteLayout={this.onDeleteLayout.bind(this, this.state.fullScreenLayout)}
+                    handleToggleFullScreenLayout={this.onFullScreenLayout.bind(this, this.state.fullScreenLayout)}
+                />
             )
         }
 

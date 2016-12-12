@@ -4,7 +4,16 @@ import React, { Component } from 'react';
 class LayoutHeader extends Component {
 
     render() {
-        const { layout, handleDeleteLayout, handleToggleFullScreenLayout } = this.props;
+        const {
+            layout,
+            isFullScreen,
+            handleDeleteLayout,
+            handleToggleFullScreenLayout
+        } = this.props;
+
+        // TODO change icon to minify
+        const toggleScreenClassName = isFullScreen ? "normal-screen" : "full-screen";
+
         return (
             <div>
                 <div className="react-grid__header">
@@ -16,7 +25,7 @@ class LayoutHeader extends Component {
                     </div>
                     <div>
                         <span
-                            className="full-screen"
+                            className={toggleScreenClassName}
                             onClick={handleToggleFullScreenLayout}>
                         </span>
                     </div>
@@ -30,6 +39,7 @@ class LayoutHeader extends Component {
 
 LayoutHeader.propTypes = {
     layout: React.PropTypes.object.isRequired,
+    isFullScreen: React.PropTypes.bool.isRequired,
     handleDeleteLayout: React.PropTypes.func.isRequired,
     handleToggleFullScreenLayout: React.PropTypes.func.isRequired,
 };
