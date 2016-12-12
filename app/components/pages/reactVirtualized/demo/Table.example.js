@@ -13,6 +13,8 @@ import { GroupingColumnsBox } from '../../reactDatagrid/GroupingColumnsBox/Group
 import { Header } from './Header';
 import SortDirection from './SortDirection'
 import { arrayCutItem, arraySwipeItem } from '../../../../utils/helper';
+import customRowRenderer from './customRowRenderer'
+import customRowGroupping from './customRowGroupping'
 
 
 class TableComponent extends Component {
@@ -31,6 +33,14 @@ class TableComponent extends Component {
             sortBy: 'index',
             sortDirection: SortDirection.ASC,
             useDynamicRowHeight: false,
+            groupInfo: customRowGroupping({
+                list: props.list.toArray(),
+                groupBy: [
+                    'firstName',
+                    'index'
+                ],
+                toggleBy: null
+            }),
             groupingColumns: [
                 'firstName',
                 'index',
@@ -110,6 +120,17 @@ class TableComponent extends Component {
         );
     };
 
+    _onRowClick = (ev) => {
+        if(ev && ev._meta){
+            const {groupInfo} = this.state;
+            groupInfo.toggleBy = ev._meta;
+            
+            this.setState({
+                groupInfo: customRowGroupping(groupInfo)
+            });
+        }
+    };
+    
     _rowClassName = (params) => {
         const { index } = params;
         if (index < 0) {
@@ -126,8 +147,14 @@ class TableComponent extends Component {
 
     handleOnDeleteColumnGroup = (item) => {
         const index = this.state.groupingColumns.indexOf(item);
+        const groupingColumns = arrayCutItem(this.state.groupingColumns, index);
+    
+        const {groupInfo} = this.state;
+        groupInfo.groupBy = [...groupingColumns];
+        
         this.setState({
-            groupingColumns: arrayCutItem(this.state.groupingColumns, index)
+            groupingColumns: groupingColumns,
+            groupInfo: customRowGroupping(groupInfo)
         });
     };
 
@@ -148,7 +175,13 @@ class TableComponent extends Component {
             groupingColumns.push(col.dataKey);
         }
 
-        this.setState({ groupingColumns });
+        const {groupInfo} = this.state;
+        groupInfo.groupBy = [...groupingColumns];
+        
+        this.setState({ 
+            groupingColumns: groupingColumns,
+            groupInfo: customRowGroupping(groupInfo)
+        });
     };
 
     //endregion
@@ -191,10 +224,12 @@ class TableComponent extends Component {
             sortBy,
             sortDirection,
             useDynamicRowHeight,
-            list
+            list,
+            groupInfo
         } = this.state;
 
         // TODO add sorting multiple columns
+        /*
         const sortedList = this._isSortEnabled() ?
             list
                 .sortBy(item => item[sortBy])
@@ -202,10 +237,13 @@ class TableComponent extends Component {
                     list => sortDirection === SortDirection.DESC ?
                         list.reverse() : list
                 ) : list;
+        */
 
         const rowGetter = (params) => {
             const { index } = params;
-            return this._getDatum(sortedList, index);
+            const immutableList = Immutable.List(groupInfo.grouppedList);
+            
+            return this._getDatum(immutableList, index);
         };
 
         return (
@@ -221,10 +259,12 @@ class TableComponent extends Component {
                 rowHeight={useDynamicRowHeight ? this._getRowHeight : rowHeight}
                 rowGetter={rowGetter}
                 rowCount={rowCount}
+                rowRenderer={customRowRenderer}
                 sort={this._sort}
                 sortBy={sortBy}
                 sortDirection={sortDirection}
                 width={width}
+                onRowClick={this._onRowClick}
             >
                 {this.renderColumns()}
             </Table>
