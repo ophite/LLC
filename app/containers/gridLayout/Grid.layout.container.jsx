@@ -20,8 +20,8 @@ class GridLayoutContainer extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        layout: state.layout.layout,
-        layouts: state.layout.layouts,
+        stateLayout: state.layout.layout,
+        stateLayouts: state.layout.layouts,
     };
 };
 const mapDispatchToProps = (dispatch) => {

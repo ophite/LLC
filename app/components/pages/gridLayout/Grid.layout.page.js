@@ -1,6 +1,7 @@
 import React from 'react';
 import reject from 'lodash/reject';
 import map from 'lodash/map';
+import findIndex from 'lodash/findIndex';
 import { Responsive, WidthProvider } from 'react-grid-layout';
 import 'react-grid-layout/css/styles.css';
 import 'react-resizable/css/styles.css';
@@ -18,12 +19,13 @@ class GridLayoutPage extends React.Component {
         mounted: false,
         layoutIdCounter: 0,
         layouts: [],
+        fullScreenComponent: null
     };
 
     componentDidUpdate(prevProps, prevState) {
-        const { layouts, layout } = this.props;
-        if (prevProps.layouts && prevProps.layouts.length < layouts.length) {
-            this.onAddLayout(layout);
+        const { stateLayouts, stateLayout } = this.props;
+        if (prevProps.stateLayouts && prevProps.stateLayouts.length < stateLayouts.length) {
+            this.onAddLayout(stateLayout);
         }
     }
 
@@ -57,9 +59,24 @@ class GridLayoutPage extends React.Component {
 
     onFullScreenLayout = (layoutElement) => {
         console.log('onFullScreenLayout')
+        this.setState({
+            fullScreenComponent: layoutElement.layout.component
+        });
+        // const index = findIndex(this.state.layouts, { i: layoutElement.i });
+        // layoutElement.h = 7;
+        // const l = [
+        //     ...this.state.layouts.slice(0, index),
+        //     layoutElement,
+        //     ...this.state.layouts.slice(index, this.state.layouts.length - 1)
+        // ];
+        // this.setState({
+        //     layouts: l
+        // });
+        // window.dispatchEvent(new Event('resize'));
     };
 
     onBreakpointChange = (breakpoint, cols) => {
+        console.log('onBreakpointChange')
         this.setState({
             currentBreakpoint: breakpoint,
             cols: cols
@@ -67,6 +84,7 @@ class GridLayoutPage extends React.Component {
     };
 
     onLayoutChange = (layout, layouts) => {
+        console.log('onLayoutChange')
     };
 
     onWidthChange = (containerWidth, margin, cols, containerPadding) => {
@@ -87,12 +105,8 @@ class GridLayoutPage extends React.Component {
                 cursor: 'pointer'
             };
 
-            const style = {
-                'height': '300px'
-            };
-
             return (
-                <div style={style} key={layoutElement.i} data-grid={layoutElement}>
+                <div key={layoutElement.i} data-grid={layoutElement}>
                     <div>
                         <span
                             className="remove"
@@ -114,16 +128,33 @@ class GridLayoutPage extends React.Component {
             );
         };
 
+        console.log('this.state.layouts', this.state.layouts);
         return map(this.state.layouts, renderLayout);
     };
 
+    onResize = (layouts) => {
+        this.setState({
+            layouts,
+        });
+    };
+
     render() {
+        if (this.state.fullScreenComponent) {
+            return (
+                <div>
+                    {this.state.fullScreenComponent}
+                </div>
+            )
+        }
+
         return (
             <div>
                 <ResponsiveReactGridLayout
-                    {...this.props}
-                    layouts={{lg : this.state.layouts}}
+                    // {...this.props}
+                    onResizeStop={this.onResize}
+                    // layouts={{lg : this.state.layouts}}
                     // layouts={this.state.layouts}
+                    layout={this.state.layouts}
                     onBreakpointChange={this.onBreakpointChange}
                     onLayoutChange={this.onLayoutChange}
                     // WidthProvider option
@@ -142,8 +173,8 @@ class GridLayoutPage extends React.Component {
 
 
 GridLayoutPage.propTypes = {
-    layout: React.PropTypes.object,
-    layouts: React.PropTypes.array,
+    stateLayout: React.PropTypes.object,
+    stateLayouts: React.PropTypes.array,
 };
 
 GridLayoutPage.defaultProps = {
