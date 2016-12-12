@@ -53,6 +53,7 @@ const WidthProvider = (ComposedComponent) => class extends React.Component {
             return <div className={this.props.className} style={this.props.style}/>;
         }
 
+        // Added prop width, fixed full screen mode
         const width = this.props.initialWidth ? this.props.initialWidth : this.state.width;
 
         return <ComposedComponent {...this.props} {...this.state} {...{ width }} />;

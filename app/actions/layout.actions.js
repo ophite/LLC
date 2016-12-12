@@ -10,11 +10,6 @@ export const deleteLayout = (layout) => ({
     payload: { layout }
 });
 
-export const changeBreakpoint = (breakpoint) => ({
-    type: typesLayout.CHANGE_BREAKPOINT,
-    payload: { breakpoint }
-});
-
 export const saveLayout = (layoutProps) => ({
     type: typesLayout.SAVE_LAYOUT,
     payload: { layoutProps }

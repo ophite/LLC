@@ -5,7 +5,7 @@ class LayoutHeader extends Component {
 
     render() {
         const {
-            layout,
+            layoutComponent,
             isFullScreen,
             handleDeleteLayout,
             handleToggleFullScreenLayout
@@ -30,7 +30,7 @@ class LayoutHeader extends Component {
                         </span>
                     </div>
                 </div>
-                {layout.stateLayout.component}
+                {layoutComponent}
             </div>
         );
     }
@@ -38,7 +38,7 @@ class LayoutHeader extends Component {
 
 
 LayoutHeader.propTypes = {
-    layout: React.PropTypes.object.isRequired,
+    layoutComponent: React.PropTypes.object.isRequired,
     isFullScreen: React.PropTypes.bool.isRequired,
     handleDeleteLayout: React.PropTypes.func.isRequired,
     handleToggleFullScreenLayout: React.PropTypes.func.isRequired,
