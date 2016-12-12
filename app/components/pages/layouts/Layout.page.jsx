@@ -1,5 +1,5 @@
 import ModalContainer from '../../../containers/modal/Modal.container.jsx';
-import MenuComponent from '../../controls/menu/Menu.jsx';
+import MenuContainer from '../../../containers/menu/Menu.container.jsx';
 
 
 export default class LayoutPage extends React.Component {
@@ -45,7 +45,7 @@ export default class LayoutPage extends React.Component {
 
     renderMenu() {
         return (
-            <MenuComponent/>
+            <MenuContainer/>
         );
     }
 

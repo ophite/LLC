@@ -1,46 +1,6 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
+import { layouts } from '../../../constants/menu.constant.js';
 
-import configureStore from '../store/root.store';
-const initialState = {};
-export const store = configureStore(initialState);
-
-import TableVirtualized from '../containers/react-virtualized/Table.container.jsx';
-import Table from '../containers/react-datagrid/Table.container.jsx';
-import Invidual from '../containers/individual/Individual.container.jsx';
-
-
-const ReduxComponentWrapper = (componentView) => {
-    return (container, state) => {
-        const rootElement = container.getElement()[0];
-        const view = (
-            <Provider store={store}>
-                {React.createElement(componentView)}
-            </Provider>
-        );
-
-        ReactDOM.render(view, rootElement);
-    };
-};
-
-export const goldenWindows = {
-    virtulized: {
-        fullName: 'Виртуалайз',
-        name: 'virtulized',
-        component: ()=> ReduxComponentWrapper.call(null, TableVirtualized)
-    },
-    table: {
-        fullName: 'Таблица',
-        name: 'table',
-        component: ()=> ReduxComponentWrapper.call(null, Table)
-    },
-    individual: {
-        fullName: 'Физ. лицо',
-        name: 'individual',
-        component: () => ReduxComponentWrapper.call(null, Invidual)
-    }
-};
 
 export const goldenConfigDefaults = {
     openPopouts: [],
@@ -73,6 +33,7 @@ export const goldenConfigDefaults = {
     }
 };
 
+
 export const goldenConfig = {
     ...goldenConfigDefaults,
     settings: {
@@ -95,12 +56,10 @@ export const goldenConfig = {
             content: [
                 {
                     type: 'component',
-                    componentName: goldenWindows.virtulized.name,
+                    componentName: layouts.virtulized.name,
                     props: { value: 'I\'m on the left' }
                 }
             ]
         }
     ]
 };
-
-export const GOLDEN_CUSTOM_ATTRIBUTE = 'golden_custom_attribute';

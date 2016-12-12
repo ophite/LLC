@@ -1,17 +1,19 @@
 import React, { Component, PropTypes } from 'react'
 import shallowCompare from 'react-addons-shallow-compare'
+// import { Table, Column } from 'react-virtualized'
 import { Table, Column } from 'react-virtualized/source/Table'
+// import { AutoSizer } from 'react-virtualized'
 import { AutoSizer } from 'react-virtualized/source/AutoSizer'
 import Immutable from 'immutable'
 
-import './styles.css';
-import styles from './Table.example.css'
-import { GroupingColumnsBox } from '../../react-datagrid/GroupingColumnsBox/GroupingColumnsBox.jsx';
+
+// import './styles.css';
+import styles from '../../../../assets/styles/components/react-virtualized.scss'
+import { GroupingColumnsBox } from '../../reactDatagrid/GroupingColumnsBox/GroupingColumnsBox.jsx';
 import { Header } from './Header';
 import SortDirection from './SortDirection'
 import { arrayCutItem, arraySwipeItem } from '../../../../utils/helper';
-import customRowRenderer from './customRowRenderer'
-import customRowGroupping from './customRowGroupping'
+
 
 class TableComponent extends Component {
 
@@ -21,23 +23,17 @@ class TableComponent extends Component {
         super(props, context);
         this.state = {
             list: props.list,
-            headerHeight: 30,
+            headerHeight: 55,
             height: 500,
             overscanRowCount: 10,
-            rowHeight: 40,
+            rowHeight: 55,
             rowCount: 1000,
             sortBy: 'index',
             sortDirection: SortDirection.ASC,
             useDynamicRowHeight: false,
-            groupInfo: customRowGroupping({
-                list: props.list.toArray(),
-                groupBy: [
-                    'firstName'
-                ],
-                toggleBy: null
-            }),
             groupingColumns: [
-                'firstName'
+                'firstName',
+                'index',
             ],
             columns: [
                 ({ index })=> {
@@ -88,7 +84,7 @@ class TableComponent extends Component {
     //endregion
 
     //region private
-    
+
     _getDatum = (list, index) => {
         const item = list.get(index % list.size);
         return item;
@@ -114,17 +110,6 @@ class TableComponent extends Component {
         );
     };
 
-    _onRowClick = (ev) => {
-        if(ev && ev._meta){
-            const {groupInfo} = this.state;
-            groupInfo.toggleBy = ev._meta;
-            
-            this.setState({
-                groupInfo: customRowGroupping(groupInfo)
-            });
-        }
-    };
-    
     _rowClassName = (params) => {
         const { index } = params;
         if (index < 0) {
@@ -141,14 +126,8 @@ class TableComponent extends Component {
 
     handleOnDeleteColumnGroup = (item) => {
         const index = this.state.groupingColumns.indexOf(item);
-        const groupingColumns = arrayCutItem(this.state.groupingColumns, index);
-    
-        const {groupInfo} = this.state;
-        groupInfo.groupBy = [...groupingColumns];
-        
         this.setState({
-            groupingColumns: groupingColumns,
-            groupInfo: customRowGroupping(groupInfo)
+            groupingColumns: arrayCutItem(this.state.groupingColumns, index)
         });
     };
 
@@ -169,13 +148,7 @@ class TableComponent extends Component {
             groupingColumns.push(col.dataKey);
         }
 
-        const {groupInfo} = this.state;
-        groupInfo.groupBy = [...groupingColumns];
-        
-        this.setState({ 
-            groupingColumns: groupingColumns,
-            groupInfo: customRowGroupping(groupInfo)
-        });
+        this.setState({ groupingColumns });
     };
 
     //endregion
@@ -218,12 +191,10 @@ class TableComponent extends Component {
             sortBy,
             sortDirection,
             useDynamicRowHeight,
-            list,
-            groupInfo
+            list
         } = this.state;
 
         // TODO add sorting multiple columns
-        /*
         const sortedList = this._isSortEnabled() ?
             list
                 .sortBy(item => item[sortBy])
@@ -231,13 +202,10 @@ class TableComponent extends Component {
                     list => sortDirection === SortDirection.DESC ?
                         list.reverse() : list
                 ) : list;
-        */
 
         const rowGetter = (params) => {
             const { index } = params;
-            const immutableList = Immutable.List(groupInfo.grouppedList);
-            
-            return this._getDatum(immutableList, index);
+            return this._getDatum(sortedList, index);
         };
 
         return (
@@ -253,12 +221,10 @@ class TableComponent extends Component {
                 rowHeight={useDynamicRowHeight ? this._getRowHeight : rowHeight}
                 rowGetter={rowGetter}
                 rowCount={rowCount}
-                rowRenderer={customRowRenderer}
                 sort={this._sort}
                 sortBy={sortBy}
                 sortDirection={sortDirection}
                 width={width}
-                onRowClick={this._onRowClick}
             >
                 {this.renderColumns()}
             </Table>

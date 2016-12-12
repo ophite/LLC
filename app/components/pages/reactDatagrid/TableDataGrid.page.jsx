@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
-import GoldenComponentPage from '../golden/GoldenComponent.page.jsx';
+import GoldenLayoutPage from '../goldenLayout/Golden.layout.page.jsx';
 import 'react-datagrid/index.css';
-import DataGrid from 'react-datagrid/src';
+import DataGrid from 'react-datagrid';
 import { GroupingColumnsBox } from './GroupingColumnsBox/GroupingColumnsBox.jsx';
 import { data, columns } from './gridData'
 import sorty from 'sorty';
@@ -10,8 +10,8 @@ var sort = sorty([{ name: 'country', dir: 'asc' }])
 const initialData = data.slice();
 
 
-class TablePage extends GoldenComponentPage {
- 
+class TableDatagridPage extends GoldenLayoutPage {
+
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -142,4 +142,4 @@ class TablePage extends GoldenComponentPage {
     }
 }
 
-export default TablePage;
+export default TableDatagridPage;

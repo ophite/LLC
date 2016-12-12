@@ -7,7 +7,7 @@ import { INPUT } from 'react-toolbox/lib/identifiers';
 import { Tab, Tabs } from 'react-toolbox';
 
 
-import GoldenComponentPage from '../golden/GoldenComponent.page.jsx';
+import GoldenLayoutPage from '../goldenLayout/Golden.layout.page.jsx';
 
 import inputCustom from '../../../assets/theme/_autocomplite.scss';
 import styles from "../../../assets/styles/main.scss";
@@ -20,7 +20,7 @@ const countriesArray = {
     '4': 'Текст 4'
 };
 
-class PhysicalPersonEditing extends GoldenComponentPage {
+class PhysicalPersonEditing extends GoldenLayoutPage {
 
     state = {
         name: '',
