@@ -6,7 +6,6 @@ import { Table, Column } from 'react-virtualized/source/Table'
 import { AutoSizer } from 'react-virtualized/source/AutoSizer'
 import Immutable from 'immutable'
 
-
 // import './styles.css';
 import styles from '../../../../assets/styles/components/react-virtualized.scss'
 import { GroupingColumnsBox } from '../../reactDatagrid/GroupingColumnsBox/GroupingColumnsBox.jsx';
@@ -189,7 +188,8 @@ class TableComponent extends Component {
     //region render
 
     renderHeader = (params) => {
-        const index = this.state.columns
+        const index = this.state
+            .columns
             .map((getColumnProps, index) => getColumnProps({ index }).dataKey)
             .indexOf(params.dataKey);
 
@@ -203,7 +203,7 @@ class TableComponent extends Component {
                 }
                 {...params}
             />
-        )
+        );
     };
 
     renderColumns = () => {
