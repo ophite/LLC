@@ -48,9 +48,9 @@
 
   .ReactVirtualized__Table__headerColumn,
   .ReactVirtualized__Table__rowColumn {
-    //margin-right: 10px;
-    min-width: 0px;
-    padding: 18px;
+    min-width: 0;
+    padding: 16px 18px 15px;
+    position: relative;
   }
   .ReactVirtualized__Table__rowColumn {
     text-overflow: ellipsis;
