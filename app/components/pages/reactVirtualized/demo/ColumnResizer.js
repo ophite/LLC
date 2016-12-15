@@ -1,13 +1,13 @@
 import React, { Component, PropTypes } from 'react'
 import { DragSource, DropTarget } from 'react-dnd';
 
-import stylesGrid from "../../../../assets/styles/components/react-grid.scss";
+import './ColumnResizer.css';
 import SortIndicator from './SortIndicator'
-import { ColumnResizer } from './ColumnResizer';
 
 
 const specSource = {
     beginDrag(props) {
+        console.log('beginDrag')
         return {
             id: props.id,
             index: props.index
@@ -60,9 +60,9 @@ const collectSource = (connect, monitor) => {
     };
 };
 
-@DropTarget(["CARD", "RESIZER"], specTarget, collectTarget)
-@DragSource("CARD", specSource, collectSource)
-class Column extends Component {
+@DragSource("RESIZER", specSource, collectSource)
+class ColumnResizer extends Component {
+
     render() {
         const {
             columnData,
@@ -70,58 +70,19 @@ class Column extends Component {
             disableSort,
             label,
             sortBy,
-            sortDirection
+            sortDirection,
+            width,
+            height
         } = this.props;
+        const { isOver, canDrop, connectDragSource } = this.props;
 
-        const { isOver, canDrop, connectDragSource, connectDropTarget } = this.props;
-        const showSortIndicator = sortBy === dataKey;
-
-        return connectDragSource(connectDropTarget(
-            <div className={canDrop && isOver && stylesGrid["active"]}>
-               <span
-                   className='ReactVirtualized__Table__headerTruncatedText'
-                   key='label'
-                   title={label}
-               >
-                {label}
-                </span>
-                {
-                    showSortIndicator &&
-                    <SortIndicator
-                        key='SortIndicator'
-                        sortDirection={sortDirection}
-                    />
-                }
-            </div>
-        ));
-    }
-}
-
-
-class Header extends Component {
-
-    renderColumn = () => {
-        return (
-            <Column {...this.props}/>
-        )
-    };
-
-    renderResizer = () => {
-        return (
-            <ColumnResizer {...this.props}/>
-        )
-    };
-
-    render() {
-        return (
-            <div>
-                {this.renderColumn()}
-                {this.renderResizer()}
+        return connectDragSource(
+            <div className="vertical-line" style={{height}}>
             </div>
         );
     }
 }
 
 export {
-    Header
+    ColumnResizer
 };

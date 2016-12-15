@@ -123,13 +123,13 @@ class TableComponent extends Component {
         if(ev && ev._meta){
             const {groupInfo} = this.state;
             groupInfo.toggleBy = ev._meta;
-            
+
             this.setState({
                 groupInfo: customRowGroupping(groupInfo)
             });
         }
     };
-    
+
     _rowClassName = (params) => {
         const { index } = params;
         if (index < 0) {
@@ -147,10 +147,10 @@ class TableComponent extends Component {
     handleOnDeleteColumnGroup = (item) => {
         const index = this.state.groupingColumns.indexOf(item);
         const groupingColumns = arrayCutItem(this.state.groupingColumns, index);
-    
+
         const {groupInfo} = this.state;
         groupInfo.groupBy = [...groupingColumns];
-        
+
         this.setState({
             groupingColumns: groupingColumns,
             groupInfo: customRowGroupping(groupInfo)
@@ -176,8 +176,8 @@ class TableComponent extends Component {
 
         const {groupInfo} = this.state;
         groupInfo.groupBy = [...groupingColumns];
-        
-        this.setState({ 
+
+        this.setState({
             groupingColumns: groupingColumns,
             groupInfo: customRowGroupping(groupInfo)
         });
@@ -193,12 +193,18 @@ class TableComponent extends Component {
             .map((getColumnProps, index) => getColumnProps({ index }).dataKey)
             .indexOf(params.dataKey);
 
+        // TODO refactor this file!
+        const width = this.state
+            .columns[index]({ index }).width;
+
         return (
             <Header
                 {
                     ...{
                         handleColumnOrder: this.handleOnColumnOrder,
-                        index
+                        index,
+                        width,
+                        height: this.state.headerHeight
                     }
                 }
                 {...params}
@@ -242,7 +248,7 @@ class TableComponent extends Component {
         const rowGetter = (params) => {
             const { index } = params;
             const immutableList = Immutable.List(groupInfo.grouppedList);
-            
+
             return this._getDatum(immutableList, index);
         };
 
