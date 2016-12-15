@@ -1,6 +1,7 @@
 .vertical-line {
     width: 5px;
     background-color: black;
-    /*position: relative;*/
-    /*right:0;*/
+    position: absolute;
+    right:0;
+    top: 0;
 }
