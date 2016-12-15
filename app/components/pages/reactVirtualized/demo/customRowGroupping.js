@@ -66,7 +66,7 @@ const samePath = (source, target) => {
 };
 
 const expandList = ({ list, grouppedList, groupBy, toggleBy, toggledGroup }) => {
-    debugger;
+    
     let parentList = list;
     let childList = [];
 
@@ -339,7 +339,6 @@ const testGroupping = (data) => {
 
 export default function customRowGroupping(groupInfo) {
     const grouppedInfo = group(groupInfo);
-    var rr =  Object.assign({}, groupInfo, grouppedInfo);
-    debugger;
+    const rr =  Object.assign({}, groupInfo, grouppedInfo);
     return rr;
 }

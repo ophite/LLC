@@ -44,12 +44,11 @@ export default function defaultRowRenderer ({
   }
 
   if(rowData && rowData.sysMeta){
-    var padSpanStyle = {width: rowData.sysMeta.level * 10 + 'px;'};
-    var padSpan = (<span style={padSpanStyle}></span>);
+    var padLeftStyle = {marginLeft: rowData.sysMeta.level * 10 + 'px'};
   
     var collapsedSpan = rowData.sysMeta.collapsed  
-        ? (<span>[+]</span>)
-        : (<span>[-]</span>);
+        ? (<span style={padLeftStyle}>[+]</span>)
+        : (<span style={padLeftStyle}>[-]</span>);
  
     var toggleRowFunction = function(){
         if(onRowClick){
@@ -65,7 +64,7 @@ export default function defaultRowRenderer ({
           style={style}
           onClick={toggleRowFunction}
         >
-           {padSpan} {collapsedSpan} {rowData.name}
+           {collapsedSpan} {rowData.name}
         </div>
       )
   }
