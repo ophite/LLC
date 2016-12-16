@@ -95,7 +95,6 @@ class ColumnResizer extends Component {
             width,
             height
         } = this.props;
-        console.log('ColumnResizer.props', this.props)
         const { isOver, canDrop, connectDragSource } = this.props;
 
         return connectDragSource(

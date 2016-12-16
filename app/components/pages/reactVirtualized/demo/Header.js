@@ -104,9 +104,6 @@ function getItemStyles(boundingClientRect, props) {
     const {
         initialOffset,
         currentOffset,
-        clientOffset,
-        differenceFromInitialOffset,
-        initialClientOffset
     } = props;
 
     if (!initialOffset || !currentOffset || !boundingClientRect) {
@@ -124,15 +121,15 @@ function getItemStyles(boundingClientRect, props) {
     return {
         transform: transform,
         WebkitTransform: transform
-    }
+    };
 }
 
 const layerStyles = {
     position: 'absolute',
     pointerEvents: 'none',
     zIndex: 122100,
-    left: 0, //-55,
-    top: 0, //-130,
+    left: 0,
+    top: 0,
     width: '100%',
     height: '100%'
 };
@@ -144,9 +141,6 @@ const collectDragLayer = (monitor) => {
         itemType: monitor.getItemType(),
         initialOffset: monitor.getInitialSourceClientOffset(),
         currentOffset: monitor.getSourceClientOffset(),
-        clientOffset: monitor.getClientOffset(),
-        differenceFromInitialOffset: monitor.getDifferenceFromInitialOffset(),
-        initialClientOffset: monitor.getInitialClientOffset(),
         isDragging: monitor.isDragging()
     };
 };
@@ -162,7 +156,7 @@ class HeaderDragLayout extends Component {
     componentDidUpdate(prevProps, prevState) {
         const { boundingClientRect } = this.state;
         if (!boundingClientRect) {
-            const element = ReactDOM.findDOMNode(this.goldenWindow);
+            const element = ReactDOM.findDOMNode(this._ref);
             if (!element) {
                 return;
             }
@@ -174,12 +168,6 @@ class HeaderDragLayout extends Component {
         }
     }
 
-    renderColumn = () => {
-        return (
-            <Column {...this.props}/>
-        );
-    };
-
     renderResizer = () => {
         return (
             <ColumnResizer height={this.props.height}/>
@@ -187,19 +175,18 @@ class HeaderDragLayout extends Component {
     };
 
     render() {
-        const { itemType, isDragging, height } = this.props
+        const { itemType, isDragging, height } = this.props;
         if (!isDragging) {
             return (
                 null
             );
         }
 
-        // debugger
         if (itemType === 'RESIZER') {
             return (
-                <div ref={(ref) => this.goldenWindow = ref} style={layerStyles}>
+                <div ref={(ref) => this._ref = ref} style={layerStyles}>
                     <div style={getItemStyles(this.state.boundingClientRect, this.props)}>
-                        <div className="vertical-line" style={{height:50}}>
+                        <div className="vertical-line" style={{height: 250}}>
                         </div>
                     </div>
                 </div>
@@ -239,7 +226,7 @@ class Header extends Component {
 
     renderDragLayer = () => {
         return (
-            <HeaderDragLayout/>
+            <HeaderDragLayout {...this.props}/>
         );
     };
 
