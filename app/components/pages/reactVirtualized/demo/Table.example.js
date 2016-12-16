@@ -120,16 +120,16 @@ class TableComponent extends Component {
     };
 
     _onRowClick = (ev) => {
-        if (ev && ev._meta) {
-            const { groupInfo } = this.state;
-            groupInfo.toggleBy = ev._meta;
-
+        if(ev && ev.sysMeta){
+            const {groupInfo} = this.state;
+            groupInfo.toggleBy = ev.sysMeta;
+            
             this.setState({
                 groupInfo: customRowGroupping(groupInfo)
             });
         }
     };
-
+    
     _rowClassName = (params) => {
         const { index } = params;
         if (index < 0) {
@@ -147,10 +147,10 @@ class TableComponent extends Component {
     handleOnDeleteColumnGroup = (item) => {
         const index = this.state.groupingColumns.indexOf(item);
         const groupingColumns = arrayCutItem(this.state.groupingColumns, index);
-
-        const { groupInfo } = this.state;
+    
+        const {groupInfo} = this.state;
         groupInfo.groupBy = [...groupingColumns];
-
+        
         this.setState({
             groupingColumns: groupingColumns,
             groupInfo: customRowGroupping(groupInfo)
@@ -174,10 +174,10 @@ class TableComponent extends Component {
             groupingColumns.push(col.dataKey);
         }
 
-        const { groupInfo } = this.state;
+        const {groupInfo} = this.state;
         groupInfo.groupBy = [...groupingColumns];
-
-        this.setState({
+        
+        this.setState({ 
             groupingColumns: groupingColumns,
             groupInfo: customRowGroupping(groupInfo)
         });
@@ -249,20 +249,19 @@ class TableComponent extends Component {
 
         // TODO add sorting multiple columns
         /*
-         const sortedList = this._isSortEnabled() ?
-         list
-         .sortBy(item => item[sortBy])
-         .update(
-         list => sortDirection === SortDirection.DESC ?
-         list.reverse() : list
-         ) : list;
-         */
+        const sortedList = this._isSortEnabled() ?
+            list
+                .sortBy(item => item[sortBy])
+                .update(
+                    list => sortDirection === SortDirection.DESC ?
+                        list.reverse() : list
+                ) : list;
+        */
 
         const rowGetter = (params) => {
-            console.log('groupInfo.grouppedList', groupInfo.grouppedList)
             const { index } = params;
             const immutableList = Immutable.List(groupInfo.grouppedList);
-
+            
             return this._getDatum(immutableList, index);
         };
 
