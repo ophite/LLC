@@ -256,6 +256,7 @@ class TableComponent extends Component {
             list,
             groupInfo
         } = this.state;
+        const { layoutPropsSize } = this.props;
 
         // TODO add sorting multiple columns
         /*
@@ -281,7 +282,7 @@ class TableComponent extends Component {
                 disableHeader={false}
                 headerClassName={styles.headerColumn}
                 headerHeight={headerHeight}
-                height={height}
+                height={layoutPropsSize.height || height}
                 noRowsRenderer={this._noRowsRenderer}
                 overscanRowCount={overscanRowCount}
                 rowClassName={this._rowClassName}

@@ -24,6 +24,7 @@ class TableVirtualizedPage extends GoldenLayoutPage {
         return (
             <div ref={(ref) => this.goldenWindow = ref}>
                 <Table
+                    {...this.props}
                     list={list}
                 />
             </div>

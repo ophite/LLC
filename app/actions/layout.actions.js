@@ -14,3 +14,8 @@ export const saveLayout = (layoutProps) => ({
     type: typesLayout.SAVE_LAYOUT,
     payload: { layoutProps }
 });
+
+export const changeLayoutSize = (layoutPropsSize) => ({
+    type: typesLayout.CHANGE_LAYOUT_SIZE,
+    payload: { layoutPropsSize }
+});

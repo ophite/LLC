@@ -5,7 +5,8 @@ import reject from 'lodash/reject';
 const DEFAULT_STATE = {
     currentLayout: null,
     allLayouts: [],
-    layoutProps: {}
+    layoutProps: {},
+    layoutPropsSize: {},
 };
 
 
@@ -20,6 +21,9 @@ export default (state = DEFAULT_STATE, action) => {
 
         case typesLayout.SAVE_LAYOUT:
             return reduceSaveLayout(state, action);
+
+        case typesLayout.CHANGE_LAYOUT_SIZE:
+            return reduceChangeLayoutSize(state, action);
 
         default:
             return state;
@@ -55,5 +59,13 @@ const reduceSaveLayout = (state, action) => {
     return {
         ...state,
         layoutProps
+    };
+};
+
+const reduceChangeLayoutSize = (state, action) => {
+    const { layoutPropsSize } = action.payload;
+    return {
+        ...state,
+        layoutPropsSize
     };
 };

@@ -29,10 +29,19 @@ class GridLayoutPage extends React.Component {
         }
     }
 
-    _mergeLayout = (changedLayouts) => {
+    _mergeLayout = (changedLayouts, resizerNode) => {
         const newLayouts = this.state.layouts.map(layout => {
             const changedIndex = findIndex(changedLayouts, { i: layout.i });
             const changedLayout = changedLayouts[changedIndex];
+
+            if (layout.layoutObject.component && resizerNode) {
+                const node = ReactDOM.findDOMNode(this.refs[layout.layoutObject.uuid]);
+                if (node) {
+                    const { handleChangeLayoutSize } = this.props;
+                    const boundingClientRectResizer = resizerNode.getBoundingClientRect()
+                    handleChangeLayoutSize(boundingClientRectResizer);
+                }
+            }
 
             return {
                 ...changedLayout,
@@ -87,10 +96,15 @@ class GridLayoutPage extends React.Component {
         this._mergeLayout(layout);
     };
 
+    onResizeStop = (layout, oldItem, newItem, placeholder, event, element) => {
+        this._mergeLayout(layout, element.parentNode);
+    };
+
     renderLayout = (layout) => {
         return (
             <div key={layout.i} data-grid={layout}>
                 <LayoutHeader
+                    ref={layout.layoutObject.uuid}
                     layoutComponent={layout.layoutObject.component}
                     isFullScreen={this.state.fullScreenLayout !==null}
                     handleDeleteLayout={this.onDeleteLayout.bind(this, layout)}
@@ -116,6 +130,7 @@ class GridLayoutPage extends React.Component {
                     initialWidth={layoutProps.width}
                     layout={this.state.layouts}
                     onLayoutChange={this.onLayoutChange}
+                    onResizeStop={this.onResizeStop}
                     draggableHandle='.react-grid__header'
                 >
                     {this.renderLayouts()}

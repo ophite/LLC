@@ -21,7 +21,10 @@ class TableContainer extends GoldenLayoutContainer {
 TableContainer.propTypes = {};
 
 const mapStateToProps = (state) => {
-    return {};
+    console.log('')
+    return {
+        layoutPropsSize: state.layout.layoutPropsSize
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {

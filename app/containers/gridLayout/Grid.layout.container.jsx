@@ -1,7 +1,7 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { GridLayoutPage } from '../../components/pages/gridLayout/Grid.layout.page';
-import { deleteLayout, saveLayout } from '../../actions/layout.actions';
+import { deleteLayout, saveLayout, changeLayoutSize } from '../../actions/layout.actions';
 
 
 class GridLayoutContainer extends React.Component {
@@ -28,7 +28,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         handleDeleteLayout: bindActionCreators(deleteLayout, dispatch),
-        handleSaveLayout: bindActionCreators(saveLayout, dispatch)
+        handleSaveLayout: bindActionCreators(saveLayout, dispatch),
+        handleChangeLayoutSize: bindActionCreators(changeLayoutSize, dispatch),
     };
 };
 
