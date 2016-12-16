@@ -141,11 +141,11 @@ function getItemStyles(boundingClientRect, props) {
     if (!initialOffset || !currentOffset || !boundingClientRect) {
         return {
             display: 'none'
-        }
+        };
     }
 
     let { x, y } = currentOffset;
-    x = x - boundingClientRect.left + width;
+    x = x - boundingClientRect.left //+ width;
     y = 0;
 
     const transform = `translate(${x}px, ${y}px)`;
@@ -216,7 +216,7 @@ class HeaderDragLayout extends Component {
             return (
                 <div ref={(ref) => this._ref = ref} style={layerStyles}>
                     <div style={getItemStyles(this.state.boundingClientRect, this.props)}>
-                        <ColumnDragResizerComponent
+                        <ColumnResizerComponent
                             height={height}
                         />
                     </div>

@@ -79,16 +79,16 @@ class ColumnResizerComponent extends Component {
         );
     }
 }
-
-class ColumnDragResizerComponent extends Component {
-    render() {
-        const { height } = this.props;
-        return (
-            <div className="vertical-line-drag" style={Object.assign(layerStyles, {height})}>
-            </div>
-        );
-    }
-}
+//
+// class ColumnDragResizerComponent extends Component {
+//     render() {
+//         const { height } = this.props;
+//         return (
+//             <div className="vertical-line-drag" style={Object.assign(layerStyles, {height})}>
+//             </div>
+//         );
+//     }
+// }
 
 @DragSource("RESIZER", specSource, collectSource)
 class ColumnResizer extends Component {
@@ -131,5 +131,5 @@ class ColumnResizer extends Component {
 export {
     ColumnResizer,
     ColumnResizerComponent,
-    ColumnDragResizerComponent
+    // ColumnDragResizerComponent
 };
