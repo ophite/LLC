@@ -5,7 +5,11 @@ import { DragLayer } from 'react-dnd';
 
 import stylesGrid from "../../../../assets/styles/components/react-grid.scss";
 import SortIndicator from './SortIndicator'
-import { ColumnResizer, ColumnResizerComponent } from './ColumnResizer';
+import {
+    ColumnResizer,
+    ColumnResizerComponent,
+    ColumnDragResizerComponent
+} from './ColumnResizer';
 import './ColumnResizer.css';
 
 
@@ -28,21 +32,47 @@ const specSource = {
 const specTarget = {
     drop(props, monitor, component) {
         const item = monitor.getItem();
+        const itemType = monitor.getItemType();
         if (!item) {
             return
         }
-        const dragIndex = item.index;
-        const hoverIndex = props.index;
-        if (dragIndex != hoverIndex) {
-            props.handleColumnOrder(dragIndex, hoverIndex);
+
+        switch (itemType) {
+            case "CARD" :
+            {
+                const dragIndex = item.index;
+                const hoverIndex = props.index;
+                if (dragIndex != hoverIndex) {
+                    props.handleColumnOrder(dragIndex, hoverIndex);
+                }
+                break;
+            }
+            case "RESIZER":
+            {
+                const initialOffset = monitor.getInitialSourceClientOffset();
+                const currentOffset = monitor.getSourceClientOffset();
+                debugger
+                const deltaWidth = currentOffset.x - initialOffset.x;
+                const dragIndex = item.index;
+                const hoverIndex = props.index;
+                if (dragIndex != hoverIndex) {
+                    props.handleColumnResize(dragIndex, hoverIndex, deltaWidth);
+                }
+                break;
+            }
+            default:
+            {
+                break;
+            }
         }
     },
     canDrop(props, monitor) {
         const tItem = monitor.getItem();
+
         const dragIndex = tItem.index;
         const hoverIndex = props.index;
 
-        return dragIndex != hoverIndex;
+        return /*monitor.getItemType() === "CARD" && */dragIndex != hoverIndex;
     }
 };
 
@@ -59,7 +89,8 @@ const collectTarget = (connect, monitor) => {
 const collectSource = (connect, monitor) => {
     return {
         connectDragSource: connect.dragSource(),
-        isDragging: monitor.isDragging()
+        isDragging: monitor.isDragging(),
+        itemType: monitor.getItemType()
     };
 };
 
@@ -76,11 +107,11 @@ class Column extends Component {
             sortDirection
         } = this.props;
 
-        const { isOver, canDrop, connectDragSource, connectDropTarget } = this.props;
+        const { isOver, canDrop, connectDragSource, connectDropTarget, itemType } = this.props;
         const showSortIndicator = sortBy === dataKey;
 
         return connectDragSource(connectDropTarget(
-            <div className={canDrop && isOver && stylesGrid["active"]}>
+            <div className={itemType === "CARD" && canDrop && isOver && stylesGrid["active"]}>
                <span
                    className='ReactVirtualized__Table__headerTruncatedText'
                    key='label'
@@ -104,6 +135,7 @@ function getItemStyles(boundingClientRect, props) {
     const {
         initialOffset,
         currentOffset,
+        width
     } = props;
 
     if (!initialOffset || !currentOffset || !boundingClientRect) {
@@ -114,8 +146,13 @@ function getItemStyles(boundingClientRect, props) {
 
     let { x, y } = currentOffset;
     y = initialOffset.y;
-    x = x - boundingClientRect.left;
+    x = x - boundingClientRect.left + width;
     y = y - boundingClientRect.top;
+
+    console.log('==================================');
+    console.log('currentOffset.x', currentOffset.x);
+    console.log('boundingClientRect.left', boundingClientRect.left);
+    console.log('initialOffset.x', initialOffset.x);
 
     const transform = `translate(${x}px, ${y}px)`;
     return {
@@ -161,7 +198,7 @@ class HeaderDragLayout extends Component {
                 return;
             }
 
-            var rect = element.getBoundingClientRect();
+            var rect = element.parentElement.getBoundingClientRect();
             this.setState({
                 boundingClientRect: rect
             });
@@ -175,18 +212,17 @@ class HeaderDragLayout extends Component {
     };
 
     render() {
-        const { itemType, isDragging, height } = this.props;
+        const { itemType, isDragging, height, item, index } = this.props;
         if (!isDragging) {
             return (
                 null
             );
         }
-
-        if (itemType === 'RESIZER') {
+        if (itemType === 'RESIZER' && item.index === index) {
             return (
                 <div ref={(ref) => this._ref = ref} style={layerStyles}>
                     <div style={getItemStyles(this.state.boundingClientRect, this.props)}>
-                        <ColumnResizerComponent
+                        <ColumnDragResizerComponent
                             height={height}
                         />
                     </div>
@@ -201,16 +237,6 @@ class HeaderDragLayout extends Component {
 }
 
 
-const layerStylesHeader = {
-    // position: 'relative',
-    // zIndex: 110022,
-    // left: 0, //-55,
-    // top: 0, //-130,
-    // width: '100%',
-    // height: '100%'
-};
-
-
 class Header extends Component {
 
     renderColumn = () => {
@@ -221,7 +247,10 @@ class Header extends Component {
 
     renderResizer = () => {
         return (
-            <ColumnResizer height={this.props.headerHeight}/>
+            <ColumnResizer
+                height={this.props.headerHeight}
+                index={this.props.index}
+            />
         );
     };
 
@@ -232,13 +261,13 @@ class Header extends Component {
     };
 
     render() {
+        const { last } = this.props;
+
         return (
             <div>
-                <div style={layerStylesHeader}>
-                    {this.renderColumn()}
-                    {this.renderResizer()}
-                    {this.renderDragLayer()}
-                </div>
+                {this.renderColumn()}
+                { !last && this.renderResizer() }
+                { !last && this.renderDragLayer()}
             </div>
         );
     }

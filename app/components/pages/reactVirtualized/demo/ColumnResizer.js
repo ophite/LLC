@@ -8,7 +8,6 @@ import shouldPureComponentUpdate from './shouldPureComponentUpdate';
 
 const specSource = {
     beginDrag(props) {
-        console.log('beginDrag')
         return {
             id: props.id,
             index: props.index,
@@ -67,11 +66,25 @@ const collectSource = (connect, monitor) => {
     };
 };
 
+const layerStyles = {
+    cursor: 'e-resize',
+};
+
 class ColumnResizerComponent extends Component {
     render() {
         const { height } = this.props;
         return (
-            <div className="vertical-line" style={{height}}>
+            <div className="vertical-line" style={Object.assign(layerStyles, {height})}>
+            </div>
+        );
+    }
+}
+
+class ColumnDragResizerComponent extends Component {
+    render() {
+        const { height } = this.props;
+        return (
+            <div className="vertical-line-drag" style={Object.assign(layerStyles, {height})}>
             </div>
         );
     }
@@ -117,5 +130,6 @@ class ColumnResizer extends Component {
 
 export {
     ColumnResizer,
-    ColumnResizerComponent
+    ColumnResizerComponent,
+    ColumnDragResizerComponent
 };

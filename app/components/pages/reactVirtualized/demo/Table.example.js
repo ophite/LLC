@@ -51,7 +51,7 @@ class TableComponent extends Component {
                         dataKey: 'index',
                         label: 'Index',
                         index,
-                        width: 60,
+                        width: 160,
                         headerRenderer: this.renderHeader,
                         cellDataGetter: ({ columnData, dataKey, rowData }) => rowData.index,
                         disableSort: !this._isSortEnabled()
@@ -63,7 +63,7 @@ class TableComponent extends Component {
                         dataKey: 'firstName',
                         label: 'first Name',
                         index,
-                        width: 90,
+                        width: 230,
                         headerRenderer: this.renderHeader,
                         disableSort: !this._isSortEnabled()
                     }
@@ -74,7 +74,7 @@ class TableComponent extends Component {
                         dataKey: 'lastName',
                         label: 'last Name',
                         index,
-                        width: 210,
+                        width: 130,
                         headerRenderer: this.renderHeader,
                         disableSort: true,
                         className: styles.exampleColumn,
@@ -120,16 +120,16 @@ class TableComponent extends Component {
     };
 
     _onRowClick = (ev) => {
-        if(ev && ev.sysMeta){
-            const {groupInfo} = this.state;
+        if (ev && ev.sysMeta) {
+            const { groupInfo } = this.state;
             groupInfo.toggleBy = ev.sysMeta;
-            
+
             this.setState({
                 groupInfo: customRowGroupping(groupInfo)
             });
         }
     };
-    
+
     _rowClassName = (params) => {
         const { index } = params;
         if (index < 0) {
@@ -147,14 +147,22 @@ class TableComponent extends Component {
     handleOnDeleteColumnGroup = (item) => {
         const index = this.state.groupingColumns.indexOf(item);
         const groupingColumns = arrayCutItem(this.state.groupingColumns, index);
-    
-        const {groupInfo} = this.state;
+
+        const { groupInfo } = this.state;
         groupInfo.groupBy = [...groupingColumns];
-        
+
         this.setState({
             groupingColumns: groupingColumns,
             groupInfo: customRowGroupping(groupInfo)
         });
+    };
+
+    handleColumnResize = (dragIndex, hoverIndex, deltaWidth) => {
+        debugger
+        const columns = [...this.state.columns];
+        columns[dragIndex].width = columns[dragIndex].width + deltaWidth;
+        columns[hoverIndex].width = columns[hoverIndex].width - deltaWidth;
+        this.setState({ columns: [...columns] });
     };
 
     handleOnColumnOrder = (dragIndex, hoverIndex) => {
@@ -174,10 +182,10 @@ class TableComponent extends Component {
             groupingColumns.push(col.dataKey);
         }
 
-        const {groupInfo} = this.state;
+        const { groupInfo } = this.state;
         groupInfo.groupBy = [...groupingColumns];
-        
-        this.setState({ 
+
+        this.setState({
             groupingColumns: groupingColumns,
             groupInfo: customRowGroupping(groupInfo)
         });
@@ -214,11 +222,13 @@ class TableComponent extends Component {
                 {
                     ...Object.assign(
                         {
+                            handleColumnResize: this.handleColumnResize,
                             handleColumnOrder: this.handleOnColumnOrder,
                             index,
                             width,
                             headerHeight,
-                            height
+                            height,
+                            last: index === this.state.columns.length - 1
                         }, params)
                 }
             />
@@ -249,19 +259,19 @@ class TableComponent extends Component {
 
         // TODO add sorting multiple columns
         /*
-        const sortedList = this._isSortEnabled() ?
-            list
-                .sortBy(item => item[sortBy])
-                .update(
-                    list => sortDirection === SortDirection.DESC ?
-                        list.reverse() : list
-                ) : list;
-        */
+         const sortedList = this._isSortEnabled() ?
+         list
+         .sortBy(item => item[sortBy])
+         .update(
+         list => sortDirection === SortDirection.DESC ?
+         list.reverse() : list
+         ) : list;
+         */
 
         const rowGetter = (params) => {
             const { index } = params;
             const immutableList = Immutable.List(groupInfo.grouppedList);
-            
+
             return this._getDatum(immutableList, index);
         };
 
