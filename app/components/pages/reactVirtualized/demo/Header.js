@@ -145,14 +145,8 @@ function getItemStyles(boundingClientRect, props) {
     }
 
     let { x, y } = currentOffset;
-    y = initialOffset.y;
     x = x - boundingClientRect.left + width;
-    y = y - boundingClientRect.top;
-
-    console.log('==================================');
-    console.log('currentOffset.x', currentOffset.x);
-    console.log('boundingClientRect.left', boundingClientRect.left);
-    console.log('initialOffset.x', initialOffset.x);
+    y = 0;
 
     const transform = `translate(${x}px, ${y}px)`;
     return {
