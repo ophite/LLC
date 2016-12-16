@@ -5,7 +5,7 @@ import { DragLayer } from 'react-dnd';
 
 import stylesGrid from "../../../../assets/styles/components/react-grid.scss";
 import SortIndicator from './SortIndicator'
-import { ColumnResizer } from './ColumnResizer';
+import { ColumnResizer, ColumnResizerComponent } from './ColumnResizer';
 import './ColumnResizer.css';
 
 
@@ -186,8 +186,9 @@ class HeaderDragLayout extends Component {
             return (
                 <div ref={(ref) => this._ref = ref} style={layerStyles}>
                     <div style={getItemStyles(this.state.boundingClientRect, this.props)}>
-                        <div className="vertical-line" style={{height}}>
-                        </div>
+                        <ColumnResizerComponent
+                            height={height}
+                        />
                     </div>
                 </div>
             );

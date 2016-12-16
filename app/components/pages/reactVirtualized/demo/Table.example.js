@@ -259,6 +259,7 @@ class TableComponent extends Component {
          */
 
         const rowGetter = (params) => {
+            console.log('groupInfo.grouppedList', groupInfo.grouppedList)
             const { index } = params;
             const immutableList = Immutable.List(groupInfo.grouppedList);
 

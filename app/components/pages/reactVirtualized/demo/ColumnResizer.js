@@ -19,9 +19,7 @@ const specSource = {
 
     endDrag(props, monitor) {
         const { id: droppedId, originalIndex } = monitor.getItem();
-        debugger
         const didDrop = monitor.didDrop();
-
         if (!didDrop) {
         }
 
@@ -69,6 +67,16 @@ const collectSource = (connect, monitor) => {
     };
 };
 
+class ColumnResizerComponent extends Component {
+    render() {
+        const { height } = this.props;
+        return (
+            <div className="vertical-line" style={{height}}>
+            </div>
+        );
+    }
+}
+
 @DragSource("RESIZER", specSource, collectSource)
 class ColumnResizer extends Component {
 
@@ -99,13 +107,15 @@ class ColumnResizer extends Component {
 
         return connectDragSource(
             <div /*style={getStyles(this.props)}*/>
-                <div className="vertical-line" style={{height}}>
-                </div>
+                <ColumnResizerComponent
+                    height={height}
+                />
             </div>
         );
     }
 }
 
 export {
-    ColumnResizer
+    ColumnResizer,
+    ColumnResizerComponent
 };
