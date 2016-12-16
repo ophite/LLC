@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react'
+import ReactDOM from 'react-dom';
 import { DragSource, DropTarget } from 'react-dnd';
 import { DragLayer } from 'react-dnd';
 
@@ -99,18 +100,25 @@ class Column extends Component {
     }
 }
 
-function getItemStyles(props) {
-    const { initialOffset, currentOffset } = props
-    if (!initialOffset || !currentOffset) {
+function getItemStyles(boundingClientRect, props) {
+    const {
+        initialOffset,
+        currentOffset,
+        clientOffset,
+        differenceFromInitialOffset,
+        initialClientOffset
+    } = props;
+
+    if (!initialOffset || !currentOffset || !boundingClientRect) {
         return {
             display: 'none'
         }
     }
 
-    console.log('HeaderDragLayout.props', JSON.stringify(props));
-
     let { x, y } = currentOffset;
-    // y = initialOffset.y;
+    y = initialOffset.y;
+    x = x - boundingClientRect.left;
+    y = y - boundingClientRect.top;
 
     const transform = `translate(${x}px, ${y}px)`;
     return {
@@ -125,20 +133,46 @@ const layerStyles = {
     zIndex: 122100,
     left: 0, //-55,
     top: 0, //-130,
-    // width: '100%',
-    // height: '100%'
+    width: '100%',
+    height: '100%'
 };
 
 
-@DragLayer(monitor => ({
-    item: monitor.getItem(),
-    itemType: monitor.getItemType(),
-    initialOffset: monitor.getInitialSourceClientOffset(),
-    currentOffset: monitor.getSourceClientOffset(),
-    clientOffset: monitor.getClientOffset(),
-    isDragging: monitor.isDragging()
-}))
+const collectDragLayer = (monitor) => {
+    return {
+        item: monitor.getItem(),
+        itemType: monitor.getItemType(),
+        initialOffset: monitor.getInitialSourceClientOffset(),
+        currentOffset: monitor.getSourceClientOffset(),
+        clientOffset: monitor.getClientOffset(),
+        differenceFromInitialOffset: monitor.getDifferenceFromInitialOffset(),
+        initialClientOffset: monitor.getInitialClientOffset(),
+        isDragging: monitor.isDragging()
+    };
+};
+
+
+@DragLayer(collectDragLayer)
 class HeaderDragLayout extends Component {
+
+    state = {
+        boundingClientRect: null
+    };
+
+    componentDidUpdate(prevProps, prevState) {
+        const { boundingClientRect } = this.state;
+        if (!boundingClientRect) {
+            const element = ReactDOM.findDOMNode(this.goldenWindow);
+            if (!element) {
+                return;
+            }
+
+            var rect = element.getBoundingClientRect();
+            this.setState({
+                boundingClientRect: rect
+            });
+        }
+    }
 
     renderColumn = () => {
         return (
@@ -154,15 +188,6 @@ class HeaderDragLayout extends Component {
 
     render() {
         const { itemType, isDragging, height } = this.props
-        // return (
-        //     <div style={layerStyles}>
-        //         <div style={getItemStyles(this.props)}>
-        //             <div className="vertical-line" style={{height:50}}>
-        //             </div>
-        //         </div>
-        //     </div>
-        // );
-
         if (!isDragging) {
             return (
                 null
@@ -171,10 +196,9 @@ class HeaderDragLayout extends Component {
 
         // debugger
         if (itemType === 'RESIZER') {
-            console.log('render layout', itemType)
             return (
-                <div style={layerStyles}>
-                    <div style={getItemStyles(this.props)}>
+                <div ref={(ref) => this.goldenWindow = ref} style={layerStyles}>
+                    <div style={getItemStyles(this.state.boundingClientRect, this.props)}>
                         <div className="vertical-line" style={{height:50}}>
                         </div>
                     </div>
@@ -191,11 +215,11 @@ class HeaderDragLayout extends Component {
 
 const layerStylesHeader = {
     // position: 'relative',
-    zIndex: 110022,
-    left: 0, //-55,
-    top: 0, //-130,
-    width: '100%',
-    height: '100%'
+    // zIndex: 110022,
+    // left: 0, //-55,
+    // top: 0, //-130,
+    // width: '100%',
+    // height: '100%'
 };
 
 

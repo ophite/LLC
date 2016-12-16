@@ -99,7 +99,7 @@ class ColumnResizer extends Component {
         const { isOver, canDrop, connectDragSource } = this.props;
 
         return connectDragSource(
-            <div style={getStyles(this.props)}>
+            <div /*style={getStyles(this.props)}*/>
                 <div className="vertical-line" style={{height}}>
                 </div>
             </div>

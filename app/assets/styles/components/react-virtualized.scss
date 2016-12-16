@@ -50,7 +50,7 @@
   .ReactVirtualized__Table__rowColumn {
     min-width: 0;
     padding: 16px 18px 15px;
-    position: relative;
+    //position: relative;
   }
   .ReactVirtualized__Table__rowColumn {
     text-overflow: ellipsis;
@@ -95,6 +95,7 @@
 }
 
 .headerRow {
+  position: relative;
   background: $background-section-header;
   color: $white;
 }
@@ -107,7 +108,7 @@
 
 .headerColumn {
   text-transform: none;
-  position: relative;
+  //position: relative;
 }
 
 .exampleColumn {
