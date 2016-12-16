@@ -120,8 +120,8 @@ class TableComponent extends Component {
     };
 
     _onRowClick = (ev) => {
-        if(ev && ev._meta){
-            const {groupInfo} = this.state;
+        if (ev && ev._meta) {
+            const { groupInfo } = this.state;
             groupInfo.toggleBy = ev._meta;
 
             this.setState({
@@ -148,7 +148,7 @@ class TableComponent extends Component {
         const index = this.state.groupingColumns.indexOf(item);
         const groupingColumns = arrayCutItem(this.state.groupingColumns, index);
 
-        const {groupInfo} = this.state;
+        const { groupInfo } = this.state;
         groupInfo.groupBy = [...groupingColumns];
 
         this.setState({
@@ -174,7 +174,7 @@ class TableComponent extends Component {
             groupingColumns.push(col.dataKey);
         }
 
-        const {groupInfo} = this.state;
+        const { groupInfo } = this.state;
         groupInfo.groupBy = [...groupingColumns];
 
         this.setState({
@@ -188,26 +188,39 @@ class TableComponent extends Component {
     //region render
 
     renderHeader = (params) => {
+        const {
+            headerHeight,
+            height,
+            overscanRowCount,
+            rowHeight,
+            rowCount,
+            sortBy,
+            sortDirection,
+            useDynamicRowHeight,
+            list,
+            groupInfo
+        } = this.state;
+
         const index = this.state
             .columns
             .map((getColumnProps, index) => getColumnProps({ index }).dataKey)
             .indexOf(params.dataKey);
 
         // TODO refactor this file!
-        const width = this.state
-            .columns[index]({ index }).width;
+        const width = this.state.columns[index]({ index }).width;
 
         return (
             <Header
                 {
-                    ...{
-                        handleColumnOrder: this.handleOnColumnOrder,
-                        index,
-                        width,
-                        height: this.state.headerHeight
-                    }
+                    ...Object.assign(
+                        {
+                            handleColumnOrder: this.handleOnColumnOrder,
+                            index,
+                            width,
+                            headerHeight,
+                            height
+                        }, params)
                 }
-                {...params}
             />
         );
     };
@@ -236,14 +249,14 @@ class TableComponent extends Component {
 
         // TODO add sorting multiple columns
         /*
-        const sortedList = this._isSortEnabled() ?
-            list
-                .sortBy(item => item[sortBy])
-                .update(
-                    list => sortDirection === SortDirection.DESC ?
-                        list.reverse() : list
-                ) : list;
-        */
+         const sortedList = this._isSortEnabled() ?
+         list
+         .sortBy(item => item[sortBy])
+         .update(
+         list => sortDirection === SortDirection.DESC ?
+         list.reverse() : list
+         ) : list;
+         */
 
         const rowGetter = (params) => {
             const { index } = params;

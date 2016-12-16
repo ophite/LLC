@@ -186,7 +186,7 @@ class HeaderDragLayout extends Component {
             return (
                 <div ref={(ref) => this._ref = ref} style={layerStyles}>
                     <div style={getItemStyles(this.state.boundingClientRect, this.props)}>
-                        <div className="vertical-line" style={{height: 250}}>
+                        <div className="vertical-line" style={{height}}>
                         </div>
                     </div>
                 </div>
@@ -220,7 +220,7 @@ class Header extends Component {
 
     renderResizer = () => {
         return (
-            <ColumnResizer height={this.props.height}/>
+            <ColumnResizer height={this.props.headerHeight}/>
         );
     };
 
