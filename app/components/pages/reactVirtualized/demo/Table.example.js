@@ -158,8 +158,13 @@ class TableComponent extends Component {
             columns[dragIndex].width = columns[dragIndex].width + deltaWidth;
             columns[hoverIndex].width = columns[hoverIndex].width - deltaWidth;
         } else {
-            columns[dragIndex].width = columns[dragIndex].width + deltaWidth;
-            columns[dragIndex + 1].width = columns[dragIndex + 1].width - deltaWidth;
+            if (dragIndex === columns.length - 1) {
+                columns[dragIndex].width = columns[dragIndex].width + deltaWidth;
+                columns[dragIndex - 1].width = columns[dragIndex - 1].width - deltaWidth;
+            } else {
+                columns[dragIndex].width = columns[dragIndex].width + deltaWidth;
+                columns[dragIndex + 1].width = columns[dragIndex + 1].width - deltaWidth;
+            }
         }
         this.setState({ columns: [...columns] });
     };

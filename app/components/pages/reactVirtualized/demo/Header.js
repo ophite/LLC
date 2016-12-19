@@ -27,6 +27,7 @@ const specSource = {
         const item = monitor.getItem();
         const dragIndex = item.index;
         const hoverIndex = props.index;
+
         return dragIndex !== hoverIndex;
     }
 };
@@ -74,7 +75,7 @@ const specTarget = {
         const dragIndex = tItem.index;
         const hoverIndex = props.index;
 
-        if (monitor.getItemType() === "CARD" ) {
+        if (monitor.getItemType() === "CARD") {
             return dragIndex != hoverIndex;
         }
 
@@ -168,9 +169,9 @@ function getItemStylesColumn(boundingClientRect, props) {
     }
 
     let { x, y } = currentOffset;
-    console.log('initialOffset:', initialOffset)
-    console.log('currentOffset:', currentOffset)
-    console.log('boundingClientRect:', boundingClientRect)
+    // console.log('initialOffset:', initialOffset)
+    // console.log('currentOffset:', currentOffset)
+    // console.log('boundingClientRect:', boundingClientRect)
     const { left, top, width, height } = boundingClientRect;
     x = x - left //+ width / 2;
     y = y - top //+ height / 2;
@@ -196,6 +197,10 @@ function getItemStyles(boundingClientRect, props) {
     }
 
     let { x, y } = currentOffset;
+    // console.log('initialOffset:', initialOffset)
+    // console.log('currentOffset:', currentOffset)
+    // console.log('boundingClientRect:', boundingClientRect)
+
     x = x - boundingClientRect.left //+ width;
     y = 0;
 
@@ -342,6 +347,8 @@ class Header extends Component {
             index
         } = this.props;
 
+        console.log('this.props', this.props)
+
         return (
             <ColumnResizer
                 height={headerHeight}
@@ -362,8 +369,8 @@ class Header extends Component {
         return (
             <div>
                 {this.renderColumn()}
-                { !last && this.renderResizer() }
-                { this.renderDragLayer()}
+                {this.renderDragLayer()}
+                {!last && this.renderResizer()}
             </div>
         );
     }
