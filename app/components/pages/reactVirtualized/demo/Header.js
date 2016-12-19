@@ -11,6 +11,8 @@ import {
     ColumnDragResizerComponent
 } from './ColumnResizer';
 import './ColumnResizer.css';
+import shouldPureComponentUpdate from './shouldPureComponentUpdate';
+import { getEmptyImage } from 'react-dnd-html5-backend';
 
 
 const specSource = {
@@ -89,6 +91,7 @@ const collectTarget = (connect, monitor) => {
 const collectSource = (connect, monitor) => {
     return {
         connectDragSource: connect.dragSource(),
+        connectDragPreview: connect.dragPreview(),
         isDragging: monitor.isDragging(),
         itemType: monitor.getItemType()
     };
@@ -97,6 +100,19 @@ const collectSource = (connect, monitor) => {
 @DropTarget(["CARD", "RESIZER"], specTarget, collectTarget)
 @DragSource("CARD", specSource, collectSource)
 class Column extends Component {
+
+    shouldComponentUpdate = shouldPureComponentUpdate;
+
+    componentDidMount() {
+        // Use empty image as a drag preview so browsers don't draw it
+        // and we can draw whatever we want on the custom drag layer instead.
+        this.props.connectDragPreview(getEmptyImage(), {
+            // IE fallback: specify that we'd rather screenshot the node
+            // when it already knows it's being dragged so we can hide it with CSS.
+            captureDraggingState: true
+        });
+    }
+
     render() {
         const {
             columnData,
@@ -107,7 +123,14 @@ class Column extends Component {
             sortDirection
         } = this.props;
 
-        const { isOver, canDrop, connectDragSource, connectDropTarget, itemType } = this.props;
+        const {
+            isOver,
+            canDrop,
+            connectDragSource,
+            connectDropTarget,
+            itemType
+        } = this.props;
+
         const showSortIndicator = sortBy === dataKey;
 
         return connectDragSource(connectDropTarget(
@@ -129,6 +152,25 @@ class Column extends Component {
             </div>
         ));
     }
+}
+
+function getItemStylesColumn(boundingClientRect, props) {
+    const { initialOffset, currentOffset } = props;
+    if (!initialOffset || !currentOffset || !boundingClientRect) {
+        return {
+            display: 'none'
+        };
+    }
+
+    let { x, y } = currentOffset;
+    x = x - boundingClientRect.left //+ width;
+    y = y - boundingClientRect.top//+ width;
+
+    const transform = `translate(${x}px, ${y}px)`;
+    return {
+        transform: transform,
+        WebkitTransform: transform
+    };
 }
 
 function getItemStyles(boundingClientRect, props) {
@@ -200,25 +242,44 @@ class HeaderDragLayout extends Component {
     }
 
     renderResizer = () => {
+        const { height } = this.props;
         return (
-            <ColumnResizer height={this.props.height}/>
+            <div ref={(ref) => this._ref = ref} style={layerStyles}>
+                <div style={getItemStyles(this.state.boundingClientRect, this.props)}>
+                    <ColumnResizerComponent
+                        height={height}
+                    />
+                </div>
+            </div>
         );
     };
 
     render() {
-        const { itemType, isDragging, height, item, index } = this.props;
+        const { itemType, isDragging, item, index, label } = this.props;
         if (!isDragging) {
             return (
                 null
             );
         }
+
         if (itemType === 'RESIZER' && item.index === index) {
+            return this.renderResizer();
+        }
+
+        console.log('item.index:', item.index);
+        console.log('index:', index);
+
+        if (itemType === 'CARD' && item.index === index) {
             return (
                 <div ref={(ref) => this._ref = ref} style={layerStyles}>
-                    <div style={getItemStyles(this.state.boundingClientRect, this.props)}>
-                        <ColumnResizerComponent
-                            height={height}
-                        />
+                    <div style={getItemStylesColumn(this.state.boundingClientRect, this.props)}>
+                        <span
+                            className='ReactVirtualized__Table__headerTruncatedText'
+                            key='label'
+                            title={label}
+                        >
+                {label}
+                </span>
                     </div>
                 </div>
             );
@@ -234,16 +295,35 @@ class HeaderDragLayout extends Component {
 class Header extends Component {
 
     renderColumn = () => {
+        const {
+            dataKey,
+            label,
+            sortBy,
+            sortDirection,
+            index
+        } = this.props;
+
         return (
-            <Column {...this.props}/>
+            <Column
+                dataKey={dataKey}
+                label={label}
+                sortBy={sortBy}
+                sortDirection={sortDirection}
+                index={index}
+            />
         );
     };
 
     renderResizer = () => {
+        const {
+            headerHeight,
+            index
+        } = this.props;
+
         return (
             <ColumnResizer
-                height={this.props.headerHeight}
-                index={this.props.index}
+                height={headerHeight}
+                index={index}
             />
         );
     };

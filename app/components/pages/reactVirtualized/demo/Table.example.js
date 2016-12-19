@@ -221,7 +221,6 @@ class TableComponent extends Component {
                             index,
                             width,
                             headerHeight,
-                            height,
                             height: layoutPropsSize.height || height,
                             last: index === this.state.columns.length - 1
                         }, params)
