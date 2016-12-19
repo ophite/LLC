@@ -152,10 +152,15 @@ class TableComponent extends Component {
     };
 
     handleColumnResize = (dragIndex, hoverIndex, deltaWidth) => {
-        debugger
+        // debugger
         const columns = [...this.state.columns];
-        columns[dragIndex].width = columns[dragIndex].width + deltaWidth;
-        columns[hoverIndex].width = columns[hoverIndex].width - deltaWidth;
+        if (dragIndex !== hoverIndex) {
+            columns[dragIndex].width = columns[dragIndex].width + deltaWidth;
+            columns[hoverIndex].width = columns[hoverIndex].width - deltaWidth;
+        } else {
+            columns[dragIndex].width = columns[dragIndex].width + deltaWidth;
+            columns[dragIndex + 1].width = columns[dragIndex + 1].width - deltaWidth;
+        }
         this.setState({ columns: [...columns] });
     };
 
@@ -216,7 +221,7 @@ class TableComponent extends Component {
                 {
                     ...Object.assign(
                         {
-                            key:index,
+                            key: index,
                             handleColumnResize: this.handleColumnResize,
                             handleColumnOrder: this.handleOnColumnOrder,
                             index,

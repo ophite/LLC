@@ -53,13 +53,13 @@ const specTarget = {
             {
                 const initialOffset = monitor.getInitialSourceClientOffset();
                 const currentOffset = monitor.getSourceClientOffset();
-                debugger
+                // debugger
                 const deltaWidth = currentOffset.x - initialOffset.x;
                 const dragIndex = item.index;
                 const hoverIndex = props.index;
-                if (dragIndex != hoverIndex) {
-                    props.handleColumnResize(dragIndex, hoverIndex, deltaWidth);
-                }
+                // if (dragIndex != hoverIndex) {
+                props.handleColumnResize(dragIndex, hoverIndex, deltaWidth);
+                // }
                 break;
             }
             default:
@@ -74,7 +74,12 @@ const specTarget = {
         const dragIndex = tItem.index;
         const hoverIndex = props.index;
 
-        return /*monitor.getItemType() === "CARD" && */dragIndex != hoverIndex;
+        if (monitor.getItemType() === "CARD" ) {
+            return dragIndex != hoverIndex;
+        }
+
+        return true;
+        // return /*monitor.getItemType() === "CARD" && */dragIndex != hoverIndex;
     }
 };
 
@@ -313,7 +318,8 @@ class Header extends Component {
             sortDirection,
             index,
             headerHeight,
-            handleColumnOrder
+            handleColumnOrder,
+            handleColumnResize
         } = this.props;
 
         return (
@@ -325,6 +331,7 @@ class Header extends Component {
                 index={index}
                 headerHeight={headerHeight}
                 handleColumnOrder={handleColumnOrder}
+                handleColumnResize={handleColumnResize}
             />
         );
     };

@@ -29,7 +29,8 @@ const specSource = {
         const item = monitor.getItem();
         const dragIndex = item.index;
         const hoverIndex = props.index;
-        return dragIndex !== hoverIndex;
+        // return dragIndex !== hoverIndex;
+        return true;
     }
 };
 
