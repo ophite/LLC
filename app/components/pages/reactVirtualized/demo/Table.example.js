@@ -210,12 +210,13 @@ class TableComponent extends Component {
 
         // TODO refactor this file!
         const width = this.state.columns[index].width;
-        const {layoutPropsSize} = this.props;
+        const { layoutPropsSize } = this.props;
         return (
             <Header
                 {
                     ...Object.assign(
                         {
+                            key:index,
                             handleColumnResize: this.handleColumnResize,
                             handleColumnOrder: this.handleOnColumnOrder,
                             index,
@@ -273,6 +274,7 @@ class TableComponent extends Component {
         return (
             <Table
                 ref='Table'
+                key="Table"
                 disableHeader={false}
                 headerClassName={styles.headerColumn}
                 headerHeight={headerHeight}

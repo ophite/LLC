@@ -155,7 +155,7 @@ class Column extends Component {
 }
 
 function getItemStylesColumn(boundingClientRect, props) {
-    const { initialOffset, currentOffset } = props;
+    const { initialOffset, currentOffset, headerHeight } = props;
     if (!initialOffset || !currentOffset || !boundingClientRect) {
         return {
             display: 'none'
@@ -163,8 +163,12 @@ function getItemStylesColumn(boundingClientRect, props) {
     }
 
     let { x, y } = currentOffset;
-    x = x - boundingClientRect.left //+ width;
-    y = y - boundingClientRect.top//+ width;
+    console.log('initialOffset:', initialOffset)
+    console.log('currentOffset:', currentOffset)
+    console.log('boundingClientRect:', boundingClientRect)
+    const { left, top, width, height } = boundingClientRect;
+    x = x - left //+ width / 2;
+    y = y - top //+ height / 2;
 
     const transform = `translate(${x}px, ${y}px)`;
     return {
@@ -234,7 +238,17 @@ class HeaderDragLayout extends Component {
                 return;
             }
 
-            var rect = element.parentElement.getBoundingClientRect();
+            const { itemType, isDragging, item, index, label } = this.props;
+            let node = null;
+            if (itemType === 'RESIZER') {
+                node = element.parentElement;
+            }
+
+            if (itemType === 'CARD') {
+                node = element;
+            }
+
+            var rect = node.getBoundingClientRect();
             this.setState({
                 boundingClientRect: rect
             });
@@ -265,9 +279,6 @@ class HeaderDragLayout extends Component {
         if (itemType === 'RESIZER' && item.index === index) {
             return this.renderResizer();
         }
-
-        console.log('item.index:', item.index);
-        console.log('index:', index);
 
         if (itemType === 'CARD' && item.index === index) {
             return (
@@ -300,7 +311,9 @@ class Header extends Component {
             label,
             sortBy,
             sortDirection,
-            index
+            index,
+            headerHeight,
+            handleColumnOrder
         } = this.props;
 
         return (
@@ -310,6 +323,8 @@ class Header extends Component {
                 sortBy={sortBy}
                 sortDirection={sortDirection}
                 index={index}
+                headerHeight={headerHeight}
+                handleColumnOrder={handleColumnOrder}
             />
         );
     };
@@ -341,7 +356,7 @@ class Header extends Component {
             <div>
                 {this.renderColumn()}
                 { !last && this.renderResizer() }
-                { !last && this.renderDragLayer()}
+                { this.renderDragLayer()}
             </div>
         );
     }
