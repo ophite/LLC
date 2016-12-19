@@ -20,6 +20,12 @@ class TableComponent extends Component {
 
     //region lifecycle
 
+    // _isSortEnabled = () => {
+    //     const { list } = this.props;
+    //     const { rowCount } = this.state;
+    //     return rowCount <= list.size
+    // };
+
     constructor(props, context) {
         super(props, context);
         this.state = {
@@ -45,42 +51,30 @@ class TableComponent extends Component {
                 'index',
             ],
             columns: [
-                ({ index })=> {
-                    return {
-                        key: index,
-                        dataKey: 'index',
-                        label: 'Index',
-                        index,
-                        width: 160,
-                        headerRenderer: this.renderHeader,
-                        cellDataGetter: ({ columnData, dataKey, rowData }) => rowData.index,
-                        disableSort: !this._isSortEnabled()
-                    }
+                {
+                    dataKey: 'index',
+                    label: 'Index',
+                    width: 160,
+                    headerRenderer: this.renderHeader,
+                    cellDataGetter: ({ columnData, dataKey, rowData }) => rowData.index,
+                    // disableSort: !this._isSortEnabled()
                 },
-                ({ index })=> {
-                    return {
-                        key: index,
-                        dataKey: 'firstName',
-                        label: 'first Name',
-                        index,
-                        width: 230,
-                        headerRenderer: this.renderHeader,
-                        disableSort: !this._isSortEnabled()
-                    }
+                {
+                    dataKey: 'firstName',
+                    label: 'first Name',
+                    width: 230,
+                    headerRenderer: this.renderHeader,
+                    // disableSort: !this._isSortEnabled()
                 },
-                ({ index })=> {
-                    return {
-                        key: index,
-                        dataKey: 'lastName',
-                        label: 'last Name',
-                        index,
-                        width: 130,
-                        headerRenderer: this.renderHeader,
-                        disableSort: true,
-                        className: styles.exampleColumn,
-                        cellRenderer: ({ cellData, columnData, dataKey, rowData, rowIndex }) => cellData,
-                        flexGrow: 1
-                    }
+                {
+                    dataKey: 'lastName',
+                    label: 'last Name',
+                    width: 130,
+                    headerRenderer: this.renderHeader,
+                    disableSort: true,
+                    className: styles.exampleColumn,
+                    cellRenderer: ({ cellData, columnData, dataKey, rowData, rowIndex }) => cellData,
+                    flexGrow: 1
                 }
             ]
         };
@@ -172,7 +166,7 @@ class TableComponent extends Component {
     };
 
     handleOnColumnGrouping = (index) => {
-        const col = this.state.columns[index]({ index });
+        const col = this.state.columns[index];
         let groupingColumns = [...this.state.groupingColumns];
         const groupIndex = groupingColumns.indexOf(col.dataKey);
 
@@ -211,12 +205,12 @@ class TableComponent extends Component {
 
         const index = this.state
             .columns
-            .map((getColumnProps, index) => getColumnProps({ index }).dataKey)
+            .map((columnProps, index) => columnProps.dataKey)
             .indexOf(params.dataKey);
 
         // TODO refactor this file!
-        const width = this.state.columns[index]({ index }).width;
-
+        const width = this.state.columns[index].width;
+        const {layoutPropsSize} = this.props;
         return (
             <Header
                 {
@@ -228,6 +222,7 @@ class TableComponent extends Component {
                             width,
                             headerHeight,
                             height,
+                            height: layoutPropsSize.height || height,
                             last: index === this.state.columns.length - 1
                         }, params)
                 }
@@ -238,8 +233,8 @@ class TableComponent extends Component {
     renderColumns = () => {
         return this.state
             .columns
-            .map((getColumnProps, index) => {
-                return <Column {...getColumnProps({ index })}/>;
+            .map((columnProps, index) => {
+                return <Column {...columnProps}/>;
             });
     };
 

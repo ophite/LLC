@@ -16,14 +16,14 @@ const specSource = {
         };
     },
 
-    endDrag(props, monitor) {
-        const { id: droppedId, originalIndex } = monitor.getItem();
-        const didDrop = monitor.didDrop();
-        if (!didDrop) {
-        }
-
-        return false
-    },
+    // endDrag(props, monitor) {
+    //     const { id: droppedId, originalIndex } = monitor.getItem();
+    //     const didDrop = monitor.didDrop();
+    //     if (!didDrop) {
+    //     }
+    //
+    //     return false
+    // },
 
     isDragging(props, monitor) {
         const item = monitor.getItem();
