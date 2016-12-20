@@ -1,4 +1,4 @@
-import { DND_RESIZER } from './ColumnResizer.constants';
+import { DND_COLUMN_RESIZER } from './ColumnResizer.constants';
 import { endDragResizer } from './ColumnResizer.helper';
 
 const specificationsSource = {
@@ -26,7 +26,7 @@ const specificationsSource = {
         const {} = item;
 
         switch (itemType) {
-            case DND_RESIZER:
+            case DND_COLUMN_RESIZER:
             {
                 endDragResizer(props, monitor);
                 break;

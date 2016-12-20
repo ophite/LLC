@@ -1,1 +1,1 @@
-export const DND_RESIZER = 'DND_RESIZER';
+export const DND_COLUMN_RESIZER = 'DND_COLUMN_RESIZER';

@@ -3,7 +3,7 @@ import { DragSource, DropTarget, DragLayer } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 
 import { DND_COLUMN } from './Column.constants';
-import { DND_RESIZER } from '../../../controls/columnResizer/ColumnResizer.constants';
+import { DND_COLUMN_RESIZER } from '../../../controls/columnResizer/ColumnResizer.constants';
 import { endDragResizer } from '../../../controls/columnResizer/ColumnResizer.helper';
 
 
@@ -52,7 +52,7 @@ const specificationsTarget = {
                 }
                 break;
             }
-            case DND_RESIZER:
+            case DND_COLUMN_RESIZER:
             {
                 endDragResizer(props, monitor);
                 break;

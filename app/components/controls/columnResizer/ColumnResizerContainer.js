@@ -4,11 +4,11 @@ import { getEmptyImage } from 'react-dnd-html5-backend';
 
 import shouldPureComponentUpdate from '../../../utils/react/shouldPureComponentUpdate';
 import { ColumnResizer } from './ColumnResizer'
-import { DND_RESIZER } from './ColumnResizer.constants';
+import { DND_COLUMN_RESIZER } from './ColumnResizer.constants';
 import { specificationsSource, propsSource } from './ColumnResizer.dnd';
 
 
-@DragSource(DND_RESIZER, specificationsSource, propsSource)
+@DragSource(DND_COLUMN_RESIZER, specificationsSource, propsSource)
 class ColumnResizerContainer extends Component {
 
     shouldComponentUpdate = shouldPureComponentUpdate;

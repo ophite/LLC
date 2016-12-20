@@ -7,7 +7,7 @@ import SortIndicator from './SortIndicator';
 import shouldPureComponentUpdate from '../../../../utils/react/shouldPureComponentUpdate';
 
 import { DND_COLUMN } from './Column.constants';
-import { DND_RESIZER } from '../../../controls/columnResizer/ColumnResizer.constants';
+import { DND_COLUMN_RESIZER } from '../../../controls/columnResizer/ColumnResizer.constants';
 import {
     specificationsSource,
     propsSource,
@@ -16,7 +16,7 @@ import {
 } from './Column.dnd';
 
 
-@DropTarget([DND_COLUMN, DND_RESIZER], specificationsTarget, propsTarget)
+@DropTarget([DND_COLUMN, DND_COLUMN_RESIZER], specificationsTarget, propsTarget)
 @DragSource(DND_COLUMN, specificationsSource, propsSource)
 class Column extends Component {
 
@@ -57,20 +57,20 @@ class Column extends Component {
         return connectDragSource(
             connectDropTarget(
                 <div className={itemType === DND_COLUMN && canDrop && isOver && stylesGrid["active"]}>
-                <span
-                    className='ReactVirtualized__Table__headerTruncatedText'
-                    key='label'
-                    title={label}
-                >
-                    {label}
-                </span>
-                    {
-                        showSortIndicator &&
-                        <SortIndicator
-                            key='SortIndicator'
-                            sortDirection={sortDirection}
-                        />
-                    }
+                    <span
+                        className='ReactVirtualized__Table__headerTruncatedText'
+                        key='label'
+                        title={label}
+                    >
+                        {label}
+                    </span>
+                        {
+                            showSortIndicator &&
+                            <SortIndicator
+                                key='SortIndicator'
+                                sortDirection={sortDirection}
+                            />
+                        }
                 </div>
             ));
     }
