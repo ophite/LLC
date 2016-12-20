@@ -5,13 +5,11 @@ import { DragLayer } from 'react-dnd';
 
 import stylesGrid from "../../../../assets/styles/components/react-grid.scss";
 import SortIndicator from './SortIndicator'
-import {
-    ColumnResizer,
-    ColumnResizerComponent,
-    ColumnDragResizerComponent
-} from './ColumnResizer';
-import './ColumnResizer.css';
-import shouldPureComponentUpdate from './shouldPureComponentUpdate';
+import { ColumnResizer } from '../../../controls/columnResizer/ColumnResizer';
+import { ColumnResizerContainer } from '../../../controls/columnResizer/ColumnResizerContainer';
+import { DND_RESIZER } from '../../../controls/columnResizer/ColumnResizer.constants';
+
+import shouldPureComponentUpdate from '../../../../utils/shouldPureComponentUpdate';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 
 
@@ -52,14 +50,13 @@ const specTarget = {
                 }
                 break;
             }
-            case "RESIZER":
+            case DND_RESIZER:
             {
                 const initialOffset = monitor.getInitialSourceClientOffset();
                 const currentOffset = monitor.getSourceClientOffset();
                 const deltaWidth = currentOffset.x - initialOffset.x;
                 const dragIndex = item.index;
                 const hoverIndex = props.index;
-                // debugger
                 if (props.tableUuid === item.tableUuid) {
                     props.handleColumnResize(dragIndex, hoverIndex, deltaWidth);
                 }
@@ -79,8 +76,6 @@ const specTarget = {
         const hoverIndex = props.index;
 
         if (monitor.getItemType() === "CARD") {
-            console.log('props.tableUuid ', props.tableUuid)
-            console.log('tItem.tableUuid ', tItem.tableUuid)
             return dragIndex != hoverIndex && props.tableUuid === tItem.tableUuid;
         }
 
@@ -108,7 +103,7 @@ const collectSource = (connect, monitor) => {
     };
 };
 
-@DropTarget(["CARD", "RESIZER"], specTarget, collectTarget)
+@DropTarget(["CARD", DND_RESIZER], specTarget, collectTarget)
 @DragSource("CARD", specSource, collectSource)
 class Column extends Component {
 
@@ -203,7 +198,6 @@ function getItemStyles(boundingClientRect, props) {
 
     let { x, y } = currentOffset;
     x = differenceFromInitialOffset.x;
-    console.log('differenceFromInitialOffset.x', differenceFromInitialOffset.x)
     y = 0;
 
     const transform = `translate(${x}px, ${y}px)`;
@@ -255,7 +249,7 @@ class HeaderDragLayout extends Component {
 
             const { itemType, isDragging, item, index, label } = this.props;
             let node = null;
-            if (itemType === 'RESIZER') {
+            if (itemType === DND_RESIZER) {
                 node = element.parentElement;
             }
 
@@ -275,7 +269,7 @@ class HeaderDragLayout extends Component {
         return (
             <div ref={(ref) => this._ref = ref} style={layerStyles}>
                 <div style={getItemStyles(this.state.boundingClientRect, this.props)}>
-                    <ColumnResizerComponent
+                    <ColumnResizer
                         height={height}
                     />
                 </div>
@@ -291,7 +285,7 @@ class HeaderDragLayout extends Component {
             );
         }
 
-        if (itemType === 'RESIZER' && item.index === index && item.tableUuid === tableUuid) {
+        if (itemType === DND_RESIZER && item.index === index && item.tableUuid === tableUuid) {
             return this.renderResizer();
         }
 
@@ -355,7 +349,7 @@ class Header extends Component {
         } = this.props;
 
         return (
-            <ColumnResizer
+            <ColumnResizerContainer
                 height={headerHeight}
                 index={index}
                 tableUuid={tableUuid}
