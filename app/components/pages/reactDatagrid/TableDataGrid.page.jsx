@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import GoldenLayoutPage from '../goldenLayout/Golden.layout.page.jsx';
 import 'react-datagrid/index.css';
 import DataGrid from 'react-datagrid';
-import { GroupingColumnsBox } from './GroupingColumnsBox/GroupingColumnsBox.jsx';
+import { GroupingColumnsBox } from '../../controls/groupedColumnsBox/GroupingColumnsBox';
 import { data, columns } from './gridData'
 import sorty from 'sorty';
 

@@ -3,39 +3,12 @@ import 'react-datagrid/index.css';
 import { DragDropContext, DragSource, DropTarget } from 'react-dnd';
 import Chip from 'react-toolbox/lib/chip';
 
-import styles from "../../../../assets/styles/components/react-grid.scss";
-import { DND_COLUMN } from '../../reactVirtualized/column/Column.constants';
+import styles from "../../../assets/styles/components/react-grid.scss";
+import { DND_COLUMN } from '../../pages/reactVirtualized/column/Column.constants';
+import { specificationsTarget, propsTarget } from './GroupingColumnsBox.dnd';
 
 
-const target = {
-    drop(props, monitor, component) {
-        const item = monitor.getItem();
-        if (!item) {
-            return
-        }
-
-        const dragIndex = item.index;
-        // const hoverIndex = props.index;
-        if (item.tableUuid === props.tableUuid) {
-            props.handleOnColumnGrouping(dragIndex);
-        }
-    },
-    canDrop(props, monitor)
-    {
-        const tItem = monitor.getItem();
-        if (monitor.getItemType() === DND_COLUMN) {
-            return props.tableUuid === tItem.tableUuid;
-        }
-
-        return true;
-    }
-};
-
-@DropTarget(DND_COLUMN, target, (connect, monitor) => ({
-    connectDropTarget: connect.dropTarget(),
-    isOver: monitor.isOver(),
-    canDrop: monitor.canDrop()
-}))
+@DropTarget(DND_COLUMN, specificationsTarget, propsTarget)
 class GroupingColumnsBox extends Component {
 
     renderGroupingColumns = () => {
@@ -70,6 +43,7 @@ class GroupingColumnsBox extends Component {
         const className = [
             styles["section-dnd"]
         ];
+
         if (isActive) {
             className.push(styles["active"])
         }

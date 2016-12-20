@@ -8,7 +8,7 @@ import Immutable from 'immutable'
 
 // import './styles.css';
 import styles from '../../../../assets/styles/components/react-virtualized.scss'
-import { GroupingColumnsBox } from '../../reactDatagrid/GroupingColumnsBox/GroupingColumnsBox.jsx';
+import { GroupingColumnsBox } from '../../../controls/groupedColumnsBox/GroupingColumnsBox';
 import { Header } from '../header/Header';
 import SortDirection from '../column/SortDirection'
 import { arrayCutItem, arraySwipeItem } from '../../../../utils/helper';
