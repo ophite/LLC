@@ -7,7 +7,12 @@ import shouldPureComponentUpdate from './shouldPureComponentUpdate';
 
 
 const specSource = {
-    beginDrag(props) {
+    beginDrag(props, monitor) {
+        const initialOffset = monitor.getInitialSourceClientOffset();
+        const currentOffset = monitor.getSourceClientOffset();
+        console.log('initialOffset initialOffset initialOffset', initialOffset);
+        console.log('currentOffset currentOffset currentOffset', currentOffset);
+
         return {
             id: props.id,
             index: props.index,
@@ -20,9 +25,34 @@ const specSource = {
     endDrag(props, monitor) {
         const { id: droppedId, originalIndex } = monitor.getItem();
         const didDrop = monitor.didDrop();
-        if (!didDrop) {
+        if (didDrop) {
+            return;
         }
-        // debugger
+        const item = monitor.getItem();
+        const itemType = monitor.getItemType();
+        if (!item) {
+            return false;
+        }
+
+        switch (itemType) {
+            case "RESIZER":
+            {
+                const initialOffset = monitor.getInitialSourceClientOffset();
+                const currentOffset = monitor.getSourceClientOffset();
+                const deltaWidth = currentOffset.x - initialOffset.x;
+                const dragIndex = item.index;
+                const hoverIndex = props.index;
+                // debugger
+                if (props.tableUuid === item.tableUuid) {
+                    props.handleColumnResize(dragIndex, hoverIndex, deltaWidth);
+                }
+                break;
+            }
+            default:
+            {
+                break;
+            }
+        }
 
         return false
     },

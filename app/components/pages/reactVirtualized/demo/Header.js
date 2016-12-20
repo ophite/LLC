@@ -47,7 +47,7 @@ const specTarget = {
                 const dragIndex = item.index;
                 const hoverIndex = props.index;
                 if (dragIndex != hoverIndex && props.tableUuid === item.tableUuid) {
-                    debugger
+                    // debugger
                     props.handleColumnOrder(dragIndex, hoverIndex);
                 }
                 break;
@@ -59,7 +59,7 @@ const specTarget = {
                 const deltaWidth = currentOffset.x - initialOffset.x;
                 const dragIndex = item.index;
                 const hoverIndex = props.index;
-                debugger
+                // debugger
                 if (props.tableUuid === item.tableUuid) {
                     props.handleColumnResize(dragIndex, hoverIndex, deltaWidth);
                 }
@@ -203,6 +203,7 @@ function getItemStyles(boundingClientRect, props) {
 
     let { x, y } = currentOffset;
     x = differenceFromInitialOffset.x;
+    console.log('differenceFromInitialOffset.x', differenceFromInitialOffset.x)
     y = 0;
 
     const transform = `translate(${x}px, ${y}px)`;
@@ -346,13 +347,19 @@ class Header extends Component {
     };
 
     renderResizer = () => {
-        const { index, headerHeight, tableUuid } = this.props;
+        const {
+            index,
+            headerHeight,
+            tableUuid,
+            handleColumnResize
+        } = this.props;
 
         return (
             <ColumnResizer
                 height={headerHeight}
                 index={index}
                 tableUuid={tableUuid}
+                handleColumnResize={handleColumnResize}
             />
         );
     };

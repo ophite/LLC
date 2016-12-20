@@ -313,7 +313,6 @@ class TableComponent extends Component {
     };
 
     render() {
-        console.log('table this.props', this.props);
         return (
             <div className={styles.Body}>
                 <GroupingColumnsBox
