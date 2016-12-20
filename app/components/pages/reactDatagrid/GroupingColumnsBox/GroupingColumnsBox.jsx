@@ -14,7 +14,18 @@ const target = {
 
         const dragIndex = item.index;
         // const hoverIndex = props.index;
-        props.handleOnColumnGrouping(dragIndex);
+        if (item.tableUuid === props.tableUuid) {
+            props.handleOnColumnGrouping(dragIndex);
+        }
+    },
+    canDrop(props, monitor)
+    {
+        const tItem = monitor.getItem();
+        if (monitor.getItemType() === "CARD") {
+            return props.tableUuid === tItem.tableUuid;
+        }
+
+        return true;
     }
 };
 
@@ -71,6 +82,7 @@ class GroupingColumnsBox extends Component {
 }
 
 GroupingColumnsBox.PropTypes = {
+    tableUuid: PropTypes.string.isRequired,
     handleOnColumnGrouping: PropTypes.func,
     handleOnDeleteColumnGroup: PropTypes.func,
     connectDropTarget: PropTypes.func.isRequired,

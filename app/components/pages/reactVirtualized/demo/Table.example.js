@@ -317,6 +317,7 @@ class TableComponent extends Component {
         return (
             <div className={styles.Body}>
                 <GroupingColumnsBox
+                    tableUuid={this.props.uuid}
                     handleOnDeleteColumnGroup={this.handleOnDeleteColumnGroup}
                     handleOnColumnGrouping={this.handleOnColumnGrouping}
                     groupingColumns={this.state.groupingColumns}

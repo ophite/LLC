@@ -29,7 +29,7 @@ const specSource = {
         const dragIndex = item.index;
         const hoverIndex = props.index;
 
-        return dragIndex !== hoverIndex;
+        return dragIndex !== hoverIndex && item.tableUuid === props.tableUuid;
     }
 };
 
@@ -46,7 +46,8 @@ const specTarget = {
             {
                 const dragIndex = item.index;
                 const hoverIndex = props.index;
-                if (dragIndex != hoverIndex) {
+                if (dragIndex != hoverIndex && props.tableUuid === item.tableUuid) {
+                    debugger
                     props.handleColumnOrder(dragIndex, hoverIndex);
                 }
                 break;
@@ -78,7 +79,9 @@ const specTarget = {
         const hoverIndex = props.index;
 
         if (monitor.getItemType() === "CARD") {
-            return dragIndex != hoverIndex;
+            console.log('props.tableUuid ', props.tableUuid)
+            console.log('tItem.tableUuid ', tItem.tableUuid)
+            return dragIndex != hoverIndex && props.tableUuid === tItem.tableUuid;
         }
 
         return true;
@@ -291,7 +294,7 @@ class HeaderDragLayout extends Component {
             return this.renderResizer();
         }
 
-        if (itemType === 'CARD' && item.index === index) {
+        if (itemType === 'CARD' && item.index === index && item.tableUuid === tableUuid) {
             return (
                 <div ref={(ref) => this._ref = ref} style={layerStyles}>
                     <div style={getItemStylesColumn(this.state.boundingClientRect, this.props)}>
