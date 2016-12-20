@@ -9,8 +9,8 @@ import Immutable from 'immutable'
 // import './styles.css';
 import styles from '../../../../assets/styles/components/react-virtualized.scss'
 import { GroupingColumnsBox } from '../../reactDatagrid/GroupingColumnsBox/GroupingColumnsBox.jsx';
-import { Header } from './Header';
-import SortDirection from './SortDirection'
+import { Header } from '../header/Header';
+import SortDirection from '../header/SortDirection'
 import { arrayCutItem, arraySwipeItem } from '../../../../utils/helper';
 import customRowRenderer from './customRowRenderer'
 import customRowGroupping from './customRowGroupping'

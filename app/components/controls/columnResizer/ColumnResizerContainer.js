@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { DragSource, DropTarget } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 
-import shouldPureComponentUpdate from '../../../utils/shouldPureComponentUpdate';
+import shouldPureComponentUpdate from '../../../utils/react/shouldPureComponentUpdate';
 import { ColumnResizer } from './ColumnResizer'
 import { DND_RESIZER } from './ColumnResizer.constants';
 import { specificationsSource, propsSource } from './ColumnResizer.dnd';

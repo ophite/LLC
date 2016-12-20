@@ -5,7 +5,7 @@ import { getEmptyImage } from 'react-dnd-html5-backend';
 
 import stylesGrid from "../../../../assets/styles/components/react-grid.scss";
 import SortIndicator from './SortIndicator';
-import shouldPureComponentUpdate from '../../../../utils/shouldPureComponentUpdate';
+import shouldPureComponentUpdate from '../../../../utils/react/shouldPureComponentUpdate';
 
 import { ColumnResizer } from '../../../controls/columnResizer/ColumnResizer';
 import { ColumnResizerContainer } from '../../../controls/columnResizer/ColumnResizerContainer';

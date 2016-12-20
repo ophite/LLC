@@ -1,4 +1,4 @@
-import shallowEqual from '../components/pages/reactVirtualized/demo/shallowEqual';
+import shallowEqual from './shallowEqual';
 
 export default function shouldPureComponentUpdate(nextProps, nextState) {
   return !shallowEqual(this.props, nextProps) ||
