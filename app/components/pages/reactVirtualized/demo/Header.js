@@ -161,7 +161,7 @@ class Column extends Component {
 }
 
 function getItemStylesColumn(boundingClientRect, props) {
-    const { initialOffset, currentOffset, headerHeight } = props;
+    const { initialOffset, currentOffset, headerHeight, differenceFromInitialOffset } = props;
     if (!initialOffset || !currentOffset || !boundingClientRect) {
         return {
             display: 'none'
@@ -175,6 +175,8 @@ function getItemStylesColumn(boundingClientRect, props) {
     const { left, top, width, height } = boundingClientRect;
     x = x - left //+ width / 2;
     y = y - top //+ height / 2;
+    x = differenceFromInitialOffset.x; // TODO add offset by X (left)
+    y = differenceFromInitialOffset.y + height / 2;
 
     const transform = `translate(${x}px, ${y}px)`;
     return {
@@ -187,6 +189,9 @@ function getItemStyles(boundingClientRect, props) {
     const {
         initialOffset,
         currentOffset,
+        clientOffset,
+        differenceFromInitialOffset,
+        initialClientOffset,
         width
     } = props;
 
@@ -197,11 +202,7 @@ function getItemStyles(boundingClientRect, props) {
     }
 
     let { x, y } = currentOffset;
-    // console.log('initialOffset:', initialOffset)
-    // console.log('currentOffset:', currentOffset)
-    // console.log('boundingClientRect:', boundingClientRect)
-
-    x = x - boundingClientRect.left //+ width;
+    x = differenceFromInitialOffset.x;
     y = 0;
 
     const transform = `translate(${x}px, ${y}px)`;
@@ -228,6 +229,9 @@ const collectDragLayer = (monitor) => {
         itemType: monitor.getItemType(),
         initialOffset: monitor.getInitialSourceClientOffset(),
         currentOffset: monitor.getSourceClientOffset(),
+        clientOffset: monitor.getClientOffset(),
+        differenceFromInitialOffset: monitor.getDifferenceFromInitialOffset(),
+        initialClientOffset: monitor.getInitialClientOffset(),
         isDragging: monitor.isDragging()
     };
 };
