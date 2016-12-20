@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { data, columns } from './gridData'
 import GoldenLayoutPage from '../goldenLayout/Golden.layout.page.jsx';
-import Table from './demo/Table.example';
+import Table from './Table.example';
 import Immutable from 'immutable'
 
 const list = Immutable.List(data);
