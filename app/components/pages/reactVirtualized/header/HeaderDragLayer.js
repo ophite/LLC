@@ -5,7 +5,7 @@ import { getEmptyImage } from 'react-dnd-html5-backend';
 
 import { ColumnResizer } from '../../../controls/columnResizer/ColumnResizer';
 import { DND_RESIZER } from '../../../controls/columnResizer/ColumnResizer.constants';
-
+import { DND_COLUMN } from '../column/Column.constants'
 
 function getItemStylesColumn(boundingClientRect, props) {
     const { initialOffset, currentOffset, differenceFromInitialOffset } = props;
@@ -16,7 +16,7 @@ function getItemStylesColumn(boundingClientRect, props) {
     }
 
     let { x, y } = currentOffset;
-    const { left, top, width, height } = boundingClientRect;
+    const { height } = boundingClientRect;
     x = differenceFromInitialOffset.x; // TODO add offset by X (left)
     y = differenceFromInitialOffset.y + height / 2;
 
@@ -31,10 +31,7 @@ function getItemStyles(boundingClientRect, props) {
     const {
         initialOffset,
         currentOffset,
-        clientOffset,
         differenceFromInitialOffset,
-        initialClientOffset,
-        width
     } = props;
 
     if (!initialOffset || !currentOffset || !boundingClientRect) {
@@ -100,7 +97,7 @@ class HeaderDragLayer extends Component {
                 node = element.parentElement;
             }
 
-            if (itemType === 'CARD') {
+            if (itemType === DND_COLUMN) {
                 node = element;
             }
 
@@ -111,32 +108,38 @@ class HeaderDragLayer extends Component {
         }
     }
 
-    renderResizer = () => {
-        const { height } = this.props;
-        return (
-            <div ref={(ref) => this._ref = ref} style={layerStyles}>
-                <div style={getItemStyles(this.state.boundingClientRect, this.props)}>
-                    <ColumnResizer
-                        height={height}
-                    />
-                </div>
-            </div>
-        );
-    };
+    renderColumnResizer = () => {
+        const {
+            height,
+            item,
+            index,
+            tableUuid
+        } = this.props;
 
-    render() {
-        const { itemType, isDragging, item, index, label, tableUuid } = this.props;
-        if (!isDragging) {
+        if (item.index === index && item.tableUuid === tableUuid) {
             return (
-                null
+                <div ref={(ref) => this._ref = ref} style={layerStyles}>
+                    <div style={getItemStyles(this.state.boundingClientRect, this.props)}>
+                        <ColumnResizer
+                            height={height}
+                        />
+                    </div>
+                </div>
             );
         }
 
-        if (itemType === DND_RESIZER && item.index === index && item.tableUuid === tableUuid) {
-            return this.renderResizer();
-        }
+        return (null);
+    };
 
-        if (itemType === 'CARD' && item.index === index && item.tableUuid === tableUuid) {
+    renderColumn = () => {
+        const {
+            item,
+            index,
+            label,
+            tableUuid
+        } = this.props;
+
+        if (item.index === index && item.tableUuid === tableUuid) {
             return (
                 <div ref={(ref) => this._ref = ref} style={layerStyles}>
                     <div style={getItemStylesColumn(this.state.boundingClientRect, this.props)}>
@@ -145,16 +148,39 @@ class HeaderDragLayer extends Component {
                             key='label'
                             title={label}
                         >
-                {label}
-                </span>
+                            {label}
+                        </span>
                     </div>
                 </div>
             );
         }
 
-        return (
-            null
-        );
+        return (null);
+    };
+
+    render() {
+        const { itemType, isDragging } = this.props;
+        if (!isDragging) {
+            return (
+                null
+            );
+        }
+
+        switch (itemType) {
+            case DND_RESIZER :
+            {
+                return this.renderColumnResizer();
+            }
+            case DND_COLUMN :
+            {
+                return this.renderColumn();
+            }
+
+            default:
+            {
+                return (null);
+            }
+        }
     }
 }
 

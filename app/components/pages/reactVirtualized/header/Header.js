@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react'
 import { DragSource, DropTarget, DragLayer } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
 
-import { Column } from './Column';
+import { Column } from '../column/Column';
 import { HeaderDragLayer } from './HeaderDragLayer';
 import { ColumnResizerContainer as ColumnResizer } from '../../../controls/columnResizer/ColumnResizerContainer';
 

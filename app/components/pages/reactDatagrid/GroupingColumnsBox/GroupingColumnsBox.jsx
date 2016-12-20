@@ -2,7 +2,9 @@ import React, { PropTypes, Component } from 'react';
 import 'react-datagrid/index.css';
 import { DragDropContext, DragSource, DropTarget } from 'react-dnd';
 import Chip from 'react-toolbox/lib/chip';
+
 import styles from "../../../../assets/styles/components/react-grid.scss";
+import { DND_COLUMN } from '../../reactVirtualized/column/Column.constants';
 
 
 const target = {
@@ -21,7 +23,7 @@ const target = {
     canDrop(props, monitor)
     {
         const tItem = monitor.getItem();
-        if (monitor.getItemType() === "CARD") {
+        if (monitor.getItemType() === DND_COLUMN) {
             return props.tableUuid === tItem.tableUuid;
         }
 
@@ -29,7 +31,7 @@ const target = {
     }
 };
 
-@DropTarget("CARD", target, (connect, monitor) => ({
+@DropTarget(DND_COLUMN, target, (connect, monitor) => ({
     connectDropTarget: connect.dropTarget(),
     isOver: monitor.isOver(),
     canDrop: monitor.canDrop()

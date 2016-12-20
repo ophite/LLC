@@ -6,6 +6,7 @@ import stylesGrid from "../../../../assets/styles/components/react-grid.scss";
 import SortIndicator from './SortIndicator';
 import shouldPureComponentUpdate from '../../../../utils/react/shouldPureComponentUpdate';
 
+import { DND_COLUMN } from './Column.constants';
 import { DND_RESIZER } from '../../../controls/columnResizer/ColumnResizer.constants';
 
 
@@ -29,14 +30,14 @@ const specSource = {
 
 const specTarget = {
     drop(props, monitor, component) {
-        const item = monitor.getItem();
+        const item = monito4r.getItem();
         const itemType = monitor.getItemType();
         if (!item) {
             return
         }
 
         switch (itemType) {
-            case "CARD" :
+            case DND_COLUMN :
             {
                 const dragIndex = item.index;
                 const hoverIndex = props.index;
@@ -72,7 +73,7 @@ const specTarget = {
         const dragIndex = tItem.index;
         const hoverIndex = props.index;
 
-        if (monitor.getItemType() === "CARD") {
+        if (monitor.getItemType() === DND_COLUMN) {
             return dragIndex != hoverIndex && props.tableUuid === tItem.tableUuid;
         }
 
@@ -99,8 +100,8 @@ const collectSource = (connect, monitor) => {
     };
 };
 
-@DropTarget(["CARD", DND_RESIZER], specTarget, collectTarget)
-@DragSource("CARD", specSource, collectSource)
+@DropTarget([DND_COLUMN, DND_RESIZER], specTarget, collectTarget)
+@DragSource(DND_COLUMN, specSource, collectSource)
 class Column extends Component {
 
     shouldComponentUpdate = shouldPureComponentUpdate;
@@ -136,7 +137,7 @@ class Column extends Component {
         const showSortIndicator = sortBy === dataKey;
 
         return connectDragSource(connectDropTarget(
-            <div className={itemType === "CARD" && canDrop && isOver && stylesGrid["active"]}>
+            <div className={itemType === DND_COLUMN && canDrop && isOver && stylesGrid["active"]}>
                <span
                    className='ReactVirtualized__Table__headerTruncatedText'
                    key='label'
