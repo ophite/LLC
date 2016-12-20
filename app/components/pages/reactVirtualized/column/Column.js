@@ -8,100 +8,16 @@ import shouldPureComponentUpdate from '../../../../utils/react/shouldPureCompone
 
 import { DND_COLUMN } from './Column.constants';
 import { DND_RESIZER } from '../../../controls/columnResizer/ColumnResizer.constants';
+import {
+    specificationsSource,
+    propsSource,
+    specificationsTarget,
+    propsTarget
+} from './Column.dnd';
 
 
-const specSource = {
-    beginDrag(props) {
-        return {
-            id: props.id,
-            tableUuid: props.tableUuid,
-            index: props.index
-        };
-    },
-
-    isDragging(props, monitor) {
-        const item = monitor.getItem();
-        const dragIndex = item.index;
-        const hoverIndex = props.index;
-
-        return dragIndex !== hoverIndex && item.tableUuid === props.tableUuid;
-    }
-};
-
-const specTarget = {
-    drop(props, monitor, component) {
-        const item = monito4r.getItem();
-        const itemType = monitor.getItemType();
-        if (!item) {
-            return
-        }
-
-        switch (itemType) {
-            case DND_COLUMN :
-            {
-                const dragIndex = item.index;
-                const hoverIndex = props.index;
-                if (dragIndex != hoverIndex && props.tableUuid === item.tableUuid) {
-                    // debugger
-                    props.handleColumnOrder(dragIndex, hoverIndex);
-                }
-                break;
-            }
-            case DND_RESIZER:
-            {
-                const initialOffset = monitor.getInitialSourceClientOffset();
-                const currentOffset = monitor.getSourceClientOffset();
-                const deltaWidth = currentOffset.x - initialOffset.x;
-                const dragIndex = item.index;
-                const hoverIndex = props.index;
-                if (props.tableUuid === item.tableUuid) {
-                    props.handleColumnResize(dragIndex, hoverIndex, deltaWidth);
-                }
-                break;
-            }
-            default:
-            {
-                break;
-            }
-        }
-    },
-    
-    canDrop(props, monitor)
-    {
-        const tItem = monitor.getItem();
-
-        const dragIndex = tItem.index;
-        const hoverIndex = props.index;
-
-        if (monitor.getItemType() === DND_COLUMN) {
-            return dragIndex != hoverIndex && props.tableUuid === tItem.tableUuid;
-        }
-
-        return true;
-    }
-};
-
-
-const collectTarget = (connect, monitor) => {
-    return {
-        connectDropTarget: connect.dropTarget(),
-        isOver: monitor.isOver(),
-        canDrop: monitor.canDrop(),
-    };
-};
-
-
-const collectSource = (connect, monitor) => {
-    return {
-        connectDragSource: connect.dragSource(),
-        connectDragPreview: connect.dragPreview(),
-        isDragging: monitor.isDragging(),
-        itemType: monitor.getItemType()
-    };
-};
-
-@DropTarget([DND_COLUMN, DND_RESIZER], specTarget, collectTarget)
-@DragSource(DND_COLUMN, specSource, collectSource)
+@DropTarget([DND_COLUMN, DND_RESIZER], specificationsTarget, propsTarget)
+@DragSource(DND_COLUMN, specificationsSource, propsSource)
 class Column extends Component {
 
     shouldComponentUpdate = shouldPureComponentUpdate;
@@ -117,6 +33,7 @@ class Column extends Component {
     }
 
     render() {
+        // table
         const {
             columnData,
             dataKey,
@@ -126,6 +43,7 @@ class Column extends Component {
             sortDirection
         } = this.props;
 
+        // dnd
         const {
             isOver,
             canDrop,
@@ -136,24 +54,25 @@ class Column extends Component {
 
         const showSortIndicator = sortBy === dataKey;
 
-        return connectDragSource(connectDropTarget(
-            <div className={itemType === DND_COLUMN && canDrop && isOver && stylesGrid["active"]}>
-               <span
-                   className='ReactVirtualized__Table__headerTruncatedText'
-                   key='label'
-                   title={label}
-               >
-                {label}
+        return connectDragSource(
+            connectDropTarget(
+                <div className={itemType === DND_COLUMN && canDrop && isOver && stylesGrid["active"]}>
+                <span
+                    className='ReactVirtualized__Table__headerTruncatedText'
+                    key='label'
+                    title={label}
+                >
+                    {label}
                 </span>
-                {
-                    showSortIndicator &&
-                    <SortIndicator
-                        key='SortIndicator'
-                        sortDirection={sortDirection}
-                    />
-                }
-            </div>
-        ));
+                    {
+                        showSortIndicator &&
+                        <SortIndicator
+                            key='SortIndicator'
+                            sortDirection={sortDirection}
+                        />
+                    }
+                </div>
+            ));
     }
 }
 
