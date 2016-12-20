@@ -12,8 +12,8 @@ import { GroupingColumnsBox } from '../../../controls/groupedColumnsBox/Grouping
 import { Header } from '../header/Header';
 import SortDirection from '../column/SortDirection'
 import { arrayCutItem, arraySwipeItem } from '../../../../utils/helper';
-import customRowRenderer from './customRowRenderer'
-import customRowGroupping from './customRowGroupping'
+import customRowRenderer from '../grouping/customRowRenderer'
+import customRowGroupping from '../grouping/customRowGroupping'
 
 
 class TableComponent extends Component {

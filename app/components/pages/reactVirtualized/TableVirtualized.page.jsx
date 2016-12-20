@@ -9,19 +9,7 @@ const list = Immutable.List(data);
 
 class TableVirtualizedPage extends GoldenLayoutPage {
 
-    constructor(props, context) {
-        super(props, context);
-        this.state = {
-            groupingColumns: [
-                'country',
-                'grade',
-            ],
-            dataSource: data,
-        };
-    }
-
     render() {
-        console.log('TableVirtualizedPage.uuid', this.props.uuid)
         return (
             <div ref={(ref) => this.goldenWindow = ref}>
                 <Table

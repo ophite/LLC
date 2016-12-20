@@ -1,7 +1,7 @@
 const faker = window.faker = require('faker');
 const gen = (function () {
 
-    const cache = {}
+    const cache = {};
     return function (len) {
         if (cache[len]) {
             // return cache[len]
