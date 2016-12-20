@@ -19,6 +19,7 @@ const specSource = {
     beginDrag(props) {
         return {
             id: props.id,
+            tableUuid: props.tableUuid,
             index: props.index
         };
     },
@@ -54,13 +55,13 @@ const specTarget = {
             {
                 const initialOffset = monitor.getInitialSourceClientOffset();
                 const currentOffset = monitor.getSourceClientOffset();
-                // debugger
                 const deltaWidth = currentOffset.x - initialOffset.x;
                 const dragIndex = item.index;
                 const hoverIndex = props.index;
-                // if (dragIndex != hoverIndex) {
-                props.handleColumnResize(dragIndex, hoverIndex, deltaWidth);
-                // }
+                debugger
+                if (props.tableUuid === item.tableUuid) {
+                    props.handleColumnResize(dragIndex, hoverIndex, deltaWidth);
+                }
                 break;
             }
             default:
@@ -69,7 +70,8 @@ const specTarget = {
             }
         }
     },
-    canDrop(props, monitor) {
+    canDrop(props, monitor)
+    {
         const tItem = monitor.getItem();
 
         const dragIndex = tItem.index;
@@ -161,7 +163,7 @@ class Column extends Component {
 }
 
 function getItemStylesColumn(boundingClientRect, props) {
-    const { initialOffset, currentOffset, headerHeight, differenceFromInitialOffset } = props;
+    const { initialOffset, currentOffset, differenceFromInitialOffset } = props;
     if (!initialOffset || !currentOffset || !boundingClientRect) {
         return {
             display: 'none'
@@ -169,12 +171,7 @@ function getItemStylesColumn(boundingClientRect, props) {
     }
 
     let { x, y } = currentOffset;
-    // console.log('initialOffset:', initialOffset)
-    // console.log('currentOffset:', currentOffset)
-    // console.log('boundingClientRect:', boundingClientRect)
     const { left, top, width, height } = boundingClientRect;
-    x = x - left //+ width / 2;
-    y = y - top //+ height / 2;
     x = differenceFromInitialOffset.x; // TODO add offset by X (left)
     y = differenceFromInitialOffset.y + height / 2;
 
@@ -283,14 +280,14 @@ class HeaderDragLayout extends Component {
     };
 
     render() {
-        const { itemType, isDragging, item, index, label } = this.props;
+        const { itemType, isDragging, item, index, label, tableUuid } = this.props;
         if (!isDragging) {
             return (
                 null
             );
         }
 
-        if (itemType === 'RESIZER' && item.index === index) {
+        if (itemType === 'RESIZER' && item.index === index && item.tableUuid === tableUuid) {
             return this.renderResizer();
         }
 
@@ -326,9 +323,9 @@ class Header extends Component {
             sortBy,
             sortDirection,
             index,
-            headerHeight,
             handleColumnOrder,
-            handleColumnResize
+            handleColumnResize,
+            tableUuid
         } = this.props;
 
         return (
@@ -338,25 +335,21 @@ class Header extends Component {
                 sortBy={sortBy}
                 sortDirection={sortDirection}
                 index={index}
-                headerHeight={headerHeight}
                 handleColumnOrder={handleColumnOrder}
                 handleColumnResize={handleColumnResize}
+                tableUuid={tableUuid}
             />
         );
     };
 
     renderResizer = () => {
-        const {
-            headerHeight,
-            index
-        } = this.props;
-
-        console.log('this.props', this.props)
+        const { index, headerHeight, tableUuid } = this.props;
 
         return (
             <ColumnResizer
                 height={headerHeight}
                 index={index}
+                tableUuid={tableUuid}
             />
         );
     };

@@ -38,7 +38,7 @@ class GridLayoutPage extends React.Component {
                 const node = ReactDOM.findDOMNode(this.refs[layout.layoutObject.uuid]);
                 if (node) {
                     const { handleChangeLayoutSize } = this.props;
-                    const boundingClientRectResizer = resizerNode.getBoundingClientRect()
+                    const boundingClientRectResizer = resizerNode.getBoundingClientRect();
                     handleChangeLayoutSize(boundingClientRectResizer);
                 }
             }
@@ -105,6 +105,7 @@ class GridLayoutPage extends React.Component {
             <div key={layout.i} data-grid={layout}>
                 <LayoutHeader
                     ref={layout.layoutObject.uuid}
+                    uuid={layout.layoutObject.uuid}
                     layoutComponent={layout.layoutObject.component}
                     isFullScreen={this.state.fullScreenLayout !==null}
                     handleDeleteLayout={this.onDeleteLayout.bind(this, layout)}

@@ -12,16 +12,16 @@ class TableContainer extends GoldenLayoutContainer {
         return (
             <TablePage
                 {...this.props}
-                uuid={this.stateProps ? this.stateProps.uuid : null}
             />
         );
     }
 }
 
-TableContainer.propTypes = {};
+TableContainer.propTypes = {
+    uuid: React.PropTypes.string.isRequired,
+};
 
 const mapStateToProps = (state) => {
-    console.log('')
     return {
         layoutPropsSize: state.layout.layoutPropsSize
     };

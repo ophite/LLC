@@ -21,6 +21,7 @@ class TableVirtualizedPage extends GoldenLayoutPage {
     }
 
     render() {
+        console.log('TableVirtualizedPage.uuid', this.props.uuid)
         return (
             <div ref={(ref) => this.goldenWindow = ref}>
                 <Table

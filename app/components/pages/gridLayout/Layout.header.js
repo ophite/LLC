@@ -5,6 +5,7 @@ class LayoutHeader extends Component {
 
     render() {
         const {
+            uuid,
             layoutComponent,
             isFullScreen,
             handleDeleteLayout,
@@ -13,6 +14,8 @@ class LayoutHeader extends Component {
 
         // TODO change icon to minify
         const toggleScreenClassName = isFullScreen ? "normal-screen" : "full-screen";
+        const component = React.cloneElement(layoutComponent, { uuid });
+        console.log('layout.layoutObject', uuid);
 
         return (
             <div>
@@ -30,7 +33,7 @@ class LayoutHeader extends Component {
                         </span>
                     </div>
                 </div>
-                {layoutComponent}
+                {component}
             </div>
         );
     }
@@ -38,6 +41,7 @@ class LayoutHeader extends Component {
 
 
 LayoutHeader.propTypes = {
+    uuid: React.PropTypes.string.isRequired,
     layoutComponent: React.PropTypes.object.isRequired,
     isFullScreen: React.PropTypes.bool.isRequired,
     handleDeleteLayout: React.PropTypes.func.isRequired,

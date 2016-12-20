@@ -11,6 +11,7 @@ const specSource = {
         return {
             id: props.id,
             index: props.index,
+            tableUuid: props.tableUuid,
             left: props.left,
             top: props.top
         };
@@ -30,6 +31,7 @@ const specSource = {
         const item = monitor.getItem();
         const dragIndex = item.index;
         const hoverIndex = props.index;
+        return item.tableUuid === props.tableUuid;
         // return dragIndex !== hoverIndex;
         return true;
     }

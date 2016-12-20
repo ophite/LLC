@@ -23,17 +23,17 @@ class MenuComponent extends React.Component {
         switch (info.key) {
             case menu.table:
             {
-                handleAddLayout(layouts.table);
+                handleAddLayout({ ...layouts.table }); // TODO change to return new object
                 break;
             }
             case menu.tableVirtual:
             {
-                handleAddLayout(layouts.virtulized);
+                handleAddLayout({ ...layouts.virtulized });
                 break;
             }
             case menu.individual:
             {
-                handleAddLayout(layouts.individual);
+                handleAddLayout({ ...layouts.individual });
                 break;
             }
             default:

@@ -220,12 +220,17 @@ class TableComponent extends Component {
 
         // TODO refactor this file!
         const width = this.state.columns[index].width;
-        const { layoutPropsSize } = this.props;
+        const {
+            uuid,
+            layoutPropsSize
+        } = this.props;
+
         return (
             <Header
                 {
                     ...Object.assign(
                         {
+                            tableUuid: uuid,
                             key: index,
                             handleColumnResize: this.handleColumnResize,
                             handleColumnOrder: this.handleOnColumnOrder,
@@ -308,6 +313,7 @@ class TableComponent extends Component {
     };
 
     render() {
+        console.log('table this.props', this.props);
         return (
             <div className={styles.Body}>
                 <GroupingColumnsBox
