@@ -1,16 +1,16 @@
 import React, { Component, PropTypes } from 'react'
 import ReactDOM from 'react-dom';
-import { DragSource, DropTarget } from 'react-dnd';
-import { DragLayer } from 'react-dnd';
+import { DragSource, DropTarget, DragLayer } from 'react-dnd';
+import { getEmptyImage } from 'react-dnd-html5-backend';
 
 import stylesGrid from "../../../../assets/styles/components/react-grid.scss";
-import SortIndicator from './SortIndicator'
+import SortIndicator from './SortIndicator';
+import shouldPureComponentUpdate from '../../../../utils/shouldPureComponentUpdate';
+
 import { ColumnResizer } from '../../../controls/columnResizer/ColumnResizer';
 import { ColumnResizerContainer } from '../../../controls/columnResizer/ColumnResizerContainer';
 import { DND_RESIZER } from '../../../controls/columnResizer/ColumnResizer.constants';
 
-import shouldPureComponentUpdate from '../../../../utils/shouldPureComponentUpdate';
-import { getEmptyImage } from 'react-dnd-html5-backend';
 
 
 const specSource = {
@@ -68,6 +68,7 @@ const specTarget = {
             }
         }
     },
+    
     canDrop(props, monitor)
     {
         const tItem = monitor.getItem();
@@ -80,7 +81,6 @@ const specTarget = {
         }
 
         return true;
-        // return /*monitor.getItemType() === "CARD" && */dragIndex != hoverIndex;
     }
 };
 
