@@ -40,7 +40,10 @@ class Column extends Component {
             disableSort,
             label,
             sortBy,
-            sortDirection
+            sortDirection,
+            handleFilter,
+            isFilterVisible,
+            filterConfig,
         } = this.props;
 
         // dnd
@@ -64,13 +67,24 @@ class Column extends Component {
                     >
                         {label}
                     </span>
-                        {
-                            showSortIndicator &&
-                            <SortIndicator
-                                key='SortIndicator'
-                                sortDirection={sortDirection}
-                            />
-                        }
+                    {
+                        isFilterVisible 
+                        ? 
+                        <input 
+                            style={{ color: 'black', width: '40px' }} 
+                            onChange={handleFilter.bind(this, dataKey)}
+                            value={filterConfig[dataKey]}
+                        /> 
+                        : 
+                        null
+                    }
+                    {
+                        showSortIndicator &&
+                        <SortIndicator
+                            key='SortIndicator'
+                            sortDirection={sortDirection}
+                        />
+                    }
                 </div>
             ));
     }

@@ -18,7 +18,10 @@ class Header extends Component {
             index,
             handleColumnOrder,
             handleColumnResize,
-            tableUuid
+            handleFilter,
+            isFilterVisible,
+            filterConfig,
+            tableUuid,
         } = this.props;
 
         return (
@@ -30,6 +33,9 @@ class Header extends Component {
                 index={index}
                 handleColumnOrder={handleColumnOrder}
                 handleColumnResize={handleColumnResize}
+                handleFilter={handleFilter}
+                isFilterVisible={isFilterVisible}
+                filterConfig={filterConfig}
                 tableUuid={tableUuid}
             />
         );
