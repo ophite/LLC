@@ -5,6 +5,15 @@ const path = require('path');
 module.exports = {
     ...config,
     devtool: 'eval-source-map',
+    module: {
+        loaders: [
+            ...config.module.loaders,
+            {
+                test: /\.scss$/,
+                loader: 'style!css?modules&sourceMap&localIdentName=[local]___[hash:base64:5]!resolve-url!sass?outputStyle=expanded&sourceMap'
+            },
+        ]
+    },
     devServer: {
         inline: true,
         host: '0.0.0.0',

@@ -28,13 +28,9 @@ module.exports = {
         loaders: [
             { test: /\.css$/, loader: 'style!css' },
             { test: /\.(sass)/, loader: 'style!css!resolve-url!sass?sourceMap' },
-            {
-                test: /\.scss$/,
-                loader: 'style!css?modules&sourceMap&localIdentName=[local]___[hash:base64:5]!resolve-url!sass?outputStyle=expanded&sourceMap'
-            },
             { test: /\.gif$/, loader: 'url?limit=16000&mimetype=image/gif' },
             { test: /\.jpg$/, loader: 'url?limit=16000&mimetype=image/jpg' },
-            { test: /\.png$/, loader: 'url?limit=16000&mimetype=image/png' },
+            { test: /\.png$/, loader: 'url?limit=30000&mimetype=image/png' },
             { test: /\.svg/, loader: 'url?limit=50000&mimetype=image/svg+xml' },
             { test: /\.(woff|woff2|ttf|eot)/, loader: 'url?limit=1' },
             // { test: /\.jsx$/, loader: 'react-hot!babel', exclude: [/node_modules/, /public/] },
@@ -44,9 +40,11 @@ module.exports = {
                 exclude: [/public/],
                 include: [
                     path.resolve(__dirname, "app"),
-                    path.resolve(__dirname, "node_modules/react-datagrid/src"),
-                    path.resolve(__dirname, "node_modules/react-datagrid/lib"),
-                    path.resolve(__dirname, "node_modules/react-toolbox/lib"),
+                    // path.resolve(__dirname, "node_modules/react-sortable-hoc/src"),
+                    path.resolve(__dirname, "node_modules/react-virtualized/source"),
+                    // path.resolve(__dirname, "node_modules/react-datagrid/src"),
+                    // path.resolve(__dirname, "node_modules/react-datagrid/lib"),
+                    // path.resolve(__dirname, "node_modules/react-toolbox/lib"),
                 ],
             },
 
@@ -69,10 +67,10 @@ module.exports = {
     //         path.resolve(__dirname, 'node_modules/react-toolbox/lib')
     //     ]
     // },
-    
+
     plugins: [
         // new webpack.HotModuleReplacementPlugin(),
-        new ExtractTextPlugin('bundle.css', { allChunks: true }),
+        // new ExtractTextPlugin('bundle.css', { allChunks: true }),
         new HtmlWebpackPlugin({
             filename: '../../index.html',
             template: 'app/index.html'

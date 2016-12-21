@@ -1,0 +1,1 @@
+export const DND_COLUMN_RESIZER = 'DND_COLUMN_RESIZER';
