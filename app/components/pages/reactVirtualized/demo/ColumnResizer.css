@@ -1,0 +1,14 @@
+.vertical-line {
+    width: 5px;
+    background-color: black;
+    position: absolute;
+    right:0;
+    top: 0;
+}
+.vertical-line-drag {
+    width: 5px;
+    background-color: blue;
+    position: absolute;
+    /*right:0;*/
+    top: 0;
+}
