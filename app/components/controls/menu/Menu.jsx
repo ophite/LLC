@@ -1,8 +1,7 @@
 import React from 'react';
 import Menu, { SubMenu, Item as MenuItem, Divider } from 'rc-menu';
 import styles from '../../../assets/styles/components/menu-top.scss';
-import { addWindow } from '../goldenLayout/golden.init';
-// import { addWindow } from '../../../containers/golden/GoldenInit';
+import { addLayout as addLayoutToGolden } from '../goldenLayout/golden.init';
 import { layouts } from '../../../constants/menu.constant';
 
 const menu = {
@@ -23,20 +22,20 @@ class MenuComponent extends React.Component {
         switch (info.key) {
             case menu.table:
             {
-                // addWindow(layouts.table); // TODO change to see on wich routes (golden or grid)
-                handleAddLayout({ ...layouts.table }); // TODO change to return new object
+                addLayoutToGolden(layouts.table); // TODO change to see on wich routes (golden or grid)
+                handleAddLayout(layouts.table);
                 break;
             }
             case menu.tableVirtual:
             {
-                // addWindow(layouts.virtulized);
-                handleAddLayout({ ...layouts.virtulized });
+                addLayoutToGolden(layouts.virtulized);
+                handleAddLayout(layouts.virtulized);
                 break;
             }
             case menu.individual:
             {
-                // addWindow(layouts.individual);
-                handleAddLayout({ ...layouts.individual });
+                addLayoutToGolden(layouts.individual);
+                handleAddLayout(layouts.individual);
                 break;
             }
             default:

@@ -3,9 +3,9 @@ import { Provider } from 'react-redux';
 import { syncHistoryWithStore } from 'react-router-redux'
 import { Router } from 'react-router';
 
- import routes from './routes.jsx';
+// import routes from './routes.jsx';
 // import routes from './routes.golden.layout.jsx';
-// import routes from './routes.grid.layout.jsx';
+import routes from './routes.grid.layout.jsx';
 
 import configureStore from '../store/root.store';
 import { history } from './history'

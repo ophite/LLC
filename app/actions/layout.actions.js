@@ -1,6 +1,7 @@
 import typesLayout from './types/layout.types';
 
-export const addLayout = (layout) => ({
+// Every adding new layout need be new object (from menu constants)
+export const addLayout = ({ ...layout }) => ({
     type: typesLayout.ADD_LAYOUT,
     payload: { layout }
 });

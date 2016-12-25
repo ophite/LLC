@@ -10,11 +10,16 @@ import { goldenConfig } from './golden.config';
 
 /***************** helper *********************/
 
-export const addWindow = (goldenWindow, componentState) => {
+export const addLayout = (goldenLayout, componentState) => {
+    // if not init golden yet
+    if (!goldenLayoutComponent) {
+        return;
+    }
+
     const newItemConfig = {
-        title: goldenWindow.fullName,
+        title: goldenLayout.fullName,
         type: 'component',
-        componentName: goldenWindow.name,
+        componentName: goldenLayout.name,
         componentState
     };
 
@@ -32,8 +37,8 @@ export const addWindow = (goldenWindow, componentState) => {
 
 const initLayouts = (goldenLayoutComponent, goldenLayouts) => {
     for (const key in goldenLayouts) {
-        const goldenWindow = goldenLayouts[key];
-        goldenLayoutComponent.registerComponent(goldenWindow.name, goldenWindow.componentGolden());
+        const goldenLayout = goldenLayouts[key];
+        goldenLayoutComponent.registerComponent(goldenLayout.name, goldenLayout.componentGolden());
     }
 };
 
@@ -56,7 +61,7 @@ const getComponentUuid = (contentItem) => {
 
 
 /***************** golden layout *********************/
-let goldenLayoutComponent;
+let goldenLayoutComponent = null;
 export const initGolden = () => {
     const rootElement = document.getElementById('react-view');
     goldenLayoutComponent = new GoldenLayout(goldenConfig);
