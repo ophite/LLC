@@ -76,6 +76,10 @@ class GridLayoutPage extends React.Component {
         const { handleDeleteLayout } = this.props;
         handleDeleteLayout(layout.layoutObject);
         this.setState({ layouts: reject(this.state.layouts, { i: layout.i }) });
+
+        if (this.state.fullScreenLayout && this.state.fullScreenLayout.i === layout.i) {
+            this.onToggleFullScreenLayout(layout);
+        }
     };
 
     onToggleFullScreenLayout = (layout) => {
