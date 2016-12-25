@@ -12,10 +12,8 @@ class LayoutHeader extends Component {
             handleToggleFullScreenLayout
         } = this.props;
 
-        // TODO change icon to minify
         const toggleScreenClassName = isFullScreen ? "normal-screen" : "full-screen";
         const component = React.cloneElement(layoutComponent, { uuid });
-        console.log('layout.layoutObject', uuid);
 
         return (
             <div>
