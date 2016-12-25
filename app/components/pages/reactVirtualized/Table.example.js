@@ -30,11 +30,14 @@ class TableComponent extends Component {
         super(props, context);
         this.state = {
             list: props.list,
+            filteredList: props.list,
+            filterConfig: {},
+            isFilterVisible: false,
             headerHeight: 55,
             height: 500,
             overscanRowCount: 10,
             rowHeight: 55,
-            rowCount: 1000,
+            rowCount: 100,
             sortBy: 'index',
             sortDirection: SortDirection.ASC,
             useDynamicRowHeight: false,
@@ -195,9 +198,61 @@ class TableComponent extends Component {
         });
     };
 
+    handleFilter = (dataKey, e) => {
+        const { list } = this.props;
+        const filterConfig = { ...this.state.filterConfig };
+        filterConfig[dataKey] = e.target.value;
+
+        const filteredList = list.toArray().filter(item => {
+            let filtered = 0;
+            Object.keys(filterConfig).forEach(key => {
+                if (item[key].toString().toLowerCase().indexOf(filterConfig[key].toLowerCase()) > -1) {
+                    filtered++;
+                }
+            });  
+
+            return filtered === Object.keys(filterConfig).length;   
+        });
+        
+        this.setState({ 
+            filteredList: Immutable.List(filteredList), 
+            filterConfig,
+            rowCount: filteredList.length,
+        });
+    };
+
+    handleResetFilter = () => {
+        this.setState({
+            filteredList: this.props.list, 
+            filterConfig: {},
+            rowCount: 100,
+        });
+    };
+
+    handleToggleFilter = () => {
+        this.setState({ isFilterVisible: !this.state.isFilterVisible });
+    };
+
     //endregion
 
     //region render
+
+    renderFilterControls = () => {
+        const { isFilterVisible } = this.state;
+
+        return (
+            <div>
+                {
+                    isFilterVisible 
+                    ? 
+                    <div onClick={this.handleToggleFilter}>Hide filter</div> 
+                    : 
+                    <div onClick={this.handleToggleFilter}>Show filter</div>
+                }
+                <div onClick={this.handleResetFilter}>Reset filter</div>
+            </div>
+        );
+    };
 
     renderHeader = (params) => {
         const {
@@ -210,7 +265,9 @@ class TableComponent extends Component {
             sortDirection,
             useDynamicRowHeight,
             list,
-            groupInfo
+            groupInfo,
+            isFilterVisible,
+            filterConfig,
         } = this.state;
 
         const index = this.state
@@ -234,6 +291,9 @@ class TableComponent extends Component {
                             key: index,
                             handleColumnResize: this.handleColumnResize,
                             handleColumnOrder: this.handleOnColumnOrder,
+                            handleFilter: this.handleFilter,
+                            isFilterVisible,
+                            filterConfig,
                             index,
                             width,
                             headerHeight,
@@ -281,7 +341,8 @@ class TableComponent extends Component {
 
         const rowGetter = (params) => {
             const { index } = params;
-            const immutableList = Immutable.List(groupInfo.grouppedList);
+            // const immutableList = Immutable.List(groupInfo.grouppedList);
+            const immutableList = this.state.filteredList;
 
             return this._getDatum(immutableList, index);
         };
@@ -321,6 +382,7 @@ class TableComponent extends Component {
                     handleOnColumnGrouping={this.handleOnColumnGrouping}
                     groupingColumns={this.state.groupingColumns}
                 />
+                {this.renderFilterControls()}
                 <div className={styles.column}>
                     <AutoSizer disableHeight>
                         {({ width }) => this.renderTable(width) }
