@@ -27,19 +27,19 @@ const ReduxComponentWrapper = (componentView) => {
 
 export const layouts = {
     virtulized: {
-        fullName: 'Виртуалайз',
+        fullName: 'Virtualized',
         name: 'virtulized',
         componentGolden: ()=> ReduxComponentWrapper.call(null, TableVirtualized),
         component: React.createElement(TableVirtualized)
     },
     table: {
-        fullName: 'Таблица',
+        fullName: 'Table (data grid)',
         name: 'table',
         componentGolden: ()=> ReduxComponentWrapper.call(null, TableDatagrid),
         component: React.createElement(TableDatagrid)
     },
     individual: {
-        fullName: 'Физ. лицо',
+        fullName: 'Individual',
         name: 'individual',
         componentGolden: () => ReduxComponentWrapper.call(null, Invidual),
         component: React.createElement(Invidual)

@@ -1,4 +1,4 @@
-import { Route, IndexRoute, IndexRedirect } from 'react-router';
+import { Route } from 'react-router';
 
 import App from '../containers/layouts/App.jsx';
 import NotFoundPage from '../components/pages/notFound/NotFound.page.jsx'

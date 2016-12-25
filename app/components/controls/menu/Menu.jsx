@@ -22,7 +22,7 @@ class MenuComponent extends React.Component {
         switch (info.key) {
             case menu.table:
             {
-                addLayoutToGolden(layouts.table); // TODO change to see on wich routes (golden or grid)
+                addLayoutToGolden(layouts.table);
                 handleAddLayout(layouts.table);
                 break;
             }
@@ -47,13 +47,13 @@ class MenuComponent extends React.Component {
     render() {
         const directoryTitleView = (
             <span>
-                Справочники
+                Directories
                 <i className="fa fa-caret-right pull-right"/>
             </span>
         );
         const subjectsTitleView = (
             <span>
-                Контрагенты
+                Subjects
                 <i className="fa fa-caret-right pull-right"/>
             </span>
         );
@@ -67,15 +67,15 @@ class MenuComponent extends React.Component {
                     onClick={this.handleSelect}
                     className={styles["menu-top"]}
                 >
-                    <MenuItem key={menu.file}>Файл</MenuItem>
-                    <MenuItem key={menu.individual}>Физлицо</MenuItem>
-                    <MenuItem key={menu.table}>Таблица</MenuItem>
+                    <MenuItem key={menu.file}>File</MenuItem>
+                    <MenuItem key={menu.individual}>Individual</MenuItem>
+                    <MenuItem key={menu.table}>Table (data grid)</MenuItem>
                     <SubMenu key={menu.subjects} title={directoryTitleView}>
-                        <MenuItem key={menu.table}>Таблица</MenuItem>
-                        <MenuItem key={menu.tableVirtual}>Таблица virt</MenuItem>
+                        <MenuItem key={menu.table}>Table (data grid)</MenuItem>
+                        <MenuItem key={menu.tableVirtual}>Table (virtualized)</MenuItem>
                         <SubMenu key={menu.custom} title={subjectsTitleView}>
-                            <MenuItem key={menu.individual}>Физлицо</MenuItem>
-                            <MenuItem key={menu.table}>Таблица</MenuItem>
+                            <MenuItem key={menu.individual}>Individual</MenuItem>
+                            <MenuItem key={menu.table}>Table (data grid)</MenuItem>
                         </SubMenu>
                     </SubMenu>
                 </Menu>
