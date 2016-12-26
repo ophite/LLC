@@ -1,5 +1,5 @@
 import Pokemon from '../../pokemons/Pokemon.jsx';
-import InfiniteScroll from '../../controls/infiniteScroll/InfiniteScroll.container.h';
+import InfiniteScroll from '../../controls/infiniteScroll/InfiniteScroll.container.jsx';
 
 
 class PokemonsPage extends React.Component {

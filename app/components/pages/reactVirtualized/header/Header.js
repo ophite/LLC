@@ -4,7 +4,7 @@ import { getEmptyImage } from 'react-dnd-html5-backend';
 
 import { Column } from '../column/Column';
 import { HeaderDragLayer } from './HeaderDragLayer';
-import { ColumnResizerContainer as ColumnResizer } from '../../../controls/columnResizer/ColumnResizerContainer';
+import { ColumnResizerContainer as ColumnResizer } from '../../../controls/columnResizer/ColumnResizer.container';
 
 
 class Header extends Component {

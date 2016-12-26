@@ -1,6 +1,7 @@
 import { DND_COLUMN_RESIZER } from './ColumnResizer.constants';
 import { endDragResizer } from './ColumnResizer.helper';
 
+
 const specificationsSource = {
 
     beginDrag(props, monitor) {
