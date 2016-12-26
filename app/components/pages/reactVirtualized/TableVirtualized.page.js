@@ -311,7 +311,12 @@ class TableComponent extends GoldenLayoutPage {
         return this.state
             .columns
             .map((columnProps, index) => {
-                return <Column {...columnProps}/>;
+                return (
+                    <Column
+                        {...columnProps}
+                        key={index}
+                    />
+                );
             });
     };
 
@@ -343,8 +348,8 @@ class TableComponent extends GoldenLayoutPage {
 
         const rowGetter = (params) => {
             const { index } = params;
-            // const immutableList = Immutable.List(groupInfo.grouppedList);
-            const immutableList = this.state.filteredList;
+            const immutableList = Immutable.List(groupInfo.grouppedList);
+            // const immutableList = this.state.filteredList;
 
             return this._getDatum(immutableList, index);
         };
@@ -352,7 +357,6 @@ class TableComponent extends GoldenLayoutPage {
         return (
             <Table
                 ref='Table'
-                key="Table"
                 disableHeader={false}
                 headerClassName={styles.headerColumn}
                 headerHeight={headerHeight}
