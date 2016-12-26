@@ -10,7 +10,8 @@ const menu = {
     table: 'table',
     tableVirtual: 'tableVirtual',
     custom: 'custom',
-    individual: 'individual'
+    individualReactToolbox: 'individualReactToolbox',
+    individualAntdesign: 'individualAntdesign'
 };
 
 
@@ -32,10 +33,16 @@ class MenuComponent extends React.Component {
                 handleAddLayout(layouts.virtulized);
                 break;
             }
-            case menu.individual:
+            case menu.individualReactToolbox:
             {
-                addLayoutToGolden(layouts.individual);
-                handleAddLayout(layouts.individual);
+                addLayoutToGolden(layouts.individualReactToolbox);
+                handleAddLayout(layouts.individualReactToolbox);
+                break;
+            }
+            case menu.individualAntdesign:
+            {
+                addLayoutToGolden(layouts.individualAntdesign);
+                handleAddLayout(layouts.individualAntdesign);
                 break;
             }
             default:
@@ -68,13 +75,15 @@ class MenuComponent extends React.Component {
                     className={styles["menu-top"]}
                 >
                     <MenuItem key={menu.file}>File</MenuItem>
-                    <MenuItem key={menu.individual}>Individual</MenuItem>
+                    <MenuItem key={menu.individualReactToolbox}>Individual (react toolbox)</MenuItem>
+                    <MenuItem key={menu.individualAntdesign}>Individual (antdesign)</MenuItem>
                     <MenuItem key={menu.table}>Table (data grid)</MenuItem>
                     <SubMenu key={menu.subjects} title={directoryTitleView}>
                         <MenuItem key={menu.table}>Table (data grid)</MenuItem>
                         <MenuItem key={menu.tableVirtual}>Table (virtualized)</MenuItem>
                         <SubMenu key={menu.custom} title={subjectsTitleView}>
-                            <MenuItem key={menu.individual}>Individual</MenuItem>
+                            <MenuItem key={menu.individualAntdesign}>Individual (antdesign)</MenuItem>
+                            <MenuItem key={menu.individualReactToolbox}>Individual (react toolbox)</MenuItem>
                             <MenuItem key={menu.table}>Table (data grid)</MenuItem>
                         </SubMenu>
                     </SubMenu>

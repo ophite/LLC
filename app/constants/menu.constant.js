@@ -8,7 +8,8 @@ export const store = configureStore(initialState);
 
 import TableVirtualized from '../containers/reactVirtualized/TableVirtualized.container.jsx';
 import TableDatagrid from '../containers/reactDatagrid/TableDatagrid.container.jsx';
-import Invidual from '../containers/individual/Individual.container.jsx';
+import InvidualReactToolbox from '../containers/individual/Individual.container.reacttoolbox.jsx';
+import InvidualAntDesign from '../containers/individual/Individual.container.antdesign.jsx';
 
 
 const ReduxComponentWrapper = (componentView) => {
@@ -38,10 +39,16 @@ export const layouts = {
         componentGolden: ()=> ReduxComponentWrapper.call(null, TableDatagrid),
         component: React.createElement(TableDatagrid)
     },
-    individual: {
-        fullName: 'Individual',
-        name: 'individual',
-        componentGolden: () => ReduxComponentWrapper.call(null, Invidual),
-        component: React.createElement(Invidual)
+    individualReactToolbox: {
+        fullName: 'Individual (react toolbox)',
+        name: 'individualReactToolbox',
+        componentGolden: () => ReduxComponentWrapper.call(null, InvidualReactToolbox),
+        component: React.createElement(InvidualReactToolbox)
+    },
+    individualAntdesign: {
+        fullName: 'Individual (and design)',
+        name: 'individualAntDesign',
+        componentGolden: () => ReduxComponentWrapper.call(null, InvidualAntDesign),
+        component: React.createElement(InvidualAntDesign)
     }
 };
