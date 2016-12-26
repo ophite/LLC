@@ -15,8 +15,10 @@ import { arrayCutItem, arraySwipeItem } from '../../../utils/helper';
 import customRowRenderer from './grouping/customRowRenderer'
 import customRowGroupping from './grouping/customRowGroupping'
 
+import GoldenLayoutPage from '../goldenLayout/Golden.layout.page.jsx';
 
-class TableComponent extends Component {
+
+class TableComponent extends GoldenLayoutPage {
 
     //region lifecycle
 
@@ -209,13 +211,13 @@ class TableComponent extends Component {
                 if (item[key].toString().toLowerCase().indexOf(filterConfig[key].toLowerCase()) > -1) {
                     filtered++;
                 }
-            });  
+            });
 
-            return filtered === Object.keys(filterConfig).length;   
+            return filtered === Object.keys(filterConfig).length;
         });
         
-        this.setState({ 
-            filteredList: Immutable.List(filteredList), 
+        this.setState({
+            filteredList: Immutable.List(filteredList),
             filterConfig,
             rowCount: filteredList.length,
         });
@@ -223,7 +225,7 @@ class TableComponent extends Component {
 
     handleResetFilter = () => {
         this.setState({
-            filteredList: this.props.list, 
+            filteredList: this.props.list,
             filterConfig: {},
             rowCount: 100,
         });
@@ -243,11 +245,11 @@ class TableComponent extends Component {
         return (
             <div>
                 {
-                    isFilterVisible 
-                    ? 
-                    <div onClick={this.handleToggleFilter}>Hide filter</div> 
-                    : 
-                    <div onClick={this.handleToggleFilter}>Show filter</div>
+                    isFilterVisible
+                        ?
+                        <div onClick={this.handleToggleFilter}>Hide filter</div>
+                        :
+                        <div onClick={this.handleToggleFilter}>Show filter</div>
                 }
                 <div onClick={this.handleResetFilter}>Reset filter</div>
             </div>
@@ -375,18 +377,20 @@ class TableComponent extends Component {
 
     render() {
         return (
-            <div className={styles.Body}>
-                <GroupingColumnsBox
-                    tableUuid={this.props.uuid}
-                    handleOnDeleteColumnGroup={this.handleOnDeleteColumnGroup}
-                    handleOnColumnGrouping={this.handleOnColumnGrouping}
-                    groupingColumns={this.state.groupingColumns}
-                />
-                {this.renderFilterControls()}
-                <div className={styles.column}>
-                    <AutoSizer disableHeight>
-                        {({ width }) => this.renderTable(width) }
-                    </AutoSizer>
+            <div ref={(ref) => this.goldenWindow = ref}>
+                <div className={styles.Body}>
+                    <GroupingColumnsBox
+                        tableUuid={this.props.uuid}
+                        handleOnDeleteColumnGroup={this.handleOnDeleteColumnGroup}
+                        handleOnColumnGrouping={this.handleOnColumnGrouping}
+                        groupingColumns={this.state.groupingColumns}
+                    />
+                    {this.renderFilterControls()}
+                    <div className={styles.column}>
+                        <AutoSizer disableHeight>
+                            {({ width }) => this.renderTable(width) }
+                        </AutoSizer>
+                    </div>
                 </div>
             </div>
         );
