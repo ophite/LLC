@@ -32,6 +32,7 @@ GoldenLayoutContainer.propTypes = {};
 
 const mapStateToProps = (state) => {
     return {
+        layoutPropsSize: state.layout.layoutPropsSize, // for refresh render during resize on grid layout
         uuid: state.common.goldenWindowUuid,
         goldenWindowUuidTst: state.common.goldenWindowUuidTst
     };
