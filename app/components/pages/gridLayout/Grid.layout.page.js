@@ -110,6 +110,7 @@ class GridLayoutPage extends React.Component {
                 <LayoutHeader
                     ref={layout.layoutObject.uuid}
                     uuid={layout.layoutObject.uuid}
+                    headerTitle={layout.layoutObject.fullName}
                     layoutComponent={layout.layoutObject.component}
                     isFullScreen={this.state.fullScreenLayout !==null}
                     handleDeleteLayout={this.onDeleteLayout.bind(this, layout)}

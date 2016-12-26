@@ -6,6 +6,7 @@ class LayoutHeader extends Component {
     render() {
         const {
             uuid,
+            headerTitle,
             layoutComponent,
             isFullScreen,
             handleDeleteLayout,
@@ -18,6 +19,7 @@ class LayoutHeader extends Component {
         return (
             <div>
                 <div className="react-grid__header">
+                    {headerTitle}
                     <div>
                         <span
                             className="close"
@@ -40,6 +42,7 @@ class LayoutHeader extends Component {
 
 LayoutHeader.propTypes = {
     uuid: React.PropTypes.string.isRequired,
+    headerTitle: React.PropTypes.string.isRequired,
     layoutComponent: React.PropTypes.object.isRequired,
     isFullScreen: React.PropTypes.bool.isRequired,
     handleDeleteLayout: React.PropTypes.func.isRequired,
