@@ -8,6 +8,7 @@ import Immutable from 'immutable'
 
 // import './styles.css';
 import styles from '../../../assets/styles/components/react-virtualized.scss'
+import GoldenLayoutPage from '../goldenLayout/Golden.layout.page.jsx';
 import { GroupingColumnsBox } from '../../controls/groupedColumnsBox/GroupingColumnsBox';
 import { Header } from './header/Header';
 import SortDirection from './column/SortDirection'
@@ -15,7 +16,6 @@ import { arrayCutItem, arraySwipeItem } from '../../../utils/helper';
 import customRowRenderer from './grouping/customRowRenderer'
 import customRowGroupping from './grouping/customRowGroupping'
 
-import GoldenLayoutPage from '../goldenLayout/Golden.layout.page.jsx';
 
 
 class TableComponent extends GoldenLayoutPage {
