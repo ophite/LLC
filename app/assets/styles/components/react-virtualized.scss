@@ -43,13 +43,13 @@
     max-width: 100%;
     white-space: nowrap;
     text-overflow: ellipsis;
-    overflow: hidden;
+    //overflow: hidden;
   }
 
   .ReactVirtualized__Table__headerColumn,
   .ReactVirtualized__Table__rowColumn {
     min-width: 0;
-    padding: 16px 18px 15px;
+    padding: 19px 18px 18px;
     //position: relative;
   }
   .ReactVirtualized__Table__rowColumn {

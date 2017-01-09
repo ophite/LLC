@@ -19,7 +19,7 @@ class LayoutHeader extends Component {
         return (
             <div>
                 <div className="react-grid__header">
-                    {headerTitle}
+                    <div className="react-grid__title">{headerTitle}</div>
                     <div>
                         <span
                             className="close"

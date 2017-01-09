@@ -71,9 +71,9 @@ class Column extends Component {
                         isFilterVisible 
                         ? 
                         <input 
-                            style={{ color: 'black', width: '40px' }} 
                             onChange={handleFilter.bind(this, dataKey)}
                             value={filterConfig[dataKey]}
+                            className="react-grid__filter-field"
                         /> 
                         : 
                         null
