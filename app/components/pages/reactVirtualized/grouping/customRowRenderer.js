@@ -44,11 +44,11 @@ export default function defaultRowRenderer ({
   }
 
   if(rowData && rowData.sysMeta){
-    var padLeftStyle = {marginLeft: rowData.sysMeta.level * 10 + 'px'};
+    var padLeftStyle = {marginLeft: rowData.sysMeta.level * 20 + 'px'};
   
     var collapsedSpan = rowData.sysMeta.collapsed  
-        ? (<span style={padLeftStyle}>[+]</span>)
-        : (<span style={padLeftStyle}>[-]</span>);
+        ? (<span style={padLeftStyle} className="row-pointer">+</span>)
+        : (<span style={padLeftStyle} className="row-pointer">-</span>);
  
     var toggleRowFunction = function(){
         if(onRowClick){

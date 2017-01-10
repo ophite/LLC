@@ -1,0 +1,10 @@
+:global {
+  .vertical-line {
+    width: 5px;
+    border-right: 1px solid #ccc;
+    position: absolute;
+    right: 0;
+    top: 0;
+    cursor: e-resize;
+  }
+}

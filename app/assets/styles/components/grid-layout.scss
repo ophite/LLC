@@ -55,6 +55,7 @@
     background: #F3F5F7;
     border: 1px solid #e1e1e1;
     width: 100%;
+    height: 80vh !important;
   }
 
   .layoutJSON {
@@ -118,7 +119,6 @@
 
   .react-grid__header {
     background: #b4b4b4;
-    border-bottom: 1px solid #e1e1e1;
     overflow: hidden;
     padding: 1rem;
     position: relative;
@@ -202,5 +202,9 @@
     margin: 0 .5rem;
     max-width: 5rem;
     padding: .15rem .5rem;
+  }
+
+  .row-pointer {
+    margin: 0 1rem;
   }
 }
