@@ -1,8 +1,0 @@
-.vertical-line {
-    width: 1px;
-    background-color: black;
-    position: absolute;
-    right:0;
-    top: 0;
-    cursor: e-resize;
-}

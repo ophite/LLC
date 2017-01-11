@@ -243,15 +243,15 @@ class TableComponent extends GoldenLayoutPage {
         const { isFilterVisible } = this.state;
 
         return (
-            <div>
+            <div className="react-grid__filters">
                 {
                     isFilterVisible
                         ?
-                        <div onClick={this.handleToggleFilter}>Hide filter</div>
+                        <div onClick={this.handleToggleFilter} className="react-grid__filter-item">Hide filter</div>
                         :
-                        <div onClick={this.handleToggleFilter}>Show filter</div>
+                        <div onClick={this.handleToggleFilter} className="react-grid__filter-item">Show filter</div>
                 }
-                <div onClick={this.handleResetFilter}>Reset filter</div>
+                <div onClick={this.handleResetFilter} className="react-grid__filter-item">Reset filter</div>
             </div>
         );
     };

@@ -55,6 +55,7 @@
     background: #F3F5F7;
     border: 1px solid #e1e1e1;
     width: 100%;
+    height: 80vh !important;
   }
 
   .layoutJSON {
@@ -118,9 +119,8 @@
 
   .react-grid__header {
     background: #b4b4b4;
-    border-bottom: 1px solid #e1e1e1;
-    height: 40px;
     overflow: hidden;
+    padding: 1rem;
     position: relative;
 
     .close {
@@ -172,5 +172,39 @@
         opacity: .75;
       }
     }
+  }
+
+  .react-grid__filters {
+    padding: 1rem;
+    display: flex;
+  }
+
+  .react-grid__filter-item {
+    color: #fff;
+    background: #3f51b5;
+    font-size: 1.4rem;
+    padding: .5rem;
+
+    &:not(:last-child) {
+      margin-right: 1rem;
+    }
+
+    &:hover {
+      cursor: pointer;
+      opacity: .75;
+    }
+  }
+
+  .react-grid__filter-field {
+    border: none;
+    color: #000;
+    font-size: 1.4rem;
+    margin: 0 .5rem;
+    max-width: 5rem;
+    padding: .15rem .5rem;
+  }
+
+  .row-pointer {
+    margin: 0 1rem;
   }
 }

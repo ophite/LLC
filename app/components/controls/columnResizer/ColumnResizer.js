@@ -1,6 +1,4 @@
 import React, { Component, PropTypes } from 'react'
-import './ColumnResizer.css';
-
 
 class ColumnResizer extends Component {
     render() {
