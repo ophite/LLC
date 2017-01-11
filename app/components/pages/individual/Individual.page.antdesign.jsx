@@ -6,20 +6,25 @@ import { ThemeProvider } from 'react-css-themr';
 import { INPUT } from 'react-toolbox/lib/identifiers';
 import { Tab, Tabs } from 'react-toolbox';
 
-
 import GoldenLayoutPage from '../goldenLayout/Golden.layout.page.jsx';
 
-import inputCustom from '../../../assets/theme/_autocomplite.scss';
 import styles from "../../../assets/styles/main.scss";
+import 'antd/dist/antd.css';
+import AutoCompleteA from 'antd/lib/auto-complete';  // just for js
+import 'antd/lib/auto-complete/style/css';  // with style
 
-const tabs = ['Адрес для кореспонденции', 'Дополнительные атрибуты'];
 const countriesArray = {
     '1': 'Текст 1',
     '2': 'Текст 2',
     '3': 'Текст 3',
     '4': 'Текст 4'
 };
-
+const countriesArrayA = [
+    'Текст 1',
+    'Текст 2',
+    'Текст 3',
+    'Текст 4'
+];
 class PhysicalPersonEditing extends GoldenLayoutPage {
 
     state = {
@@ -103,16 +108,6 @@ class PhysicalPersonEditing extends GoldenLayoutPage {
             <div>
                 <Input type='text' label='Код клиента' name='name' value={this.state.inputValues['1']}
                        onChange={this.handleInputChange.bind(this, '1')}/>
-
-                <Autocomplete
-                    direction="down"
-                    label="Тип клиента"
-                    multiple={false}
-                    onChange={this.handleSimpleChange.bind(this, '3')}
-                    source={countriesArray}
-                    value={this.state.values['3']}
-                    className={styles["input-autocomplete"]}
-                />
 
                 <Autocomplete
                     direction="down"
@@ -322,16 +317,13 @@ class PhysicalPersonEditing extends GoldenLayoutPage {
                         </div>
 
                         <div className="section-content">
-                            <Autocomplete
-                                direction="down"
-                                label="Физическое лицо"
-                                multiple={false}
+                            <AutoCompleteA
+                                style={{ width: 200 }}
+                                dataSource={countriesArrayA}
+                                placeholder="Физическое лицо"
                                 onChange={this.handleSimpleChange.bind(this, '1')}
-                                source={countriesArray}
-                                value={this.state.values['1']}
-                                className={styles["input-autocomplete"]}
                             />
-
+                          
                             <Input type='text' label='Контактное имя' name='name' value={this.state.inputValues['14']}
                                    onChange={this.handleInputChange.bind(this, '14')}/>
 
