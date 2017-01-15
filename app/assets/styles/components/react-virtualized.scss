@@ -76,6 +76,9 @@
     width: 1.4rem;
     fill: currentColor;
     transform: scale(1.25);
+    position: absolute;
+    right: 1rem;
+    top: calc(50% - .7rem);
   }
 
   /* List default theme */
