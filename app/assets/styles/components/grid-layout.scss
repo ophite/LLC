@@ -117,11 +117,29 @@
     cursor: -webkit-grab;
   }
 
+  .react-grid__footer {
+    background: #b4b4b4;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+
   .react-grid__header {
+    position: relative;
     background: #b4b4b4;
     overflow: hidden;
     padding: 1rem;
-    position: relative;
+
+    &.header-full-screen {
+      position: relative;
+    }
+
+    &.header-normal-screen {
+      z-index: 111111111; // TODO for Alexander
+      position: absolute;
+      top: 0;
+      width: 100%;
+    }
 
     .close {
       background: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABQAAAAUCAYAAACNiR0NAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAALEwAACxMBAJqcGAAAAJNJREFUOI3t0rENgzAUhOH/3CFRZYGEQQIDZJRUjEARZYgwUZbIGClNAxLV47BSoVx9/mz5Pfjn10lAb3Yr4O4Ur5KeW5ikF3AxLw/R3ViEFmNL2hVaSRqBJjogA+0k3YBTzvkBfKJyMsA3cAa+W5iT9Z8507exJcVoNM3dqDPN1kXT/LJwNeZ0kgYHrZ1SQfeomQDX2Ra8OYLN9gAAAABJRU5ErkJggg==') no-repeat;
