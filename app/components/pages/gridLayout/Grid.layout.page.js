@@ -101,7 +101,7 @@ class GridLayoutPage extends React.Component {
     };
 
     onResizeStop = (layout, oldItem, newItem, placeholder, event, element) => {
-        this._mergeLayout(layout, element.parentNode);
+        this._mergeLayout(layout, element.parentNode); // TODO strange behaviour YURA
     };
 
     renderLayout = (layout) => {
