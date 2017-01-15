@@ -68,15 +68,12 @@ class Column extends Component {
                         {label}
                     </span>
                     {
-                        isFilterVisible 
-                        ? 
-                        <input 
-                            onChange={handleFilter.bind(this, dataKey)}
-                            value={filterConfig[dataKey]}
-                            className="react-grid__filter-field"
-                        /> 
-                        : 
-                        null
+                        isFilterVisible ?
+                            <input
+                                onChange={handleFilter.bind(this, dataKey)}
+                                value={filterConfig[dataKey]}
+                                className="react-grid__filter-field"
+                            /> : null
                     }
                     {
                         showSortIndicator &&

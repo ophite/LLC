@@ -138,7 +138,11 @@ class GridLayoutPage extends React.Component {
                     onLayoutChange={this.onLayoutChange}
                     onResizeStop={this.onResizeStop}
                     draggableHandle='.react-grid__header'
-                    style={{height:'80vh'}}
+                    style={
+                        {
+                            'minHeight':'80vh'
+                        }
+                    }
                 >
                     {this.renderLayouts()}
                 </ResponsiveReactGridLayout>

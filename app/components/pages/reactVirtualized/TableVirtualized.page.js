@@ -35,6 +35,7 @@ class TableComponent extends GoldenLayoutPage {
             filterConfig: {},
             isFilterVisible: false,
             headerHeight: 55,
+            filterHeight: 30,
             height: 500,
             overscanRowCount: 10,
             rowHeight: 55,
@@ -231,7 +232,11 @@ class TableComponent extends GoldenLayoutPage {
     };
 
     handleToggleFilter = () => {
-        this.setState({ isFilterVisible: !this.state.isFilterVisible });
+        const { isFilterVisible, headerHeight, filterHeight } = this.state;
+        this.setState({
+            isFilterVisible: !isFilterVisible,
+            headerHeight: isFilterVisible ? headerHeight - filterHeight : headerHeight + filterHeight
+        });
     };
 
     //endregion
@@ -282,6 +287,8 @@ class TableComponent extends GoldenLayoutPage {
             uuid,
             layoutPropsSize
         } = this.props;
+
+        console.log('headerHeight', headerHeight);
 
         return (
             <Header
