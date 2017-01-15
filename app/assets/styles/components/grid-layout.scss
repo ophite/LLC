@@ -134,9 +134,8 @@
     }
 
     &.header-normal-screen {
-      z-index: 111111111; // TODO for Alexander
-      position: absolute;
       top: 0;
+      z-index: 1000;
       width: 100%;
     }
 
@@ -215,10 +214,12 @@
   .react-grid__filter-field {
     border: none;
     color: #000;
+    display: block;
     font-size: 1.4rem;
-    margin: 0 .5rem;
-    max-width: 5rem;
+    margin-top: .5rem;
     padding: .15rem .5rem;
+    width: 100%;
+    max-width: 15rem;
   }
 
   .row-pointer {
