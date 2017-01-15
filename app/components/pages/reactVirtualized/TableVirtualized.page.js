@@ -17,7 +17,6 @@ import customRowRenderer from './grouping/customRowRenderer'
 import customRowGroupping from './grouping/customRowGroupping'
 
 
-
 class TableComponent extends GoldenLayoutPage {
 
     //region lifecycle
@@ -360,7 +359,7 @@ class TableComponent extends GoldenLayoutPage {
                 disableHeader={false}
                 headerClassName={styles.headerColumn}
                 headerHeight={headerHeight}
-                height={layoutPropsSize.height || height}
+                height={Math.max(layoutPropsSize.height || height, height)}
                 noRowsRenderer={this._noRowsRenderer}
                 overscanRowCount={overscanRowCount}
                 rowClassName={this._rowClassName}
