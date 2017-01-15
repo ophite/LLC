@@ -52,7 +52,7 @@ class TableComponent extends GoldenLayoutPage {
                 toggleBy: null
             }),
             groupingColumns: [
-                'firstName',
+                'first Name',
                 'index',
             ],
             columns: [
@@ -287,8 +287,6 @@ class TableComponent extends GoldenLayoutPage {
             uuid,
             layoutPropsSize
         } = this.props;
-
-        console.log('headerHeight', headerHeight);
 
         return (
             <Header
