@@ -14,26 +14,26 @@ const ResponsiveReactGridLayout = WidthProvider(Responsive);
 
 
 class GridLayoutPage extends React.Component {
-
+    
     state = {
         layoutIdCounter: 0,
         layouts: [],
         fullScreenLayout: null,
         restoreLayouts: false
     };
-
+    
     componentDidUpdate(prevProps, prevState) {
         const { allLayouts, currentLayout } = this.props;
         if (prevProps.allLayouts && prevProps.allLayouts.length < allLayouts.length) {
             this.onAddLayout(currentLayout);
         }
     }
-
+    
     _mergeLayout = (changedLayouts, resizerNode) => {
         const newLayouts = this.state.layouts.map(layout => {
             const changedIndex = findIndex(changedLayouts, { i: layout.i });
             const changedLayout = changedLayouts[changedIndex];
-
+            
             if (layout.layoutObject.component && resizerNode) {
                 const node = ReactDOM.findDOMNode(this.refs[layout.layoutObject.uuid]);
                 if (node) {
@@ -42,18 +42,18 @@ class GridLayoutPage extends React.Component {
                     handleChangeLayoutSize(boundingClientRectResizer);
                 }
             }
-
+            
             return {
                 ...changedLayout,
                 layoutObject: layout.layoutObject
             };
         });
-
+        
         this.setState({
             layouts: newLayouts
         });
     };
-
+    
     onAddLayout = (layoutObject) => {
         this.setState({
             layoutIdCounter: this.state.layoutIdCounter + 1,
@@ -71,22 +71,22 @@ class GridLayoutPage extends React.Component {
         });
         window.dispatchEvent(new Event('resize'));
     };
-
+    
     onDeleteLayout = (layout) => {
         const { handleDeleteLayout } = this.props;
         handleDeleteLayout(layout.layoutObject);
         this.setState({ layouts: reject(this.state.layouts, { i: layout.i }) });
-
+        
         if (this.state.fullScreenLayout && this.state.fullScreenLayout.i === layout.i) {
             this.onToggleFullScreenLayout(layout);
         }
     };
-
+    
     onToggleFullScreenLayout = (layout) => {
         this.setState({
             fullScreenLayout: this.state.fullScreenLayout ? null : layout
         });
-
+        
         if (!this.state.fullScreenLayout) {
             const node = ReactDOM.findDOMNode(this);
             const { handleSaveLayout } = this.props;
@@ -95,15 +95,15 @@ class GridLayoutPage extends React.Component {
             });
         }
     };
-
+    
     onLayoutChange = (layout, layouts) => {
         this._mergeLayout(layout);
     };
-
+    
     onResizeStop = (layout, oldItem, newItem, placeholder, event, element) => {
         this._mergeLayout(layout, element.parentNode); // TODO strange behaviour YURA
     };
-
+    
     renderLayout = (layout) => {
         return (
             <div key={layout.i} data-grid={layout}>
@@ -119,16 +119,16 @@ class GridLayoutPage extends React.Component {
             </div>
         );
     };
-
+    
     renderLayouts = () => {
         return map(this.state.layouts, this.renderLayout);
     };
-
+    
     render() {
         if (this.state.fullScreenLayout) {
             return this.renderLayout(this.state.fullScreenLayout)
         }
-
+        
         const { layoutProps } = this.props;
         return (
             <div>
@@ -138,6 +138,7 @@ class GridLayoutPage extends React.Component {
                     onLayoutChange={this.onLayoutChange}
                     onResizeStop={this.onResizeStop}
                     draggableHandle='.react-grid__header'
+                    style={{height:'80vh'}}
                 >
                     {this.renderLayouts()}
                 </ResponsiveReactGridLayout>

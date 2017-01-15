@@ -43,9 +43,10 @@ class LayoutContent extends Component {
         };
         const classNameHeaderResult = classNames(classNameHeader);
         const { scrollTop }= this.state;
+        const headerStyle = Object.assign({}, !isFullScreen && { top: scrollTop + 'px' });
 
         return (
-            <div className={classNameHeaderResult} style={Object.assign({}, !isFullScreen && {top: scrollTop + 'px'})}>
+            <div className={classNameHeaderResult} style={headerStyle}>
                 <div className="react-grid__title">{headerTitle}</div>
                 <div>
                     <span
