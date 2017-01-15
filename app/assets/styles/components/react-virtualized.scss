@@ -51,6 +51,7 @@
   .ReactVirtualized__Table__rowColumn {
     min-width: 0;
     padding: 19px 18px 18px;
+    height: inherit;
     //position: relative;
   }
   .ReactVirtualized__Table__rowColumn {
@@ -78,7 +79,7 @@
     transform: scale(1.25);
     position: absolute;
     right: 1rem;
-    top: calc(50% - .7rem);
+    top: 2.1rem;
   }
 
   /* List default theme */

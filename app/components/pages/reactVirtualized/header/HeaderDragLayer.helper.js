@@ -23,7 +23,7 @@ const getColumnResizerStyles = (boundingClientRect, props) => {
     const {
         initialOffset,
         currentOffset,
-        differenceFromInitialOffset,
+        differenceFromInitialOffset
     } = props;
 
     if (!initialOffset || !currentOffset || !boundingClientRect) {

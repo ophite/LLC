@@ -60,6 +60,7 @@ class TableComponent extends GoldenLayoutPage {
                     dataKey: 'index',
                     label: 'Index',
                     width: 160,
+                    minWidth: 100,
                     headerRenderer: this.renderHeader,
                     cellDataGetter: ({ columnData, dataKey, rowData }) => rowData.index,
                     // disableSort: !this._isSortEnabled()
@@ -68,6 +69,7 @@ class TableComponent extends GoldenLayoutPage {
                     dataKey: 'firstName',
                     label: 'first Name',
                     width: 230,
+                    minWidth: 100,
                     headerRenderer: this.renderHeader,
                     // disableSort: !this._isSortEnabled()
                 },
@@ -75,6 +77,7 @@ class TableComponent extends GoldenLayoutPage {
                     dataKey: 'lastName',
                     label: 'last Name',
                     width: 130,
+                    minWidth: 100,
                     headerRenderer: this.renderHeader,
                     disableSort: true,
                     className: styles.exampleColumn,
@@ -215,7 +218,7 @@ class TableComponent extends GoldenLayoutPage {
 
             return filtered === Object.keys(filterConfig).length;
         });
-        
+
         this.setState({
             filteredList: Immutable.List(filteredList),
             filterConfig,
@@ -282,7 +285,13 @@ class TableComponent extends GoldenLayoutPage {
             .indexOf(params.dataKey);
 
         // TODO refactor this file!
-        const width = this.state.columns[index].width;
+        const column = this.state.columns[index];
+        const {
+            width,
+            minWidth
+        } = column;
+
+
         const {
             uuid,
             layoutPropsSize
@@ -302,6 +311,7 @@ class TableComponent extends GoldenLayoutPage {
                             filterConfig,
                             index,
                             width,
+                            minWidth,
                             headerHeight,
                             height: layoutPropsSize.height || height,
                             last: index === this.state.columns.length - 1

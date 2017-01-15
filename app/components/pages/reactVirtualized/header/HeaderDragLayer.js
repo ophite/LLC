@@ -99,7 +99,7 @@ class HeaderDragLayer extends Component {
             height,
             item,
             index,
-            tableUuid
+            tableUuid,
         } = this.props;
 
         if (item.index === index && item.tableUuid === tableUuid) {
