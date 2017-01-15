@@ -6,7 +6,7 @@ import findIndex from 'lodash/findIndex';
 import { Responsive } from 'react-grid-layout';
 import WidthProvider from './WidthProvider.jsx';
 
-import { LayoutHeader } from './Layout.header'
+import { LayoutContent } from './Layout.content'
 import '../../../assets/styles/components/react-resizable.scss';
 import '../../../assets/styles/components/grid-layout.scss';
 
@@ -107,7 +107,7 @@ class GridLayoutPage extends React.Component {
     renderLayout = (layout) => {
         return (
             <div key={layout.i} data-grid={layout}>
-                <LayoutHeader
+                <LayoutContent
                     ref={layout.layoutObject.uuid}
                     uuid={layout.layoutObject.uuid}
                     headerTitle={layout.layoutObject.fullName}

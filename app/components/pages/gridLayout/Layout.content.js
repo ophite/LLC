@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import classNames from 'classnames';
 
 
-class LayoutHeader extends Component {
+class LayoutContent extends Component {
 
     constructor(props) {
         super(props);
@@ -73,7 +73,7 @@ class LayoutHeader extends Component {
         return (
             <div className="react-grid__footer" style={{bottom: -scrollTop + 'px'}}>
             </div>
-        )
+        );
     };
 
     render() {
@@ -95,7 +95,7 @@ class LayoutHeader extends Component {
 }
 
 
-LayoutHeader.propTypes = {
+LayoutContent.propTypes = {
     uuid: React.PropTypes.string.isRequired,
     headerTitle: React.PropTypes.string.isRequired,
     layoutComponent: React.PropTypes.object.isRequired,
@@ -105,5 +105,5 @@ LayoutHeader.propTypes = {
 };
 
 export {
-    LayoutHeader
+    LayoutContent
 }
