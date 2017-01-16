@@ -1,0 +1,9 @@
+.menuInner {
+  //opacity: 1;
+  &:hover {
+    background: red;
+    opacity: 1;
+  }
+  background: blue;
+}
+
