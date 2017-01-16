@@ -29,6 +29,13 @@
   transform: scale(.85);
 }
 
-.active{
+.headerColumnCell {
+  padding: 19px 18px 18px;
+  &.active {
+    color: $black;
+  }
+}
+
+.active {
   background: $background-dnd-hover;
 }

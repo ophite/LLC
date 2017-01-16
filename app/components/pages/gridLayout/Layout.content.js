@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
 import classNames from 'classnames';
+import { IconMenu, MenuItem } from 'react-toolbox/lib/menu';
 
 
 class LayoutContent extends Component {
@@ -9,6 +10,7 @@ class LayoutContent extends Component {
         super(props);
         this.state = {
             scrollTop: 0,
+            isFilterMode: false,
         };
     }
 
@@ -16,21 +18,69 @@ class LayoutContent extends Component {
         const node = ReactDOM.findDOMNode(this);
         if (node) {
             this.resizer = node.nextSibling;
-            node.parentNode.addEventListener('scroll', this.debouncedOnScrollListener);
+            node.parentNode.addEventListener('scroll', this._onScrollListener);
         }
     }
 
-    debouncedOnScrollListener = (event) => {
+    _onScrollListener = (event) => {
         this.setState({
             scrollTop: event.target.scrollTop
         });
         this.resizer.style.bottom = -event.target.scrollTop + 'px';
     };
 
+    renderMenu = () => {
+        const { isFilterMode } = this.state;
+        if (isFilterMode) {
+            return (
+                <div>
+                    <IconMenu icon='more_vert' position='topRight'>
+                        <MenuItem
+                            onClick={this.toggleFilter}
+                            value='Hide filter'
+                            caption='Hide filter'
+                        />
+                        <MenuItem
+                            onClick={this.resetFilter}
+                            value='Reset filter'
+                            caption='Reset filter'
+                        />
+                    </IconMenu>
+                </div>
+            );
+        } else {
+            return (
+                <div>
+                    <IconMenu icon='more_vert' position='topRight'>
+                        <MenuItem
+                            onClick={this.toggleFilter}
+                            value='Show filter'
+                            caption='Show filter'
+                        />
+                    </IconMenu>
+                </div>
+            );
+        }
+    };
+
+    resetFilter = ()=> {
+        setTimeout(()=> {
+            this.setState({ filterValues: {} });
+            this.props.handleResetFilter();
+        }, 500) // TODO only for demo. Then delete, fix menu timeOut
+    };
+
+    toggleFilter = ()=> {
+        setTimeout(()=> {
+            this.setState({ isFilterMode: !this.state.isFilterMode });
+        }, 500)// TODO only for demo. Then delete, fix menu timeOut
+    };
+
     renderHeader = () => {
         const {
             headerTitle,
             isFullScreen,
+            handleMenuLayout,
             handleDeleteLayout,
             handleToggleFullScreenLayout
         } = this.props;
@@ -59,6 +109,11 @@ class LayoutContent extends Component {
                         className={toggleScreenClassName}
                         onClick={handleToggleFullScreenLayout}>
                     </span>
+                </div>
+                <div>
+                   <div className="layout-menu">
+                       {this.renderMenu()}
+                   </div>
                 </div>
             </div>
         );

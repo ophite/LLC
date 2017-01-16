@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import { DragSource, DropTarget, DragLayer } from 'react-dnd';
 import { getEmptyImage } from 'react-dnd-html5-backend';
+import classNames from 'classnames';
 
 import stylesGrid from "../../../../assets/styles/components/react-grid.scss";
 import SortIndicator from './SortIndicator';
@@ -57,9 +58,18 @@ class Column extends Component {
 
         const showSortIndicator = sortBy === dataKey;
 
+        // TODO refactoring !!!
+        const activeClassName = stylesGrid["active"];
+        const headerColumnCellClassName = stylesGrid["headerColumnCell"];
+        const classNameHeader = {
+            [activeClassName]: itemType === DND_COLUMN && canDrop && isOver,
+            [headerColumnCellClassName]: true
+        };
+        const classNameHeaderResult = classNames(classNameHeader);
+
         return connectDragSource(
             connectDropTarget(
-                <div className={itemType === DND_COLUMN && canDrop && isOver && stylesGrid["active"]}>
+                <div className={classNameHeaderResult}>
                     <span
                         className='ReactVirtualized__Table__headerTruncatedText'
                         key='label'
