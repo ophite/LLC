@@ -1,10 +1,11 @@
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import HTML5Backend from 'react-dnd-html5-backend';
+import { DragDropContext } from 'react-dnd';
+
 
 import { closeModal } from '../../actions/modal.actions';
 import LayoutPage from '../../components/pages/layouts/Layout.page.jsx';
-import HTML5Backend from 'react-dnd-html5-backend';
-import { DragDropContext } from 'react-dnd';
 
 
 @DragDropContext(HTML5Backend)

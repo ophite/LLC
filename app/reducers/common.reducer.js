@@ -26,9 +26,6 @@ export default (state = DEFAULT_STATE, action) => {
         case commonTypes.CHANGE_WINDOW_WIDTH:
             return reduceChangeWindowWidth(state, action);
         
-        case commonTypes.GOLDEN_FORCE_UPDATE:
-            return reduceGoldenForceUpdate(state, action);
-        
         default:
             return state;
     }
@@ -106,16 +103,6 @@ const reduceChangeWindowWidth = (state, action) => {
     };
 };
 
-const reduceGoldenForceUpdate = (state, action) => {
-    const { goldenWindowUuid } = action.payload;
-    return {
-        ...state,
-        goldenWindowUuid,
-        goldenWindowUuidTst: uuid()
-    }
-};
-
-
 const DEFAULT_STATE = {
     isModalOpen: false,
     modalData: {},
@@ -123,6 +110,5 @@ const DEFAULT_STATE = {
     containerModalData: {},
     isMenuBarVisible: false,
     windowWidth: window.innerWidth,
-    goldenUpdateKey: null,
     error: null,
 };

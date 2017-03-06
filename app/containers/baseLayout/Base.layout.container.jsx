@@ -3,21 +3,13 @@ import { bindActionCreators } from 'redux';
 import uuid from 'uuid';
 
 
-class GoldenLayoutContainer extends React.Component {
+class BaseLayoutContainer extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
             uuid: uuid()
         };
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        const { uuid, goldenWindowUuidTst } = this.props;
-        if (prevState.uuid === uuid &&
-            prevProps.goldenWindowUuidTst !== goldenWindowUuidTst) {
-            this.forceUpdate();
-        }
     }
 
     render() {
@@ -28,13 +20,11 @@ class GoldenLayoutContainer extends React.Component {
     }
 }
 
-GoldenLayoutContainer.propTypes = {};
+BaseLayoutContainer.propTypes = {};
 
 const mapStateToProps = (state) => {
     return {
         layoutPropsSize: state.layout.layoutPropsSize, // for refresh render during resize on grid layout
-        uuid: state.common.goldenWindowUuid,
-        goldenWindowUuidTst: state.common.goldenWindowUuidTst
     };
 };
 
@@ -42,7 +32,7 @@ const mapDispatchToProps = (dispatch) => {
     return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(GoldenLayoutContainer);
+export default connect(mapStateToProps, mapDispatchToProps)(BaseLayoutContainer);
 
 
 

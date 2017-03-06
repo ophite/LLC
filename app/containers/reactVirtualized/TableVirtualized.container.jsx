@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 
 import TablePage from '../../components/pages/reactVirtualized/TableVirtualized.page';
-import GoldenLayoutContainer from '../goldenLayout/Golden.layout.container.jsx';
+import BaseLayoutContainer from '../baseLayout/Base.layout.container.jsx';
 import { data, columns } from '../../components/pages/reactVirtualized/gridData';
 import Immutable from 'immutable';
 const list = Immutable.List(data);
 
 
-class TableContainer extends GoldenLayoutContainer {
+class TableContainer extends BaseLayoutContainer {
 
     render() {
         return (

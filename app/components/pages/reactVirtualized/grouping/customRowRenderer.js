@@ -17,7 +17,7 @@ export default function defaultRowRenderer({
     rowData,
     style
 }) {
-    const a11yProps = {}
+    const a11yProps = {};
 
     if (
         onRowClick ||
@@ -25,9 +25,9 @@ export default function defaultRowRenderer({
         onRowMouseOver ||
         onRowMouseOut
     ) {
-        a11yProps['aria-label'] = 'row'
-        a11yProps.role = 'row'
-        a11yProps.tabIndex = 0
+        a11yProps['aria-label'] = 'row';
+        a11yProps.role = 'row';
+        a11yProps.tabIndex = 0;
 
         if (onRowClick) {
             a11yProps.onClick = () => onRowClick({ index })
@@ -58,7 +58,7 @@ export default function defaultRowRenderer({
             if (onRowClick) {
                 onRowClick(rowData);
             }
-        }
+        };
 
         return (
             <div

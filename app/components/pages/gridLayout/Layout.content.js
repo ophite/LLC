@@ -30,37 +30,40 @@ class LayoutContent extends Component {
     };
 
     renderMenu = () => {
-        const { isFilterMode } = this.state;
-        if (isFilterMode) {
-            return (
-                <div>
-                    <IconMenu icon='more_vert' position='topRight'>
-                        <MenuItem
-                            onClick={this.toggleFilter}
-                            value='Hide filter'
-                            caption='Hide filter'
-                        />
-                        <MenuItem
-                            onClick={this.resetFilter}
-                            value='Reset filter'
-                            caption='Reset filter'
-                        />
-                    </IconMenu>
-                </div>
-            );
-        } else {
-            return (
-                <div>
-                    <IconMenu icon='more_vert' position='topRight'>
-                        <MenuItem
-                            onClick={this.toggleFilter}
-                            value='Show filter'
-                            caption='Show filter'
-                        />
-                    </IconMenu>
-                </div>
-            );
-        }
+        // TODO this is will be menu
+        return null;
+
+        // const { isFilterMode } = this.state;
+        // if (isFilterMode) {
+        //     return (
+        //         <div>
+        //             <IconMenu icon='more_vert' position='topRight'>
+        //                 <MenuItem
+        //                     onClick={this.toggleFilter}
+        //                     value='Hide filter'
+        //                     caption='Hide filter'
+        //                 />
+        //                 <MenuItem
+        //                     onClick={this.resetFilter}
+        //                     value='Reset filter'
+        //                     caption='Reset filter'
+        //                 />
+        //             </IconMenu>
+        //         </div>
+        //     );
+        // } else {
+        //     return (
+        //         <div>
+        //             <IconMenu icon='more_vert' position='topRight'>
+        //                 <MenuItem
+        //                     onClick={this.toggleFilter}
+        //                     value='Show filter'
+        //                     caption='Show filter'
+        //                 />
+        //             </IconMenu>
+        //         </div>
+        //     );
+        // }
     };
 
     resetFilter = ()=> {

@@ -26,7 +26,11 @@ module.exports = {
     },
     module: {
         loaders: [
-            { test: /\.css$/, loader: 'style!css' },
+            // { test: /\.css$/, loader: 'style!css' },
+            {
+                test: /\.css$/,
+                loader: 'style!css?sourceMap&modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'
+            },
             { test: /\.(sass)/, loader: 'style!css!resolve-url!sass?sourceMap' },
             { test: /\.gif$/, loader: 'url?limit=16000&mimetype=image/gif' },
             { test: /\.jpg$/, loader: 'url?limit=16000&mimetype=image/jpg' },

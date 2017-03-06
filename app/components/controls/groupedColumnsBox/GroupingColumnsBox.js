@@ -1,5 +1,5 @@
 import React, { PropTypes, Component } from 'react';
-import 'react-datagrid/index.css';
+import '../../../assets/styles/react-datagrid.css'; // TODO maybe need to copy in this project ?
 import { DragDropContext, DragSource, DropTarget } from 'react-dnd';
 import Chip from 'react-toolbox/lib/chip';
 

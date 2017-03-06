@@ -1,6 +1,6 @@
 import React, { Component, PropTypes } from 'react';
 import ReactDOM from 'react-dom';
-import { GOLDEN_CUSTOM_ATTRIBUTE } from '../../controls/goldenLayout/golden.constant';
+import { LAYOUT_CUSTOM_ATTRIBUTE } from '../../../constants/layout.constant';
 import { DragDropManager } from 'dnd-core'
 import HTML5Backend from 'react-dnd-html5-backend';
 
@@ -14,7 +14,7 @@ const getDefaultManager = () => {
 };
 
 
-class GoldenLayoutPage extends Component {
+class BaseLayoutPage extends Component {
 
     static contextTypes = {
         dragDropManager: PropTypes.object
@@ -32,16 +32,16 @@ class GoldenLayoutPage extends Component {
 
     componentDidMount() {
         const { uuid } = this.props;
-        const element = ReactDOM.findDOMNode(this.goldenWindow);
-        element.setAttribute(GOLDEN_CUSTOM_ATTRIBUTE, uuid);
+        const element = ReactDOM.findDOMNode(this.currentLayoutDom);
+        element.setAttribute(LAYOUT_CUSTOM_ATTRIBUTE, uuid);
     }
 
     render() {
         return (
-            <div ref={(ref) => this.goldenWindow = ref}>
+            <div ref={(ref) => this.currentLayoutDom = ref}>
             </div>
         );
     }
 }
 
-export default GoldenLayoutPage;
+export default BaseLayoutPage;

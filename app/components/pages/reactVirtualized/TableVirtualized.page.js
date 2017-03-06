@@ -8,7 +8,7 @@ import Immutable from 'immutable'
 
 // import './styles.css';
 import styles from '../../../assets/styles/components/react-virtualized.scss'
-import GoldenLayoutPage from '../goldenLayout/Golden.layout.page.jsx';
+import BaseLayoutPage from '../baseLayout/Base.layout.page.jsx';
 import { GroupingColumnsBox } from '../../controls/groupedColumnsBox/GroupingColumnsBox';
 import { Header } from './header/Header';
 import SortDirection from './column/SortDirection'
@@ -17,7 +17,7 @@ import customRowRenderer from './grouping/customRowRenderer'
 import customRowGroupping from './grouping/customRowGroupping'
 
 
-class TableComponent extends GoldenLayoutPage {
+class TableComponent extends BaseLayoutPage {
 
     //region lifecycle
 
@@ -395,7 +395,7 @@ class TableComponent extends GoldenLayoutPage {
 
     render() {
         return (
-            <div ref={(ref) => this.goldenWindow = ref}>
+            <div ref={(ref) => this.currentLayoutDom = ref}>
                 <div className={styles.Body}>
                     <GroupingColumnsBox
                         tableUuid={this.props.uuid}

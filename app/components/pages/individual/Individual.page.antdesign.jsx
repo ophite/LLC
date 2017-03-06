@@ -6,7 +6,7 @@ import { ThemeProvider } from 'react-css-themr';
 import { INPUT } from 'react-toolbox/lib/identifiers';
 import { Tab, Tabs } from 'react-toolbox';
 
-import GoldenLayoutPage from '../goldenLayout/Golden.layout.page.jsx';
+import BaseLayoutPage from '../baseLayout/Base.layout.page.jsx';
 
 import styles from "../../../assets/styles/main.scss";
 import 'antd/dist/antd.css';
@@ -25,7 +25,7 @@ const countriesArrayA = [
     'Текст 3',
     'Текст 4'
 ];
-class PhysicalPersonEditing extends GoldenLayoutPage {
+class PhysicalPersonEditing extends BaseLayoutPage {
 
     state = {
         name: '',
@@ -307,7 +307,7 @@ class PhysicalPersonEditing extends GoldenLayoutPage {
 
     render() {
         return (
-            <div ref={(ref) => this.goldenWindow = ref}>
+            <div ref={(ref) => this.currentLayoutDom = ref}>
                 <h2 className={styles["title"]}>Редактирование контрагента физического лица</h2>
                 <div className="section-wrap">
 
