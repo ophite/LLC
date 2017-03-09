@@ -39,7 +39,7 @@ class TableComponent extends BaseLayoutPage {
             height: 500,
             overscanRowCount: 10,
             rowHeight: 55,
-            rowCount: 100,
+            rowCount: 100000,
             sortBy: 'index',
             sortDirection: SortDirection.ASC,
             useDynamicRowHeight: false,
@@ -362,8 +362,8 @@ class TableComponent extends BaseLayoutPage {
 
         const rowGetter = (params) => {
             const { index } = params;
-            const immutableList = Immutable.List(groupInfo.grouppedList);
-            // const immutableList = this.state.filteredList;
+            // const immutableList = Immutable.List(groupInfo.grouppedList);
+            const immutableList = this.state.filteredList;
 
             return this._getDatum(immutableList, index);
         };

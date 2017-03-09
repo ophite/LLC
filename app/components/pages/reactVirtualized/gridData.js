@@ -29,7 +29,7 @@ const gen = (function () {
 })();
 
 
-const LEN = 100;
+const LEN = 100000;
 const data = gen(LEN);
 
 
